@@ -1,19 +1,18 @@
 /*
- * NAVBAR — Club ADM Fitness
- * Transparent on top, solid navy on scroll
- * Real logo from brand guide (white version for dark bg)
- * Sticky CTA "Essai Gratuit" always visible
+ * NAVBAR — Club ADM Fitness (Épuré)
+ * Fond blanc propre, logo original, navigation minimale
+ * Couleurs: navy #232862, rouge #ed1c24
  */
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronRight } from "lucide-react";
 
 const LOGO_WHITE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_white_trimmed_6eea8182.png";
+const LOGO_COLOR = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_primary_44ac8231.png";
 
 const NAV_LINKS = [
   { label: "Le Gym", href: "#gym" },
-  { label: "En Ligne", href: "#online" },
-  { label: "Programmes", href: "#programs" },
+  { label: "En Ligne", href: "#programs" },
   { label: "Résultats", href: "#results" },
   { label: "Contact", href: "#contact" },
 ];
@@ -23,82 +22,68 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
   return (
     <>
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-navy-dark/95 backdrop-blur-md shadow-lg shadow-black/20"
+            ? "bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(35,40,98,0.08)]"
             : "bg-transparent"
         }`}
       >
-        {/* Top bar */}
-        <div className="hidden lg:block border-b border-white/5">
-          <div className="max-w-[1400px] mx-auto px-8 flex items-center justify-between h-8 text-[11px] tracking-[0.15em] uppercase text-warm-gray" style={{ fontFamily: "var(--font-body)" }}>
-            <span>Alma, Québec — Entraînement Fonctionnel</span>
-            <div className="flex items-center gap-6">
-              <a href="tel:+14185551234" className="hover:text-white transition-colors">418-555-1234</a>
-              <a href="https://www.instagram.com/clubadmfitness" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Instagram</a>
-              <a href="https://www.facebook.com/clubadmfitness" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Facebook</a>
-            </div>
-          </div>
-        </div>
-
-        {/* Main nav */}
-        <div className="max-w-[1400px] mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <a href="#" className="relative z-10 flex-shrink-0">
+            <a href="#" className="flex-shrink-0">
               <img
-                src={LOGO_WHITE}
+                src={scrolled ? LOGO_COLOR : LOGO_WHITE}
                 alt="Club ADM Fitness"
-                className="h-10 lg:h-12 w-auto"
+                className="h-12 w-auto transition-all duration-300"
               />
             </a>
 
             {/* Desktop nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-10">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="relative px-4 py-2 text-[13px] font-semibold tracking-[0.12em] uppercase text-cream/80 hover:text-white transition-colors group"
+                  className={`text-[13px] font-semibold tracking-[0.08em] uppercase transition-colors duration-200 ${
+                    scrolled
+                      ? "text-navy hover:text-adm-red"
+                      : "text-white/90 hover:text-white"
+                  }`}
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   {link.label}
-                  <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-adm-red scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                 </a>
               ))}
-            </nav>
+            </div>
 
             {/* CTA + Mobile toggle */}
             <div className="flex items-center gap-3">
               <a
                 href="#contact"
-                className="hidden sm:inline-flex items-center gap-2 bg-adm-red hover:bg-adm-red-hover text-white text-[13px] font-bold tracking-[0.1em] uppercase px-6 py-2.5 transition-all duration-300 hover:shadow-lg hover:shadow-adm-red/25"
+                className="hidden sm:inline-flex items-center gap-2 bg-adm-red hover:bg-adm-red-hover text-white text-[13px] font-bold tracking-[0.08em] uppercase px-6 py-2.5 transition-colors duration-200"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                Essai Gratuit
-                <ChevronRight className="w-3.5 h-3.5" />
+                Essai gratuit
+                <ChevronRight className="w-4 h-4" />
               </a>
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden relative z-10 p-2 text-white"
+                className={`lg:hidden p-2 transition-colors ${scrolled ? "text-navy" : "text-white"}`}
                 aria-label="Menu"
               >
                 {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -106,46 +91,40 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-      </header>
+      </nav>
 
       {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-navy-dark/98 backdrop-blur-lg flex flex-col items-center justify-center"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-white pt-24 px-6"
           >
-            <nav className="flex flex-col items-center gap-2">
-              {NAV_LINKS.map((link, i) => (
-                <motion.a
+            <div className="flex flex-col gap-1">
+              {NAV_LINKS.map((link) => (
+                <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.08, duration: 0.4 }}
-                  className="text-3xl font-bold tracking-[0.08em] uppercase text-cream/80 hover:text-adm-red transition-colors py-3"
+                  className="text-navy text-lg font-semibold tracking-[0.05em] uppercase py-4 border-b border-navy/8"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
                   {link.label}
-                </motion.a>
+                </a>
               ))}
-              <motion.a
+              <a
                 href="#contact"
                 onClick={() => setMobileOpen(false)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: NAV_LINKS.length * 0.08, duration: 0.4 }}
-                className="mt-6 inline-flex items-center gap-2 bg-adm-red text-white text-lg font-bold tracking-[0.1em] uppercase px-8 py-3"
+                className="mt-6 flex items-center justify-center gap-2 bg-adm-red text-white text-sm font-bold tracking-[0.08em] uppercase px-6 py-4"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                Essai Gratuit
-                <ChevronRight className="w-5 h-5" />
-              </motion.a>
-            </nav>
+                Essai gratuit
+                <ChevronRight className="w-4 h-4" />
+              </a>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

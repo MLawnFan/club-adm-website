@@ -1,7 +1,6 @@
 /*
- * HOME PAGE — Club ADM Fitness
- * Assembles all sections in cinematic dark design
- * Order: Hero → DoubleOffer → Programs → Results → Methodology → CTA → Footer
+ * HOME PAGE — Club ADM Fitness (Épuré)
+ * Sections: Hero → Double Offre → Programmes → Résultats → Méthodologie → CTA → Footer
  */
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -14,7 +13,7 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen">
       <Navbar />
       <HeroSection />
       <DoubleOffer />

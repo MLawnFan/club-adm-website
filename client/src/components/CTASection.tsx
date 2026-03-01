@@ -1,11 +1,11 @@
 /*
- * CTA SECTION — Club ADM Fitness
- * Lead capture form with dramatic background
- * Will be replaced by GoHighLevel embed in production
+ * CTA SECTION — Club ADM Fitness (Épuré)
+ * Fond blanc, formulaire simple et propre
+ * Couleurs: navy #232862, rouge #ed1c24
  */
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ChevronRight, Check } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CTASection() {
@@ -20,43 +20,32 @@ export default function CTASection() {
   };
 
   return (
-    <section id="contact" className="py-24 lg:py-32 bg-navy-dark relative overflow-hidden" ref={ref}>
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-adm-red/8 via-transparent to-navy/50" />
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-adm-red/30 to-transparent" />
-      </div>
-
-      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left: Copy */}
+    <section id="contact" className="py-24 lg:py-32 bg-white" ref={ref}>
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* Left: Text */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
-            <div className="accent-line mb-6" />
-            <h2 className="font-display text-5xl lg:text-7xl text-white mb-4">
-              PRÊT À<br />
-              <span className="text-adm-red">COMMENCER ?</span>
+            <div className="accent-line mb-5" />
+            <h2 className="font-display text-5xl lg:text-6xl mb-4" style={{ color: "#232862" }}>
+              PRÊT À <span style={{ color: "#ed1c24" }}>COMMENCER</span> ?
             </h2>
-            <p className="text-cream/50 text-lg leading-relaxed mb-8" style={{ fontFamily: "var(--font-body)" }}>
-              Réserve ton essai gratuit en salle ou démarre un programme en ligne. 
-              Aucun engagement, aucune pression — juste l'opportunité de découvrir 
-              ce que Club ADM peut faire pour toi.
+            <p className="text-gray-500 text-lg leading-relaxed mb-8" style={{ fontFamily: "var(--font-body)" }}>
+              Laisse-nous tes coordonnées et un membre de notre équipe te contactera dans les 24 heures pour planifier ton essai gratuit.
             </p>
 
             <div className="space-y-4">
               {[
-                "Essai gratuit de 7 jours en salle",
-                "14 jours d'essai sur les programmes en ligne",
-                "Évaluation physique offerte",
-                "Aucun engagement requis",
-              ].map((benefit) => (
-                <div key={benefit} className="flex items-center gap-3">
-                  <div className="w-5 h-5 bg-adm-red/20 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-3 h-3 text-adm-red" />
-                  </div>
-                  <span className="text-cream/70 text-sm" style={{ fontFamily: "var(--font-body)" }}>{benefit}</span>
+                "Essai gratuit en salle — sans engagement",
+                "Consultation initiale avec un coach",
+                "Plan personnalisé selon tes objectifs",
+              ].map((item) => (
+                <div key={item} className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0" style={{ color: "#ed1c24" }} />
+                  <span className="text-gray-600" style={{ fontFamily: "var(--font-body)" }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -64,103 +53,94 @@ export default function CTASection() {
 
           {/* Right: Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.15 }}
           >
             {submitted ? (
-              <div className="border border-adm-red/30 bg-adm-red/5 p-10 text-center">
-                <div className="w-16 h-16 bg-adm-red/20 flex items-center justify-center mx-auto mb-6">
-                  <Check className="w-8 h-8 text-adm-red" />
-                </div>
-                <h3 className="font-display text-3xl text-white mb-3">MERCI !</h3>
-                <p className="text-cream/60" style={{ fontFamily: "var(--font-body)" }}>
-                  Un membre de notre équipe te contactera dans les prochaines 24 heures 
-                  pour planifier ton essai gratuit.
+              <div className="text-center py-16 px-8 border border-gray-100">
+                <CheckCircle className="w-12 h-12 mx-auto mb-4" style={{ color: "#ed1c24" }} />
+                <h3 className="font-display text-3xl mb-2" style={{ color: "#232862" }}>MERCI !</h3>
+                <p className="text-gray-500" style={{ fontFamily: "var(--font-body)" }}>
+                  On te contacte très bientôt.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="border border-white/10 bg-card p-8 lg:p-10">
-                <h3 className="font-display text-2xl text-white mb-6">RÉSERVE TON ESSAI</h3>
-
-                <div className="space-y-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                        Prénom
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
-                        style={{ fontFamily: "var(--font-body)" }}
-                        placeholder="Ton prénom"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                        Nom
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
-                        style={{ fontFamily: "var(--font-body)" }}
-                        placeholder="Ton nom"
-                      />
-                    </div>
-                  </div>
-
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                      Courriel
+                    <label className="block text-[12px] font-semibold tracking-[0.06em] uppercase mb-2" style={{ fontFamily: "var(--font-heading)", color: "#232862" }}>
+                      Prénom
                     </label>
                     <input
-                      type="email"
+                      type="text"
                       required
-                      className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
+                      className="w-full px-4 py-3 border border-gray-200 text-gray-800 text-sm focus:outline-none focus:border-gray-400 transition-colors"
                       style={{ fontFamily: "var(--font-body)" }}
-                      placeholder="ton@courriel.com"
+                      placeholder="Ton prénom"
                     />
                   </div>
-
                   <div>
-                    <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                      Téléphone
+                    <label className="block text-[12px] font-semibold tracking-[0.06em] uppercase mb-2" style={{ fontFamily: "var(--font-heading)", color: "#232862" }}>
+                      Nom
                     </label>
                     <input
-                      type="tel"
-                      className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
+                      type="text"
+                      required
+                      className="w-full px-4 py-3 border border-gray-200 text-gray-800 text-sm focus:outline-none focus:border-gray-400 transition-colors"
                       style={{ fontFamily: "var(--font-body)" }}
-                      placeholder="418-555-1234"
+                      placeholder="Ton nom"
                     />
                   </div>
-
-                  <div>
-                    <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
-                      Je suis intéressé par
-                    </label>
-                    <div className="grid grid-cols-2 gap-3">
-                      {["Entraînement en salle", "Programme en ligne", "Coaching privé", "Les deux"].map((option) => (
-                        <label key={option} className="flex items-center gap-2 cursor-pointer">
-                          <input type="radio" name="interest" value={option} className="sr-only peer" />
-                          <div className="w-full text-center py-2.5 border border-white/10 text-cream/50 text-[12px] tracking-[0.05em] uppercase peer-checked:border-adm-red/50 peer-checked:bg-adm-red/10 peer-checked:text-white transition-all hover:border-white/20" style={{ fontFamily: "var(--font-heading)" }}>
-                            {option}
-                          </div>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full mt-4 inline-flex items-center justify-center gap-2 bg-adm-red hover:bg-adm-red-hover text-white font-bold text-[14px] tracking-[0.1em] uppercase py-4 transition-all duration-300 hover:shadow-lg hover:shadow-adm-red/25 group"
-                    style={{ fontFamily: "var(--font-heading)" }}
-                  >
-                    Réserver Mon Essai Gratuit
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
                 </div>
+
+                <div>
+                  <label className="block text-[12px] font-semibold tracking-[0.06em] uppercase mb-2" style={{ fontFamily: "var(--font-heading)", color: "#232862" }}>
+                    Courriel
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 text-gray-800 text-sm focus:outline-none focus:border-gray-400 transition-colors"
+                    style={{ fontFamily: "var(--font-body)" }}
+                    placeholder="ton@courriel.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[12px] font-semibold tracking-[0.06em] uppercase mb-2" style={{ fontFamily: "var(--font-heading)", color: "#232862" }}>
+                    Téléphone
+                  </label>
+                  <input
+                    type="tel"
+                    className="w-full px-4 py-3 border border-gray-200 text-gray-800 text-sm focus:outline-none focus:border-gray-400 transition-colors"
+                    style={{ fontFamily: "var(--font-body)" }}
+                    placeholder="418-555-1234"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[12px] font-semibold tracking-[0.06em] uppercase mb-2" style={{ fontFamily: "var(--font-heading)", color: "#232862" }}>
+                    Je suis intéressé par
+                  </label>
+                  <select
+                    className="w-full px-4 py-3 border border-gray-200 text-gray-800 text-sm focus:outline-none focus:border-gray-400 transition-colors bg-white"
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    <option value="gym">Entraînement en salle</option>
+                    <option value="online">Programmes en ligne</option>
+                    <option value="both">Les deux</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full inline-flex items-center justify-center gap-2 text-white font-bold text-[14px] tracking-[0.08em] uppercase py-4 transition-colors hover:opacity-90"
+                  style={{ fontFamily: "var(--font-heading)", backgroundColor: "#ed1c24" }}
+                >
+                  Réserver mon essai gratuit
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </form>
             )}
           </motion.div>
