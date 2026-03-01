@@ -1,145 +1,168 @@
 /*
- * DESIGN: Cinématique Sombre — Club ADM
- * Section CTA finale: formulaire de capture de leads avec fond image.
- * Intégration GoHighLevel prévue (formulaire placeholder).
+ * CTA SECTION — Club ADM Fitness
+ * Lead capture form with dramatic background
+ * Will be replaced by GoHighLevel embed in production
  */
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Mail, User, Phone } from "lucide-react";
-import { useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { ChevronRight, Check } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CTASection() {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Merci ! Nous vous contacterons sous peu pour votre essai gratuit.");
-    setFormData({ name: "", email: "", phone: "" });
+    setSubmitted(true);
+    toast.success("Merci ! Nous vous contacterons sous 24h.");
   };
 
   return (
-    <section id="contact" className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-adm-navy via-[#0a0a14] to-adm-navy-deep" />
+    <section id="contact" className="py-24 lg:py-32 bg-navy-dark relative overflow-hidden" ref={ref}>
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-adm-red/8 via-transparent to-navy/50" />
+        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-adm-red/30 to-transparent" />
+      </div>
 
-      {/* Red glow accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-adm-red/5 rounded-full blur-[120px]" />
-
-      <div className="container relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left: Content */}
+          {/* Left: Copy */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6 }}
           >
-            <span className="text-adm-red font-semibold text-sm tracking-[0.3em] uppercase mb-4 block">
-              Commencez Aujourd'hui
-            </span>
-            <h2 className="font-[var(--font-display)] text-5xl md:text-6xl lg:text-7xl text-white leading-[0.95] mb-6">
-              PRÊT À
-              <br />
-              <span className="text-adm-red">CHANGER</span>
-              <br />
-              VOTRE VIE?
+            <div className="accent-line mb-6" />
+            <h2 className="font-display text-5xl lg:text-7xl text-white mb-4">
+              PRÊT À<br />
+              <span className="text-adm-red">COMMENCER ?</span>
             </h2>
-            <p className="text-white/50 text-lg leading-relaxed mb-8 font-[var(--font-body)]">
-              Inscrivez-vous pour un essai gratuit de 7 jours au gym ou 14 jours
-              en ligne. Aucun engagement, aucune carte de crédit requise.
-              Découvrez pourquoi des centaines de personnes nous font confiance.
+            <p className="text-cream/50 text-lg leading-relaxed mb-8" style={{ fontFamily: "var(--font-body)" }}>
+              Réserve ton essai gratuit en salle ou démarre un programme en ligne. 
+              Aucun engagement, aucune pression — juste l'opportunité de découvrir 
+              ce que Club ADM peut faire pour toi.
             </p>
 
-            {/* Trust indicators */}
-            <div className="flex flex-wrap gap-6 text-white/30 text-sm font-[var(--font-body)]">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                Aucun engagement
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                Pas de carte de crédit
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full" />
-                Annulation facile
-              </div>
+            <div className="space-y-4">
+              {[
+                "Essai gratuit de 7 jours en salle",
+                "14 jours d'essai sur les programmes en ligne",
+                "Évaluation physique offerte",
+                "Aucun engagement requis",
+              ].map((benefit) => (
+                <div key={benefit} className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-adm-red/20 flex items-center justify-center flex-shrink-0">
+                    <Check className="w-3 h-3 text-adm-red" />
+                  </div>
+                  <span className="text-cream/70 text-sm" style={{ fontFamily: "var(--font-body)" }}>{benefit}</span>
+                </div>
+              ))}
             </div>
           </motion.div>
 
           {/* Right: Form */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <form
-              onSubmit={handleSubmit}
-              className="bg-white/[0.03] border border-white/[0.08] rounded-xl p-8 md:p-10 backdrop-blur-sm"
-            >
-              <h3 className="font-[var(--font-display)] text-3xl text-white mb-2">
-                ESSAI GRATUIT
-              </h3>
-              <p className="text-white/40 text-sm mb-8 font-[var(--font-body)]">
-                Remplissez le formulaire et nous vous contacterons dans les 24h.
-              </p>
-
-              <div className="flex flex-col gap-5">
-                {/* Name */}
-                <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
-                  <input
-                    type="text"
-                    placeholder="Votre nom complet"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    required
-                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg pl-12 pr-4 py-4 text-white placeholder:text-white/30 focus:border-adm-red/50 focus:ring-1 focus:ring-adm-red/30 outline-none transition-all font-[var(--font-body)]"
-                  />
+            {submitted ? (
+              <div className="border border-adm-red/30 bg-adm-red/5 p-10 text-center">
+                <div className="w-16 h-16 bg-adm-red/20 flex items-center justify-center mx-auto mb-6">
+                  <Check className="w-8 h-8 text-adm-red" />
                 </div>
-
-                {/* Email */}
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
-                  <input
-                    type="email"
-                    placeholder="Votre adresse courriel"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg pl-12 pr-4 py-4 text-white placeholder:text-white/30 focus:border-adm-red/50 focus:ring-1 focus:ring-adm-red/30 outline-none transition-all font-[var(--font-body)]"
-                  />
-                </div>
-
-                {/* Phone */}
-                <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
-                  <input
-                    type="tel"
-                    placeholder="Votre numéro de téléphone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-lg pl-12 pr-4 py-4 text-white placeholder:text-white/30 focus:border-adm-red/50 focus:ring-1 focus:ring-adm-red/30 outline-none transition-all font-[var(--font-body)]"
-                  />
-                </div>
-
-                {/* Submit */}
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full bg-adm-red hover:bg-adm-red-hover text-white font-semibold tracking-wider uppercase py-6 shadow-xl shadow-adm-red/25 group mt-2"
-                >
-                  Démarrer Mon Essai Gratuit
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <h3 className="font-display text-3xl text-white mb-3">MERCI !</h3>
+                <p className="text-cream/60" style={{ fontFamily: "var(--font-body)" }}>
+                  Un membre de notre équipe te contactera dans les prochaines 24 heures 
+                  pour planifier ton essai gratuit.
+                </p>
               </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="border border-white/10 bg-card p-8 lg:p-10">
+                <h3 className="font-display text-2xl text-white mb-6">RÉSERVE TON ESSAI</h3>
 
-              <p className="text-white/20 text-xs mt-4 text-center font-[var(--font-body)]">
-                En soumettant ce formulaire, vous acceptez d'être contacté par Club ADM Fitness.
-              </p>
-            </form>
+                <div className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                        Prénom
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
+                        style={{ fontFamily: "var(--font-body)" }}
+                        placeholder="Ton prénom"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                        Nom
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
+                        style={{ fontFamily: "var(--font-body)" }}
+                        placeholder="Ton nom"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                      Courriel
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
+                      style={{ fontFamily: "var(--font-body)" }}
+                      placeholder="ton@courriel.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                      Téléphone
+                    </label>
+                    <input
+                      type="tel"
+                      className="w-full bg-white/5 border border-white/10 px-4 py-3 text-white text-sm focus:border-adm-red/50 focus:outline-none transition-colors placeholder:text-cream/20"
+                      style={{ fontFamily: "var(--font-body)" }}
+                      placeholder="418-555-1234"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] tracking-[0.15em] uppercase text-cream/40 mb-2" style={{ fontFamily: "var(--font-heading)" }}>
+                      Je suis intéressé par
+                    </label>
+                    <div className="grid grid-cols-2 gap-3">
+                      {["Entraînement en salle", "Programme en ligne", "Coaching privé", "Les deux"].map((option) => (
+                        <label key={option} className="flex items-center gap-2 cursor-pointer">
+                          <input type="radio" name="interest" value={option} className="sr-only peer" />
+                          <div className="w-full text-center py-2.5 border border-white/10 text-cream/50 text-[12px] tracking-[0.05em] uppercase peer-checked:border-adm-red/50 peer-checked:bg-adm-red/10 peer-checked:text-white transition-all hover:border-white/20" style={{ fontFamily: "var(--font-heading)" }}>
+                            {option}
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full mt-4 inline-flex items-center justify-center gap-2 bg-adm-red hover:bg-adm-red-hover text-white font-bold text-[14px] tracking-[0.1em] uppercase py-4 transition-all duration-300 hover:shadow-lg hover:shadow-adm-red/25 group"
+                    style={{ fontFamily: "var(--font-heading)" }}
+                  >
+                    Réserver Mon Essai Gratuit
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </form>
+            )}
           </motion.div>
         </div>
       </div>

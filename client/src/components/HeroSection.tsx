@@ -1,143 +1,122 @@
 /*
- * DESIGN: Cinématique Sombre — Club ADM
- * Hero: Image plein écran avec overlay sombre, titre Bebas Neue massif,
- * sous-titre DM Sans, double CTA (Gym + En Ligne).
- * Animation: fade-in + translateY au chargement.
+ * HERO SECTION — Club ADM Fitness
+ * Full-viewport cinematic hero with massive typography
+ * Inspired by Ethos Athletic Club + Equinox dual CTA pattern
+ * Dark overlay on dramatic gym image, scroll indicator at bottom
  */
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
+import { ChevronRight, ChevronDown } from "lucide-react";
 
-const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/hero-gym-dark-amVBpGJHqwYSwYt7AXwRWP.webp";
+const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/hero-v2-Wd9sTMiBsMDSAURtT8kPz3.webp";
 
 export default function HeroSection() {
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
+    <section id="hero" className="relative h-screen min-h-[700px] overflow-hidden">
+      {/* Background image */}
       <div className="absolute inset-0">
         <img
           src={HERO_IMG}
-          alt="Club ADM Fitness - Entraînement fonctionnel"
+          alt="Entraînement fonctionnel au Club ADM"
           className="w-full h-full object-cover"
         />
-        {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a14]/95 via-[#0a0a14]/70 to-[#0a0a14]/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a14] via-transparent to-[#0a0a14]/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-dark/70 via-navy-dark/30 to-navy-dark/90" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-dark/60 via-transparent to-transparent" />
       </div>
-
-      {/* Red accent line */}
-      <div className="absolute left-0 top-1/4 w-1 h-32 bg-adm-red" />
 
       {/* Content */}
-      <div className="container relative z-10 pt-24">
-        <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="inline-block text-adm-red font-semibold text-sm tracking-[0.3em] uppercase mb-4 font-[var(--font-body)]">
-              Entraînement Fonctionnel
-            </span>
-          </motion.div>
+      <div className="relative z-10 h-full flex flex-col justify-end pb-24 lg:pb-32 max-w-[1400px] mx-auto px-4 lg:px-8">
+        {/* Accent line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="w-16 h-[3px] bg-adm-red mb-6 origin-left"
+        />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-[var(--font-display)] text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white leading-[0.9] tracking-tight mb-6"
-          >
-            VOTRE
-            <br />
-            <span className="text-adm-red">TRANSFORMATION</span>
-            <br />
-            COMMENCE ICI
-          </motion.h1>
+        {/* Headline */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="font-display text-[clamp(2.8rem,8vw,7rem)] leading-[0.88] text-white mb-4 max-w-4xl"
+        >
+          ENTRAÎNE-TOI<br />
+          <span className="text-adm-red">SANS LIMITES</span>
+        </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-lg md:text-xl text-white/60 max-w-xl mb-10 leading-relaxed font-[var(--font-body)]"
-          >
-            Au gym ou de n'importe où dans le monde. Rejoignez une communauté
-            d'athlètes déterminés et accédez à des programmes d'entraînement
-            conçus par des experts.
-          </motion.p>
+        {/* Subheadline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="text-lg lg:text-xl text-cream/70 max-w-xl mb-10 font-light leading-relaxed"
+          style={{ fontFamily: "var(--font-body)" }}
+        >
+          Entraînement fonctionnel en salle à Alma ou programmation en ligne — 
+          notre expertise, ton terrain de jeu.
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4"
+        {/* Dual CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.0 }}
+          className="flex flex-col sm:flex-row gap-4"
+        >
+          <a
+            href="#contact"
+            className="inline-flex items-center justify-center gap-2 bg-adm-red hover:bg-adm-red-hover text-white font-bold text-[15px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300 hover:shadow-xl hover:shadow-adm-red/30 hover:-translate-y-0.5 group"
+            style={{ fontFamily: "var(--font-heading)" }}
           >
-            <Button
-              size="lg"
-              className="bg-adm-red hover:bg-adm-red-hover text-white font-semibold text-base tracking-wider uppercase px-8 py-6 shadow-xl shadow-adm-red/25 group"
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              Essai Gratuit — 7 Jours
-              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 hover:border-white/40 font-semibold text-base tracking-wider uppercase px-8 py-6 group"
-              onClick={() => document.getElementById("online")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-              Programmes En Ligne
-            </Button>
-          </motion.div>
-        </div>
+            Essai Gratuit en Salle
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+          <a
+            href="#online"
+            className="inline-flex items-center justify-center gap-2 border-2 border-white/30 hover:border-white text-white font-bold text-[15px] tracking-[0.1em] uppercase px-8 py-4 transition-all duration-300 hover:bg-white/5 group"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            Programmes En Ligne
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+        </motion.div>
+
+        {/* Stats bar */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
+          className="hidden lg:flex items-center gap-12 mt-16 pt-8 border-t border-white/10"
+        >
+          {[
+            { value: "500+", label: "Membres actifs" },
+            { value: "15+", label: "Coachs certifiés" },
+            { value: "6", label: "Programmes en ligne" },
+            { value: "98%", label: "Taux de satisfaction" },
+          ].map((stat) => (
+            <div key={stat.label} className="flex items-baseline gap-3">
+              <span className="font-display text-3xl text-adm-red">{stat.value}</span>
+              <span className="text-xs tracking-[0.15em] uppercase text-cream/50" style={{ fontFamily: "var(--font-heading)" }}>{stat.label}</span>
+            </div>
+          ))}
+        </motion.div>
       </div>
-
-      {/* Bottom Stats Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0a0a14] to-transparent pt-20 pb-8"
-      >
-        <div className="container">
-          <div className="flex flex-wrap justify-center md:justify-start gap-8 md:gap-16">
-            <StatItem number="500+" label="Membres Actifs" />
-            <StatItem number="15+" label="Coachs Certifiés" />
-            <StatItem number="50+" label="Cours / Semaine" />
-            <StatItem number="3" label="Programmes En Ligne" />
-          </div>
-        </div>
-      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 right-8 hidden md:flex flex-col items-center gap-2"
+        transition={{ delay: 2 }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
-        <span className="text-white/30 text-xs tracking-widest uppercase rotate-90 origin-center translate-y-8">
-          Défiler
-        </span>
+        <span className="text-[10px] tracking-[0.2em] uppercase text-cream/40" style={{ fontFamily: "var(--font-heading)" }}>Découvrir</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="w-px h-12 bg-gradient-to-b from-adm-red to-transparent mt-12"
-        />
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <ChevronDown className="w-5 h-5 text-cream/40" />
+        </motion.div>
       </motion.div>
     </section>
-  );
-}
-
-function StatItem({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="text-center md:text-left">
-      <div className="font-[var(--font-display)] text-3xl md:text-4xl text-white">
-        {number}
-      </div>
-      <div className="text-white/40 text-sm tracking-wider uppercase font-[var(--font-body)]">
-        {label}
-      </div>
-    </div>
   );
 }
