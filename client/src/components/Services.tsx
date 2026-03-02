@@ -1,7 +1,7 @@
 /*
- * SERVICES — 5 services Club ADM
- * Grille alternée image/texte, fond blanc
- * Liens vers les pages existantes de clubadm.com
+ * SERVICES — Services Club ADM
+ * Design chaleureux : cartes image plein fond avec overlay, coins arrondis
+ * Layout en grille 3 colonnes principales + 3 secondaires
  */
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -10,24 +10,45 @@ const GROUP_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQ
 const NUTRITION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-nutrition-K5UKGcDj5XeCc7XxTrte8A.webp";
 const PERSONAL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-personal-BYp3GeFtEb4bmCtZ2dxU7P.webp";
 
-const SERVICES = [
+const MAIN_SERVICES = [
   {
     title: "Cours de Groupe",
-    desc: "Dans les cours de groupe, tu seras amené à développer tes habiletés physiques comme l'endurance cardiovasculaire, la mobilité, l'agilité et la force musculaire.",
+    desc: "Développe ton endurance, ta mobilité et ta force dans une ambiance motivante.",
     img: GROUP_IMG,
     href: "https://clubadm.com/groupe-classes/",
   },
   {
     title: "Coaching Nutritionnel",
-    desc: "Un coach qualifié dans le domaine pour t'aider à faire de meilleurs choix alimentaires, sains et équilibrés. On peut t'aider à comprendre tes besoins nutritionnels et établir des objectifs réalistes!",
+    desc: "Un accompagnement personnalisé pour de meilleurs choix alimentaires.",
     img: NUTRITION_IMG,
     href: "https://clubadm.com/coaching-nutritionnel/",
   },
   {
     title: "Entraînement Personnel",
-    desc: "On offre des entraînements privés et semi-privés personnalisés pour TES besoins! Selon tes objectifs, tu peux suivre des cours seul ou avec quelques amis.",
+    desc: "Des séances privées ou semi-privées adaptées à tes objectifs.",
     img: PERSONAL_IMG,
     href: "https://clubadm.com/entrainement-personnel/",
+  },
+];
+
+const EXTRA_SERVICES = [
+  {
+    title: "Bien-être au travail",
+    desc: "Séances d'entraînement en entreprise pour vos employés.",
+    href: "https://clubadm.com/bien-etre-au-travail/",
+    emoji: "🏢",
+  },
+  {
+    title: "Enfant / Ado",
+    desc: "On entraîne les jeunes rookies pour leur développement physique et mental.",
+    href: "https://clubadm.com/rookies/",
+    emoji: "⚡",
+  },
+  {
+    title: "Cours d'initiation",
+    desc: "Débute en toute confiance avec nos cours adaptés aux débutants.",
+    href: "https://clubadm.com/cours-dinitiation/",
+    emoji: "🎯",
   },
 ];
 
@@ -39,116 +60,88 @@ export default function Services() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
+          <p className="text-sm font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24" }}>
+            Nos services
+          </p>
           <h2
-            className="text-4xl sm:text-5xl lg:text-6xl mb-4"
+            className="text-4xl sm:text-5xl lg:text-6xl"
             style={{ fontFamily: "var(--font-display)", color: "#232862" }}
           >
-            DES SERVICES QUI COMBLENT TES BESOINS
+            ON S'ADAPTE À TES BESOINS
           </h2>
         </motion.div>
 
-        <div className="space-y-16 lg:space-y-24">
-          {SERVICES.map((service, i) => (
-            <motion.div
+        {/* Main services — image cards */}
+        <div className="grid md:grid-cols-3 gap-5 lg:gap-6 mb-8">
+          {MAIN_SERVICES.map((service, i) => (
+            <motion.a
               key={service.title}
-              initial={{ opacity: 0, y: 30 }}
+              href={service.href}
+              initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6 }}
-              className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
-                i % 2 === 1 ? "lg:direction-rtl" : ""
-              }`}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.12 }}
+              className="group relative rounded-2xl overflow-hidden h-[380px] lg:h-[440px]"
             >
               {/* Image */}
-              <div className={`overflow-hidden ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                <img
-                  src={service.img}
-                  alt={service.title}
-                  className="w-full h-[300px] lg:h-[400px] object-cover"
-                />
-              </div>
+              <img
+                src={service.img}
+                alt={service.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Warm gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-              {/* Text */}
-              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
+              {/* Content at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
                 <h3
-                  className="text-3xl lg:text-4xl mb-5 uppercase"
-                  style={{ fontFamily: "var(--font-display)", color: "#232862" }}
+                  className="text-2xl lg:text-3xl text-white mb-2 uppercase"
+                  style={{ fontFamily: "var(--font-display)" }}
                 >
                   {service.title}
                 </h3>
-                <p
-                  className="text-base leading-relaxed mb-6"
-                  style={{ color: "rgba(35,40,98,0.6)" }}
-                >
+                <p className="text-white/70 text-sm leading-relaxed mb-4">
                   {service.desc}
                 </p>
-                <a
-                  href={service.href}
-                  className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-[0.06em] transition-colors group"
-                  style={{ color: "#ed1c24" }}
-                >
-                  En savoir plus
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </a>
+                <span className="inline-flex items-center gap-2 text-white text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all">
+                  Découvrir
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </span>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
 
-        {/* Additional services links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 pt-12 border-t border-gray-100"
-        >
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <a
-              href="https://clubadm.com/bien-etre-au-travail/"
-              className="group p-6 border border-gray-100 hover:border-adm-red/20 transition-colors"
+        {/* Extra services — simple cards */}
+        <div className="grid sm:grid-cols-3 gap-4">
+          {EXTRA_SERVICES.map((service, i) => (
+            <motion.a
+              key={service.title}
+              href={service.href}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="group flex items-start gap-4 p-5 rounded-xl border border-gray-100 hover:border-transparent hover:shadow-lg hover:shadow-black/[0.04] transition-all duration-300 hover:-translate-y-0.5"
+              style={{ backgroundColor: "#faf7f2" }}
             >
-              <h4
-                className="text-lg mb-2 uppercase group-hover:text-adm-red transition-colors"
-                style={{ fontFamily: "var(--font-display)", color: "#232862" }}
-              >
-                Bien-être au travail
-              </h4>
-              <p className="text-sm" style={{ color: "rgba(35,40,98,0.5)" }}>
-                Séances d'entraînement en entreprise pour favoriser la condition physique de vos employés.
-              </p>
-            </a>
-            <a
-              href="https://clubadm.com/rookies/"
-              className="group p-6 border border-gray-100 hover:border-adm-red/20 transition-colors"
-            >
-              <h4
-                className="text-lg mb-2 uppercase group-hover:text-adm-red transition-colors"
-                style={{ fontFamily: "var(--font-display)", color: "#232862" }}
-              >
-                Enfant / Ado
-              </h4>
-              <p className="text-sm" style={{ color: "rgba(35,40,98,0.5)" }}>
-                On entraîne les jeunes rookies en contribuant à leur développement physique et mental.
-              </p>
-            </a>
-            <a
-              href="https://clubadm.com/cours-dinitiation/"
-              className="group p-6 border border-gray-100 hover:border-adm-red/20 transition-colors"
-            >
-              <h4
-                className="text-lg mb-2 uppercase group-hover:text-adm-red transition-colors"
-                style={{ fontFamily: "var(--font-display)", color: "#232862" }}
-              >
-                Cours d'initiation
-              </h4>
-              <p className="text-sm" style={{ color: "rgba(35,40,98,0.5)" }}>
-                Débute en toute confiance avec nos cours d'initiation adaptés à tous les niveaux.
-              </p>
-            </a>
-          </div>
-        </motion.div>
+              <span className="text-2xl flex-shrink-0 mt-0.5">{service.emoji}</span>
+              <div>
+                <h4
+                  className="text-base mb-1 uppercase group-hover:text-adm-red transition-colors"
+                  style={{ fontFamily: "var(--font-display)", color: "#232862" }}
+                >
+                  {service.title}
+                </h4>
+                <p className="text-xs leading-relaxed" style={{ color: "rgba(35,40,98,0.5)" }}>
+                  {service.desc}
+                </p>
+              </div>
+            </motion.a>
+          ))}
+        </div>
       </div>
     </section>
   );

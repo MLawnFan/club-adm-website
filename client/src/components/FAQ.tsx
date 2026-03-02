@@ -1,6 +1,6 @@
 /*
- * FAQ — Questions fréquentes de clubadm.com
- * Fond blanc, accordéon propre
+ * FAQ — Questions fréquentes
+ * Design chaleureux : fond blanc, accordéon avec cartes arrondies
  */
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,15 +45,18 @@ export default function FAQ() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
+          <p className="text-sm font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24" }}>
+            FAQ
+          </p>
           <h2
-            className="text-4xl sm:text-5xl lg:text-6xl mb-4"
+            className="text-4xl sm:text-5xl lg:text-6xl"
             style={{ fontFamily: "var(--font-display)", color: "#232862" }}
           >
-            QUESTIONS? ON A LES RÉPONSES!
+            TES QUESTIONS, NOS RÉPONSES
           </h2>
         </motion.div>
 
-        <div className="space-y-0">
+        <div className="space-y-3">
           {FAQS.map((faq, i) => (
             <motion.div
               key={i}
@@ -61,25 +64,36 @@ export default function FAQ() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05 }}
-              className="border-b border-gray-200"
+              className={`rounded-xl overflow-hidden transition-all duration-300 ${
+                openIndex === i
+                  ? "bg-white shadow-lg shadow-black/[0.04]"
+                  : "bg-transparent hover:bg-gray-50/50"
+              }`}
+              style={openIndex === i ? { border: "1px solid rgba(237,28,36,0.1)" } : { border: "1px solid transparent" }}
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between py-5 text-left group"
+                className="w-full flex items-center justify-between p-5 text-left group"
               >
                 <span
-                  className="text-base font-semibold pr-4 group-hover:text-adm-red transition-colors"
-                  style={{ color: "#232862" }}
+                  className="text-[15px] font-semibold pr-4 transition-colors"
+                  style={{ color: openIndex === i ? "#ed1c24" : "#232862" }}
                 >
                   {faq.q}
                 </span>
-                <ChevronDown
-                  size={18}
-                  className={`flex-shrink-0 transition-transform duration-200 ${
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 ${
                     openIndex === i ? "rotate-180" : ""
                   }`}
-                  style={{ color: openIndex === i ? "#ed1c24" : "rgba(35,40,98,0.3)" }}
-                />
+                  style={{
+                    backgroundColor: openIndex === i ? "rgba(237,28,36,0.1)" : "rgba(35,40,98,0.05)",
+                  }}
+                >
+                  <ChevronDown
+                    size={16}
+                    style={{ color: openIndex === i ? "#ed1c24" : "rgba(35,40,98,0.4)" }}
+                  />
+                </div>
               </button>
               <AnimatePresence>
                 {openIndex === i && (
@@ -87,10 +101,10 @@ export default function FAQ() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.25 }}
                     className="overflow-hidden"
                   >
-                    <p className="pb-5 text-sm leading-relaxed" style={{ color: "rgba(35,40,98,0.6)" }}>
+                    <p className="px-5 pb-5 text-sm leading-relaxed" style={{ color: "rgba(35,40,98,0.55)" }}>
                       {faq.a}
                     </p>
                   </motion.div>

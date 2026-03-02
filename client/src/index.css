@@ -1,8 +1,8 @@
 /*
- * CLUB ADM FITNESS — Design lumineux inspiré Mayhem Nation
- * Palette: Blanc dominant, Navy #232862, Rouge #ed1c24, Gris clair #f5f5f5
+ * CLUB ADM FITNESS — Design chaleureux et accueillant
+ * Palette: Blanc chaud, Navy #232862, Rouge #ed1c24, Crème chaud #faf7f2
  * Typo: Bebas Neue (titres), Barlow (corps)
- * Philosophie: Épuré, lumineux, éditorial, beaucoup d'espace blanc
+ * Philosophie: Chaleureux, humain, communautaire, tons dorés/chauds
  */
 
 @import "tailwindcss";
@@ -48,12 +48,13 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Brand colors */
+  /* Brand colors — warm tones */
   --color-navy: oklch(0.25 0.06 270);
   --color-adm-red: oklch(0.55 0.24 25);
   --color-adm-red-hover: oklch(0.48 0.24 25);
-  --color-cream: oklch(0.97 0.003 90);
-  --color-light-gray: oklch(0.96 0 0);
+  --color-warm-cream: oklch(0.975 0.008 80);
+  --color-warm-sand: oklch(0.95 0.012 75);
+  --color-warm-beige: oklch(0.93 0.015 70);
 
   /* Font families */
   --font-display: "Bebas Neue", sans-serif;
@@ -61,8 +62,8 @@
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: oklch(1 0 0);
+  --radius: 0.5rem;
+  --background: oklch(0.99 0.004 80);
   --foreground: oklch(0.25 0.06 270);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.25 0.06 270);
@@ -70,16 +71,16 @@
   --popover-foreground: oklch(0.25 0.06 270);
   --primary: oklch(0.55 0.24 25);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0.003 90);
+  --secondary: oklch(0.975 0.008 80);
   --secondary-foreground: oklch(0.25 0.06 270);
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.5 0.02 270);
-  --accent: oklch(0.97 0.003 90);
+  --muted: oklch(0.95 0.012 75);
+  --muted-foreground: oklch(0.45 0.03 270);
+  --accent: oklch(0.975 0.008 80);
   --accent-foreground: oklch(0.25 0.06 270);
   --destructive: oklch(0.55 0.24 25);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0 0);
-  --input: oklch(0.92 0 0);
+  --border: oklch(0.92 0.01 75);
+  --input: oklch(0.92 0.01 75);
   --ring: oklch(0.55 0.24 25);
   --chart-1: oklch(0.55 0.24 25);
   --chart-2: oklch(0.25 0.06 270);
@@ -90,9 +91,9 @@
   --sidebar-foreground: oklch(0.25 0.06 270);
   --sidebar-primary: oklch(0.55 0.24 25);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.97 0.003 90);
+  --sidebar-accent: oklch(0.975 0.008 80);
   --sidebar-accent-foreground: oklch(0.25 0.06 270);
-  --sidebar-border: oklch(0.92 0 0);
+  --sidebar-border: oklch(0.92 0.01 75);
   --sidebar-ring: oklch(0.55 0.24 25);
 }
 

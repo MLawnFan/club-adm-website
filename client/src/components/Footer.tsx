@@ -1,29 +1,42 @@
 /*
  * FOOTER — Club ADM Fitness
- * Fond navy, texte blanc, liens vers clubadm.com
+ * Design chaleureux : fond navy, texte blanc doux, liens vers clubadm.com
  * Succursales Brossard et Chambly
  */
+import { Link } from "wouter";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 
-const LOGO_WHITE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_white_trimmed_1ff1138a.png";
+const LOGO_WHITE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_white_trimmed_7a9f6633.png";
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: "#232862" }}>
+    <footer style={{ backgroundColor: "#1c2050" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Logo + description */}
           <div className="lg:col-span-1">
             <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-12 w-auto mb-5" />
-            <p className="text-white/50 text-sm leading-relaxed">
-              La meilleure heure de ta journée. Entraînement fonctionnel pour tous les niveaux.
+            <p className="text-white/40 text-sm leading-relaxed">
+              La meilleure heure de ta journée. Entraînement fonctionnel pour tous les niveaux, dans une ambiance chaleureuse.
             </p>
-            <div className="flex gap-4 mt-5">
-              <a href="https://www.instagram.com/clubadm/" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white transition-colors" aria-label="Instagram">
-                <Instagram size={18} />
+            <div className="flex gap-4 mt-6">
+              <a
+                href="https://www.instagram.com/clubadm/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                aria-label="Instagram"
+              >
+                <Instagram size={16} />
               </a>
-              <a href="https://www.facebook.com/clubadm/" target="_blank" rel="noopener noreferrer" className="text-white/30 hover:text-white transition-colors" aria-label="Facebook">
-                <Facebook size={18} />
+              <a
+                href="https://www.facebook.com/clubadm/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-all"
+                aria-label="Facebook"
+              >
+                <Facebook size={16} />
               </a>
             </div>
           </div>
@@ -38,24 +51,34 @@ export default function Footer() {
             </h4>
             <div className="space-y-2.5">
               {[
-                { label: "En Ligne", href: "/en-ligne" },
+                { label: "En Ligne", href: "/en-ligne", internal: true },
                 { label: "Programme", href: "https://clubadm.com/programme/" },
                 { label: "Prix", href: "https://clubadm.com/rates/" },
                 { label: "Horaire", href: "https://clubadm.com/horaire/" },
                 { label: "Notre Équipe", href: "https://clubadm.com/notre-equipe/" },
                 { label: "Boutique", href: "https://clubadm.com/boutique" },
-                { label: "Blog", href: "/blog" },
+                { label: "Blog", href: "/blog", internal: true },
                 { label: "Drop In", href: "https://clubadm.com/drop-in/" },
                 { label: "Contact", href: "https://clubadm.com/contact-us/" },
-              ].map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="block text-white/50 text-sm hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
+              ].map((link) =>
+                link.internal ? (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="block text-white/40 text-sm hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="block text-white/40 text-sm hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
             </div>
           </div>
 
@@ -67,18 +90,22 @@ export default function Footer() {
             >
               Emplacements
             </h4>
-            <div className="space-y-4">
-              <a href="https://clubadm.com/centre-de-brossard/" className="flex items-start gap-2 text-white/50 text-sm hover:text-white transition-colors group">
-                <MapPin size={14} className="mt-0.5 flex-shrink-0" />
+            <div className="space-y-5">
+              <a href="https://clubadm.com/centre-de-brossard/" className="flex items-start gap-3 text-white/40 text-sm hover:text-white transition-colors group">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5 group-hover:bg-white/10 transition-colors mt-0.5">
+                  <MapPin size={14} />
+                </div>
                 <div>
-                  <span className="block font-semibold text-white/70 group-hover:text-white">Brossard</span>
+                  <span className="block font-semibold text-white/60 group-hover:text-white">Brossard</span>
                   9 place du commerce, Suite N
                 </div>
               </a>
-              <a href="https://clubadm.com/centre-de-chambly/" className="flex items-start gap-2 text-white/50 text-sm hover:text-white transition-colors group">
-                <MapPin size={14} className="mt-0.5 flex-shrink-0" />
+              <a href="https://clubadm.com/centre-de-chambly/" className="flex items-start gap-3 text-white/40 text-sm hover:text-white transition-colors group">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5 group-hover:bg-white/10 transition-colors mt-0.5">
+                  <MapPin size={14} />
+                </div>
                 <div>
-                  <span className="block font-semibold text-white/70 group-hover:text-white">Chambly</span>
+                  <span className="block font-semibold text-white/60 group-hover:text-white">Chambly</span>
                   2180 boul. industriel
                 </div>
               </a>
@@ -94,12 +121,16 @@ export default function Footer() {
               Contact
             </h4>
             <div className="space-y-3">
-              <a href="tel:4506002448" className="flex items-center gap-2 text-white/50 text-sm hover:text-white transition-colors">
-                <Phone size={14} />
+              <a href="tel:4506002448" className="flex items-center gap-3 text-white/40 text-sm hover:text-white transition-colors group">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5 group-hover:bg-white/10 transition-colors">
+                  <Phone size={14} />
+                </div>
                 450-600-2448
               </a>
-              <a href="https://clubadm.com/contact-us/" className="flex items-center gap-2 text-white/50 text-sm hover:text-white transition-colors">
-                <Mail size={14} />
+              <a href="https://clubadm.com/contact-us/" className="flex items-center gap-3 text-white/40 text-sm hover:text-white transition-colors group">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5 group-hover:bg-white/10 transition-colors">
+                  <Mail size={14} />
+                </div>
                 Nous contacter
               </a>
             </div>
@@ -107,8 +138,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-white/30 text-xs">
+        <div className="mt-14 pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-white/20 text-xs">
             &copy; {new Date().getFullYear()} Club ADM Fitness. Tous droits réservés.
           </p>
         </div>
