@@ -4,8 +4,8 @@
  * Structure: Hero → Pourquoi → Programmes → Ce que tu reçois → Sample → FAQ → CTA
  * Couleurs: navy #232862, rouge #ed1c24, blanc, cream
  */
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
   Dumbbell,
@@ -21,6 +21,9 @@ import {
   Users,
   MessageCircle,
   ArrowRight,
+  X,
+  Star,
+  Quote,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -32,6 +35,42 @@ const IMG_PERFORMANCE = "https://d2xsxph8kpxj0f.cloudfront.net/31051966334878938
 const IMG_WELLNESS = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/program-wellness-6udJtNAeYaSkQms7H2b8z3.webp";
 const IMG_NUTRITION = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-nutrition-K5UKGcDj5XeCc7XxTrte8A.webp";
 const IMG_PERSONAL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-personal-BYp3GeFtEb4bmCtZ2dxU7P.webp";
+const IMG_TESTIMONIAL_1 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/testimonial-1-MNfXfwrHyebsn452VLJAht.webp";
+const IMG_TESTIMONIAL_2 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/testimonial-2-MijPphbTvukrJsrwjAQFWG.webp";
+const IMG_TESTIMONIAL_3 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/testimonial-3-2oyiFbiBAEuMJtg5MkpPvF.webp";
+
+const TESTIMONIALS = [
+  {
+    name: "Marie-Ève L.",
+    program: "Programme Transformation",
+    duration: "Membre depuis 6 mois",
+    quote: "Je n'aurais jamais cru pouvoir m'entraîner aussi efficacement de chez moi. Les vidéos sont claires, le suivi est incroyable et j'ai perdu 18 lbs en 90 jours. Le support des coachs fait toute la différence.",
+    rating: 5,
+    image: IMG_TESTIMONIAL_1,
+    videoId: "placeholder",
+    result: "-18 lbs en 90 jours",
+  },
+  {
+    name: "Patrick D.",
+    program: "Programme Performance",
+    duration: "Membre depuis 1 an",
+    quote: "Après 15 ans d'entraînement, je pensais avoir tout essayé. La programmation Club ADM m'a permis d'atteindre un nouveau PR au back squat et d'améliorer mon Fran de 45 secondes. C'est du sérieux.",
+    rating: 5,
+    image: IMG_TESTIMONIAL_2,
+    videoId: "placeholder",
+    result: "PR Back Squat +30 lbs",
+  },
+  {
+    name: "Alex & Camille B.",
+    program: "All Access",
+    duration: "Membres depuis 8 mois",
+    quote: "On s'entraîne ensemble à la maison avec le programme All Access. C'est devenu notre routine de couple. La variété des programmes fait qu'on ne s'ennuie jamais et la communauté en ligne est super motivante.",
+    rating: 5,
+    image: IMG_TESTIMONIAL_3,
+    videoId: "placeholder",
+    result: "Routine de couple transformée",
+  },
+];
 
 /* ─── DATA ─── */
 const PROGRAMS = [
@@ -349,6 +388,128 @@ function ProgramCard({ program, index }: { program: typeof PROGRAMS[0]; index: n
   );
 }
 
+/* ─── TESTIMONIAL CARD ─── */
+function TestimonialCard({ testimonial, index }: { testimonial: typeof TESTIMONIALS[0]; index: number }) {
+  const [showVideo, setShowVideo] = useState(false);
+
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ delay: index * 0.15, duration: 0.5 }}
+        className="group"
+      >
+        {/* Video Thumbnail */}
+        <div
+          className="relative aspect-[4/3] overflow-hidden mb-5 cursor-pointer"
+          onClick={() => setShowVideo(true)}
+        >
+          <img
+            src={testimonial.image}
+            alt={testimonial.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
+          
+          {/* Play button */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-16 h-16 bg-adm-red flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-lg">
+              <Play size={24} className="text-white ml-1" fill="white" />
+            </div>
+          </div>
+
+          {/* Result badge */}
+          <div className="absolute bottom-3 left-3 px-3 py-1.5 bg-white/95 backdrop-blur-sm">
+            <span className="text-navy font-bold text-xs">{testimonial.result}</span>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div>
+          {/* Stars */}
+          <div className="flex gap-0.5 mb-3">
+            {Array.from({ length: testimonial.rating }).map((_, i) => (
+              <Star key={i} size={14} className="text-adm-red" fill="#ed1c24" />
+            ))}
+          </div>
+
+          {/* Quote */}
+          <div className="relative mb-4">
+            <Quote size={16} className="text-adm-red/20 absolute -top-1 -left-1" />
+            <p className="text-navy/70 text-sm leading-relaxed pl-4">
+              {testimonial.quote}
+            </p>
+          </div>
+
+          {/* Author */}
+          <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+            <img
+              src={testimonial.image}
+              alt={testimonial.name}
+              className="w-10 h-10 object-cover rounded-full"
+            />
+            <div>
+              <p className="text-navy font-bold text-sm">{testimonial.name}</p>
+              <p className="text-adm-red text-[11px] font-semibold uppercase tracking-wider">
+                {testimonial.program}
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {showVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+            onClick={() => setShowVideo(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25 }}
+              className="relative w-full max-w-3xl bg-navy p-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setShowVideo(false)}
+                className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors"
+              >
+                <X size={28} />
+              </button>
+              
+              {/* Placeholder for video embed */}
+              <div className="aspect-video bg-navy flex flex-col items-center justify-center text-white">
+                <div className="w-20 h-20 bg-adm-red flex items-center justify-center mb-6">
+                  <Play size={32} className="text-white ml-1" fill="white" />
+                </div>
+                <p className="text-white/60 text-sm mb-1">Témoignage vidéo de</p>
+                <p className="text-xl font-bold" style={{ fontFamily: "var(--font-display)" }}>
+                  {testimonial.name}
+                </p>
+                <p className="text-adm-red text-xs font-semibold uppercase tracking-wider mt-1">
+                  {testimonial.program}
+                </p>
+                <p className="text-white/40 text-xs mt-4">
+                  Intégrez vos vidéos YouTube ou Vimeo ici
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
+
 function FAQItem({ item, isOpen, onToggle }: { item: typeof FAQ_ITEMS[0]; isOpen: boolean; onToggle: () => void }) {
   return (
     <div className="border-b border-gray-100">
@@ -514,8 +675,66 @@ export default function OnlinePrograms() {
         </div>
       </section>
 
-      {/* ═══ SAMPLE PROGRAMMING ═══ */}
+      {/* ═══ TÉMOIGNAGES VIDÉO ═══ */}
       <section className="py-20 lg:py-28 bg-white">
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center max-w-2xl mx-auto mb-16"
+          >
+            <span className="text-adm-red text-xs font-bold uppercase tracking-[0.2em] mb-3 block">
+              Témoignages
+            </span>
+            <h2
+              className="text-4xl md:text-5xl text-navy mb-5"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              ILS S'ENTRAÎNENT AVEC NOUS
+            </h2>
+            <p className="text-navy/50 leading-relaxed">
+              Découvre les histoires de nos membres qui ont transformé leur quotidien grâce à la programmation en ligne Club ADM.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {TESTIMONIALS.map((testimonial, i) => (
+              <TestimonialCard key={i} testimonial={testimonial} index={i} />
+            ))}
+          </div>
+
+          {/* Stats bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+          >
+            {[
+              { value: "500+", label: "Membres en ligne" },
+              { value: "4.9/5", label: "Note moyenne" },
+              { value: "92%", label: "Taux de rétention" },
+              { value: "15+", label: "Coachs certifiés" },
+            ].map((stat, i) => (
+              <div key={i} className="text-center py-6 bg-cream/50">
+                <div
+                  className="text-3xl md:text-4xl text-navy font-bold mb-1"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  {stat.value}
+                </div>
+                <div className="text-navy/40 text-xs font-semibold uppercase tracking-wider">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ SAMPLE PROGRAMMING ═══ */}
+      <section className="py-20 lg:py-28 bg-cream/40">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
