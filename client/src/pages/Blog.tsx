@@ -8,6 +8,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Search, Clock, ArrowRight, Tag, User } from "lucide-react";
 import { Link } from "wouter";
+import PromoBanner from "@/components/PromoBanner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -610,6 +611,7 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-white">
+      <PromoBanner />
       <Navbar />
 
       {/* Hero */}

@@ -25,6 +25,7 @@ import {
   Star,
   Quote,
 } from "lucide-react";
+import PromoBanner from "@/components/PromoBanner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -546,6 +547,7 @@ export default function OnlinePrograms() {
 
   return (
     <div className="min-h-screen bg-white">
+      <PromoBanner />
       <Navbar />
 
       {/* ═══ HERO ═══ */}

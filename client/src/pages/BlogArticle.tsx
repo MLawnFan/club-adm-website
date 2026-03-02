@@ -8,6 +8,7 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Clock, ArrowLeft, ArrowRight, User, Tag, Share2 } from "lucide-react";
 import { Link, useParams } from "wouter";
+import PromoBanner from "@/components/PromoBanner";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { BLOG_ARTICLES } from "./Blog";
@@ -116,6 +117,7 @@ export default function BlogArticle() {
   if (!article) {
     return (
       <div className="min-h-screen bg-white">
+        <PromoBanner />
         <Navbar />
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 py-20 text-center">
           <h1
@@ -152,6 +154,7 @@ export default function BlogArticle() {
 
   return (
     <div className="min-h-screen bg-white">
+      <PromoBanner />
       <Navbar />
 
       {/* Hero Image */}

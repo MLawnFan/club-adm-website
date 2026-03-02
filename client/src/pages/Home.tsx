@@ -1,3 +1,4 @@
+import PromoBanner from "@/components/PromoBanner";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ValueProps from "@/components/ValueProps";
@@ -11,6 +12,7 @@ import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#faf7f2" }}>
+      <PromoBanner />
       <Navbar />
       <HeroSection />
       <ValueProps />
