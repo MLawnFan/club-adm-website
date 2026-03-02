@@ -53,13 +53,13 @@ export default function HeroSection() {
               Consultation Gratuite
             </a>
             <a
-              href="https://clubadm.com/programme/"
+              href="/en-ligne"
               className="inline-flex items-center justify-center px-8 py-4 border-2 text-sm font-bold uppercase tracking-[0.06em] transition-colors hover:text-white"
               style={{ borderColor: "#232862", color: "#232862" }}
               onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#232862"; e.currentTarget.style.color = "#fff"; }}
               onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#232862"; }}
             >
-              Nos Programmes
+              S'entraîner en ligne
             </a>
           </div>
         </motion.div>

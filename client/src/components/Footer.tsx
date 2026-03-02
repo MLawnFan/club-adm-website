@@ -38,6 +38,7 @@ export default function Footer() {
             </h4>
             <div className="space-y-2.5">
               {[
+                { label: "En Ligne", href: "/en-ligne" },
                 { label: "Programme", href: "https://clubadm.com/programme/" },
                 { label: "Prix", href: "https://clubadm.com/rates/" },
                 { label: "Horaire", href: "https://clubadm.com/horaire/" },

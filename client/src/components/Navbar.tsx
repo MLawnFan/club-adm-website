@@ -6,10 +6,16 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Link } from "wouter";
 
 const LOGO_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_color_trimmed_7ec2e108.png";
 
 const NAV_LINKS = [
+  {
+    label: "En Ligne",
+    href: "/en-ligne",
+    internal: true,
+  },
   {
     label: "Programme",
     href: "https://clubadm.com/programme/",
@@ -96,14 +102,24 @@ export default function Navbar() {
                 onMouseEnter={() => link.children && setOpenDropdown(link.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
               >
-                <a
-                  href={link.href}
-                  className="flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold uppercase tracking-[0.04em] text-navy hover:text-adm-red transition-colors"
-                  style={{ fontFamily: "var(--font-body)" }}
-                >
-                  {link.label}
-                  {link.children && <ChevronDown size={12} className="mt-0.5" />}
-                </a>
+                {(link as any).internal ? (
+                  <Link
+                    href={link.href}
+                    className="flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold uppercase tracking-[0.04em] text-navy hover:text-adm-red transition-colors"
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    className="flex items-center gap-0.5 px-3 py-2 text-[13px] font-semibold uppercase tracking-[0.04em] text-navy hover:text-adm-red transition-colors"
+                    style={{ fontFamily: "var(--font-body)" }}
+                  >
+                    {link.label}
+                    {link.children && <ChevronDown size={12} className="mt-0.5" />}
+                  </a>
+                )}
                 {link.children && openDropdown === link.label && (
                   <motion.div
                     initial={{ opacity: 0, y: 4 }}
@@ -157,13 +173,23 @@ export default function Navbar() {
             <div className="px-6 py-6 space-y-0">
               {NAV_LINKS.map((link) => (
                 <div key={link.label}>
-                  <a
-                    href={link.href}
-                    className="block py-3.5 text-base font-semibold uppercase tracking-wide text-navy border-b border-gray-100"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {link.label}
-                  </a>
+                  {(link as any).internal ? (
+                    <Link
+                      href={link.href}
+                      className="block py-3.5 text-base font-semibold uppercase tracking-wide text-navy border-b border-gray-100"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="block py-3.5 text-base font-semibold uppercase tracking-wide text-navy border-b border-gray-100"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  )}
                   {link.children && (
                     <div className="pl-4 border-b border-gray-100">
                       {link.children.map((child) => (
