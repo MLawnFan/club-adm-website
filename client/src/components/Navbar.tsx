@@ -27,13 +27,14 @@ interface NavItem {
 const NAV_LINKS: NavItem[] = [
   {
     label: "Programmes",
-    href: "https://clubadm.com/programme/",
+    href: "/programmes",
+    internal: true,
     children: [
+      { label: "Tous les programmes", href: "/programmes", desc: "Vue d'ensemble de nos services" },
       { label: "Cours de groupe", href: "https://clubadm.com/groupe-classes/", desc: "Entraînement fonctionnel en équipe" },
-      { label: "Cours d'initiation", href: "https://clubadm.com/cours-dinitiation/", desc: "Pour bien commencer" },
       { label: "Entraînement personnel", href: "https://clubadm.com/entrainement-personnel/", desc: "Coaching 1-on-1" },
       { label: "Coaching nutritionnel", href: "https://clubadm.com/coaching-nutritionnel/", desc: "Plans alimentaires personnalisés" },
-      { label: "Enfant / Ado", href: "https://clubadm.com/rookies/", desc: "Programme Rookies" },
+      { label: "Rookies (Enfant/Ado)", href: "https://clubadm.com/rookies/", desc: "Programme jeunesse" },
     ],
   },
   {
@@ -43,12 +44,8 @@ const NAV_LINKS: NavItem[] = [
   },
   {
     label: "Horaire & Prix",
-    href: "https://clubadm.com/rates/",
-    children: [
-      { label: "Horaire des cours", href: "https://clubadm.com/horaire/" },
-      { label: "Tarifs", href: "https://clubadm.com/rates/" },
-      { label: "Drop In", href: "https://clubadm.com/drop-in/" },
-    ],
+    href: "/horaire-prix",
+    internal: true,
   },
   {
     label: "Blog",
@@ -57,11 +54,12 @@ const NAV_LINKS: NavItem[] = [
   },
   {
     label: "À Propos",
-    href: "https://clubadm.com/notre-equipe/",
+    href: "/notre-equipe",
+    internal: true,
     children: [
-      { label: "Notre Équipe", href: "https://clubadm.com/notre-equipe/" },
-      { label: "Boutique", href: "https://clubadm.com/boutique" },
-      { label: "Contact", href: "https://clubadm.com/contact-us/" },
+      { label: "Notre Équipe", href: "/notre-equipe", desc: "Découvre nos coachs" },
+      { label: "Contact", href: "/contact", desc: "Écris-nous ou viens nous voir" },
+      { label: "Boutique", href: "https://clubadm.com/boutique", desc: "Vêtements et accessoires" },
     ],
   },
 ];

@@ -51,15 +51,13 @@ export default function Footer() {
             </h4>
             <div className="space-y-2.5">
               {[
+                { label: "Programmes", href: "/programmes", internal: true },
                 { label: "En Ligne", href: "/en-ligne", internal: true },
-                { label: "Programme", href: "https://clubadm.com/programme/" },
-                { label: "Prix", href: "https://clubadm.com/rates/" },
-                { label: "Horaire", href: "https://clubadm.com/horaire/" },
-                { label: "Notre Équipe", href: "https://clubadm.com/notre-equipe/" },
-                { label: "Boutique", href: "https://clubadm.com/boutique" },
+                { label: "Horaire & Prix", href: "/horaire-prix", internal: true },
                 { label: "Blog", href: "/blog", internal: true },
-                { label: "Drop In", href: "https://clubadm.com/drop-in/" },
-                { label: "Contact", href: "https://clubadm.com/contact-us/" },
+                { label: "Notre Équipe", href: "/notre-equipe", internal: true },
+                { label: "Contact", href: "/contact", internal: true },
+                { label: "Boutique", href: "https://clubadm.com/boutique" },
               ].map((link) =>
                 link.internal ? (
                   <Link

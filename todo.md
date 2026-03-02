@@ -1,20 +1,16 @@
-# Refonte Épurée Club ADM
+# Pages manquantes à créer
 
-## Direction
-- [ ] Passer d'un thème sombre à un thème BLANC propre (comme le brand guide)
-- [ ] Couleurs: fond blanc #ffffff, navy #232862 pour texte/titres, rouge #ed1c24 pour accents/CTA
-- [ ] Épurer: retirer les textures, gradients excessifs, éléments décoratifs superflus
-- [ ] Réduire le nombre de sections, simplifier chaque section
-- [ ] Plus d'espace blanc, typographie plus aérée
+## Widget Chat GHL
+- [ ] Créer composant GHLChat.tsx — widget flottant en bas à droite
+- [ ] Intégrer dans App.tsx pour apparaître sur toutes les pages
 
-## Composants à refondre
-- [ ] index.css: thème clair, variables couleurs brand guide
-- [ ] App.tsx: defaultTheme="light"
-- [ ] Navbar: fond blanc, logo original (navy+rouge), navigation épurée
-- [ ] HeroSection: image plein écran mais texte plus propre, moins d'éléments
-- [ ] DoubleOffer: simplifier, plus d'espace blanc
-- [ ] Programs: cartes plus propres, fond blanc
-- [ ] Results: témoignages simplifiés
-- [ ] Methodology: grille épurée sur fond blanc
-- [ ] CTASection: formulaire simple et propre
-- [ ] Footer: épuré, fond navy
+## Pages à créer (internes au site)
+- [ ] /programmes — Page listing de tous les programmes
+- [ ] /horaire-prix — Page Horaire & Prix
+- [ ] /notre-equipe — Page Notre Équipe avec coachs et histoire
+- [ ] /contact — Page Contact avec formulaire, carte, emplacements
+- [ ] /drop-in — Page Drop In pour visiteurs ponctuels
+
+## Mises à jour navbar/footer
+- [ ] Mettre à jour les liens navbar pour pointer vers les nouvelles pages internes
+- [ ] Mettre à jour les liens footer pour pointer vers les nouvelles pages internes
