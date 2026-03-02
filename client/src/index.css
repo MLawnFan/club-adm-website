@@ -1,13 +1,14 @@
+/*
+ * CLUB ADM FITNESS — Design lumineux inspiré Mayhem Nation
+ * Palette: Blanc dominant, Navy #232862, Rouge #ed1c24, Gris clair #f5f5f5
+ * Typo: Bebas Neue (titres), Barlow (corps)
+ * Philosophie: Épuré, lumineux, éditorial, beaucoup d'espace blanc
+ */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
-/*
- * CLUB ADM FITNESS — Design épuré
- * Fond blanc, navy #232862, rouge #ed1c24
- * Typographie: Bebas Neue (display), Barlow (body)
- */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -48,52 +49,51 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   /* Brand colors */
-  --color-navy: oklch(0.28 0.1 270);
-  --color-navy-light: oklch(0.35 0.1 270);
-  --color-adm-red: oklch(0.55 0.25 25);
-  --color-adm-red-hover: oklch(0.50 0.25 25);
-  --color-cream: oklch(0.97 0.005 90);
+  --color-navy: oklch(0.25 0.06 270);
+  --color-adm-red: oklch(0.55 0.24 25);
+  --color-adm-red-hover: oklch(0.48 0.24 25);
+  --color-cream: oklch(0.97 0.003 90);
+  --color-light-gray: oklch(0.96 0 0);
 
   /* Font families */
   --font-display: "Bebas Neue", sans-serif;
-  --font-heading: "Barlow Condensed", sans-serif;
   --font-body: "Barlow", sans-serif;
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.25rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.28 0.1 270);
-  --card: oklch(0.985 0.002 90);
-  --card-foreground: oklch(0.28 0.1 270);
+  --foreground: oklch(0.25 0.06 270);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.06 270);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.1 270);
-  --primary: oklch(0.28 0.1 270);
+  --popover-foreground: oklch(0.25 0.06 270);
+  --primary: oklch(0.55 0.24 25);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0.005 90);
-  --secondary-foreground: oklch(0.28 0.1 270);
-  --muted: oklch(0.96 0.003 90);
-  --muted-foreground: oklch(0.5 0.03 270);
-  --accent: oklch(0.55 0.25 25);
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.55 0.25 25);
+  --secondary: oklch(0.97 0.003 90);
+  --secondary-foreground: oklch(0.25 0.06 270);
+  --muted: oklch(0.96 0 0);
+  --muted-foreground: oklch(0.5 0.02 270);
+  --accent: oklch(0.97 0.003 90);
+  --accent-foreground: oklch(0.25 0.06 270);
+  --destructive: oklch(0.55 0.24 25);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.92 0.005 90);
-  --input: oklch(0.92 0.005 90);
-  --ring: oklch(0.28 0.1 270);
-  --chart-1: oklch(0.28 0.1 270);
-  --chart-2: oklch(0.55 0.25 25);
-  --chart-3: oklch(0.5 0.03 270);
-  --chart-4: oklch(0.35 0.1 270);
-  --chart-5: oklch(0.65 0.2 25);
-  --sidebar: oklch(0.985 0.002 90);
-  --sidebar-foreground: oklch(0.28 0.1 270);
-  --sidebar-primary: oklch(0.28 0.1 270);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.55 0.24 25);
+  --chart-1: oklch(0.55 0.24 25);
+  --chart-2: oklch(0.25 0.06 270);
+  --chart-3: oklch(0.65 0.15 25);
+  --chart-4: oklch(0.35 0.06 270);
+  --chart-5: oklch(0.45 0.06 270);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.25 0.06 270);
+  --sidebar-primary: oklch(0.55 0.24 25);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.97 0.005 90);
-  --sidebar-accent-foreground: oklch(0.28 0.1 270);
-  --sidebar-border: oklch(0.92 0.005 90);
-  --sidebar-ring: oklch(0.28 0.1 270);
+  --sidebar-accent: oklch(0.97 0.003 90);
+  --sidebar-accent-foreground: oklch(0.25 0.06 270);
+  --sidebar-border: oklch(0.92 0 0);
+  --sidebar-ring: oklch(0.55 0.24 25);
 }
 
 @layer base {
@@ -105,6 +105,10 @@
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -147,23 +151,4 @@
       max-width: 1280px;
     }
   }
-
-  /* Display font utility */
-  .font-display {
-    font-family: var(--font-display);
-    letter-spacing: 0.02em;
-    line-height: 0.95;
-  }
-
-  /* Accent line */
-  .accent-line {
-    width: 48px;
-    height: 3px;
-    background-color: oklch(0.55 0.25 25);
-  }
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
 }

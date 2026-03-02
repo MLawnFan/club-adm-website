@@ -1,69 +1,68 @@
 /*
- * HERO — Club ADM Fitness (Épuré)
- * Image plein écran, typographie massive mais propre
- * Deux CTA simples, pas de stats bar
+ * HERO — Design lumineux Mayhem-inspired
+ * Image lumineuse, overlay blanc côté gauche, texte navy
+ * CTA "Consultation Gratuite" en rouge
  */
 import { motion } from "framer-motion";
-import { ChevronRight, ChevronDown } from "lucide-react";
 
-const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/hero-v2-Wd9sTMiBsMDSAURtT8kPz3.webp";
+const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/hero-light-7enzNZkAb3PkrsCfpSMFTS.png";
 
 export default function HeroSection() {
   return (
-    <section className="relative h-screen min-h-[700px] flex items-end overflow-hidden">
-      {/* Background */}
+    <section className="relative h-[85vh] min-h-[600px] max-h-[900px] overflow-hidden">
+      {/* Background image */}
       <div className="absolute inset-0">
-        <img src={HERO_IMG} alt="Entraînement fonctionnel au Club ADM" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/10" />
+        <img
+          src={HERO_IMG}
+          alt="Club ADM Fitness — Entraînement fonctionnel"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/50 to-transparent" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 lg:px-8 pb-20 lg:pb-28">
+      {/* Content — aligned left */}
+      <div className="relative h-full max-w-[1280px] mx-auto px-6 lg:px-8 flex items-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-xl"
         >
-          <h1 className="font-display text-6xl sm:text-7xl lg:text-[110px] text-white leading-[0.9] mb-6">
-            ENTRAÎNE-TOI
-            <br />
-            <span style={{ color: "#ed1c24" }}>SANS LIMITES</span>
+          <h1
+            className="text-5xl sm:text-6xl lg:text-7xl leading-[0.95] mb-5"
+            style={{ fontFamily: "var(--font-display)", color: "#232862" }}
+          >
+            LA MEILLEURE<br />
+            HEURE DE<br />
+            TA JOURNÉE.
           </h1>
-
-          <p className="text-white/70 text-lg lg:text-xl max-w-lg mb-10 leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
-            Entraînement fonctionnel en salle à Alma ou programmation en ligne — notre expertise, ton terrain de jeu.
+          <p
+            className="text-lg sm:text-xl leading-relaxed mb-8 max-w-md"
+            style={{ fontFamily: "var(--font-body)", color: "rgba(35,40,98,0.7)" }}
+          >
+            Rejoins la communauté ADM et atteins tes objectifs, peu importe ton niveau.
           </p>
-
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href="#contact"
-              className="inline-flex items-center gap-2 bg-adm-red hover:bg-adm-red-hover text-white text-[14px] font-bold tracking-[0.08em] uppercase px-8 py-4 transition-colors"
-              style={{ fontFamily: "var(--font-heading)" }}
+              href="https://clubadm.com/contact-us/"
+              className="inline-flex items-center justify-center px-8 py-4 text-white text-sm font-bold uppercase tracking-[0.06em] transition-colors"
+              style={{ backgroundColor: "#ed1c24" }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#d41920")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#ed1c24")}
             >
-              Essai gratuit en salle
-              <ChevronRight className="w-4 h-4" />
+              Consultation Gratuite
             </a>
             <a
-              href="#programs"
-              className="inline-flex items-center gap-2 border-2 border-white/30 hover:border-white/60 text-white text-[14px] font-bold tracking-[0.08em] uppercase px-8 py-4 transition-colors"
-              style={{ fontFamily: "var(--font-heading)" }}
+              href="https://clubadm.com/programme/"
+              className="inline-flex items-center justify-center px-8 py-4 border-2 text-sm font-bold uppercase tracking-[0.06em] transition-colors hover:text-white"
+              style={{ borderColor: "#232862", color: "#232862" }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "#232862"; e.currentTarget.style.color = "#fff"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#232862"; }}
             >
-              Programmes en ligne
-              <ChevronRight className="w-4 h-4" />
+              Nos Programmes
             </a>
           </div>
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.a
-          href="#gym"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 hover:text-white/70 transition-colors"
-        >
-          <ChevronDown className="w-6 h-6 animate-bounce" />
-        </motion.a>
       </div>
     </section>
   );
