@@ -44,6 +44,7 @@ export default function Footer() {
                 { label: "Horaire", href: "https://clubadm.com/horaire/" },
                 { label: "Notre Équipe", href: "https://clubadm.com/notre-equipe/" },
                 { label: "Boutique", href: "https://clubadm.com/boutique" },
+                { label: "Blog", href: "/blog" },
                 { label: "Drop In", href: "https://clubadm.com/drop-in/" },
                 { label: "Contact", href: "https://clubadm.com/contact-us/" },
               ].map((link) => (

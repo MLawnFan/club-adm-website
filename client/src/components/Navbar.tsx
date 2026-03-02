@@ -41,6 +41,11 @@ const NAV_LINKS = [
     ],
   },
   { label: "Boutique", href: "https://clubadm.com/boutique" },
+  {
+    label: "Blog",
+    href: "/blog",
+    internal: true,
+  },
   { label: "Contact", href: "https://clubadm.com/contact-us/" },
 ];
 
