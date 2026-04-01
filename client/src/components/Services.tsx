@@ -1,6 +1,7 @@
 /*
  * SERVICES — Dark premium
  * Fond navy principal, cartes image avec overlay sombre, services secondaires sombres
+ * Layout: rangée du haut 3 colonnes, rangée du bas: En Ligne (large) + 3 petits services
  */
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -9,6 +10,7 @@ import { Link } from "wouter";
 const GROUP_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-group-N4WSZS7TmcGZdpYwK5q6RH.webp";
 const NUTRITION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-nutrition-K5UKGcDj5XeCc7XxTrte8A.webp";
 const PERSONAL_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-personal-BYp3GeFtEb4bmCtZ2dxU7P.webp";
+const ONLINE_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-online-training-DxvQqcgKTrtySVugxd9pND.webp";
 
 const MAIN_SERVICES = [
   {
@@ -32,13 +34,6 @@ const MAIN_SERVICES = [
 ];
 
 const EXTRA_SERVICES = [
-  {
-    title: "Programmation En Ligne",
-    desc: "Entraîne-toi de partout avec nos programmes structurés, coaching vidéo et suivi personnalisé.",
-    href: "/en-ligne",
-    icon: "💻",
-    internal: true,
-  },
   {
     title: "Bien-être au travail",
     desc: "Séances d'entraînement en entreprise pour vos employés.",
@@ -78,7 +73,7 @@ export default function Services() {
         </motion.div>
 
         {/* Main services — image cards */}
-        <div className="grid md:grid-cols-3 gap-5 lg:gap-6 mb-8">
+        <div className="grid md:grid-cols-3 gap-5 lg:gap-6 mb-5 lg:mb-6">
           {MAIN_SERVICES.map((service, i) => (
             <motion.a
               key={service.title}
@@ -114,42 +109,55 @@ export default function Services() {
           ))}
         </div>
 
-        {/* Extra services — dark cards */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {EXTRA_SERVICES.map((service, i) => {
-            const cardContent = (
-              <>
-                <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
-                <div>
-                  <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
-                    {service.title}
-                  </h4>
-                  <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    {service.desc}
-                  </p>
-                </div>
-              </>
-            );
-            const cardClass = `group flex items-start gap-4 p-5 rounded-xl border transition-all duration-300 hover:-translate-y-0.5 ${
-              service.internal
-                ? "border-[#ed1c24]/20 hover:border-[#ed1c24]/40 bg-[#ed1c24]/[0.06]"
-                : "border-white/[0.06] hover:border-white/[0.12]"
-            }`;
-            const cardStyle = service.internal ? {} : { backgroundColor: "rgba(255,255,255,0.03)" };
+        {/* Second row: En Ligne featured card + 3 extra services */}
+        <div className="grid lg:grid-cols-2 gap-5 lg:gap-6">
+          {/* Programmation En Ligne — featured image card */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link
+              href="/en-ligne"
+              className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[320px] block"
+              style={{ border: "1px solid rgba(237, 28, 36, 0.25)" }}
+            >
+              <img
+                src={ONLINE_IMG}
+                alt="Programmation En Ligne"
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent group-hover:from-black/90 transition-all duration-500" />
 
-            return service.internal ? (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Link href={service.href} className={cardClass} style={cardStyle}>
-                  {cardContent}
-                </Link>
-              </motion.div>
-            ) : (
+              {/* Badge NOUVEAU */}
+              <div className="absolute top-5 left-5">
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white"
+                  style={{ backgroundColor: "#ed1c24" }}
+                >
+                  🔥 Nouveau
+                </span>
+              </div>
+
+              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+                <h3 className="text-2xl lg:text-3xl text-white mb-2 uppercase" style={{ fontFamily: "var(--font-display)" }}>
+                  Programmation En Ligne
+                </h3>
+                <p className="text-sm leading-relaxed mb-4 max-w-md" style={{ color: "rgba(255,255,255,0.7)" }}>
+                  Entraîne-toi de partout avec nos programmes structurés, coaching vidéo et suivi personnalisé. La même qualité Club ADM, chez toi.
+                </p>
+                <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all" style={{ color: "#ed1c24" }}>
+                  Découvrir
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* 3 extra services stacked */}
+          <div className="flex flex-col gap-4 justify-between">
+            {EXTRA_SERVICES.map((service, i) => (
               <motion.a
                 key={service.title}
                 href={service.href}
@@ -159,13 +167,21 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={cardClass}
-                style={cardStyle}
+                className="group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5 flex-1"
+                style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
               >
-                {cardContent}
+                <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
+                <div>
+                  <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
+                    {service.title}
+                  </h4>
+                  <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    {service.desc}
+                  </p>
+                </div>
               </motion.a>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>
