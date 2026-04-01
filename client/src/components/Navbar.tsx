@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ChevronDown, MapPin } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
-const LOGO_WHITE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_white-2Bm1MhsJkRjrqXmXUQXwqe.webp";
+const LOGO_WHITE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/logo_white_v2_50aa2151.png";
 
 interface NavChild {
   label: string;
@@ -110,7 +110,7 @@ export default function Navbar() {
       >
         <div className="max-w-[1280px] mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-[68px]">
           <Link href="/" className="flex-shrink-0">
-            <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-10 lg:h-12 w-auto" />
+            <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-12 lg:h-14 w-auto" />
           </Link>
 
           {/* Desktop nav */}
