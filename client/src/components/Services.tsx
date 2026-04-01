@@ -4,6 +4,7 @@
  */
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 const GROUP_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-group-N4WSZS7TmcGZdpYwK5q6RH.webp";
 const NUTRITION_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/services-nutrition-K5UKGcDj5XeCc7XxTrte8A.webp";
@@ -31,6 +32,13 @@ const MAIN_SERVICES = [
 ];
 
 const EXTRA_SERVICES = [
+  {
+    title: "Programmation En Ligne",
+    desc: "Entraîne-toi de partout avec nos programmes structurés, coaching vidéo et suivi personnalisé.",
+    href: "/en-ligne",
+    icon: "💻",
+    internal: true,
+  },
   {
     title: "Bien-être au travail",
     desc: "Séances d'entraînement en entreprise pour vos employés.",
@@ -107,31 +115,57 @@ export default function Services() {
         </div>
 
         {/* Extra services — dark cards */}
-        <div className="grid sm:grid-cols-3 gap-4">
-          {EXTRA_SERVICES.map((service, i) => (
-            <motion.a
-              key={service.title}
-              href={service.href}
-              target="_blank"
-              rel="noopener"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5"
-              style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
-            >
-              <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
-              <div>
-                <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
-                  {service.title}
-                </h4>
-                <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
-                  {service.desc}
-                </p>
-              </div>
-            </motion.a>
-          ))}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {EXTRA_SERVICES.map((service, i) => {
+            const cardContent = (
+              <>
+                <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
+                <div>
+                  <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
+                    {service.title}
+                  </h4>
+                  <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    {service.desc}
+                  </p>
+                </div>
+              </>
+            );
+            const cardClass = `group flex items-start gap-4 p-5 rounded-xl border transition-all duration-300 hover:-translate-y-0.5 ${
+              service.internal
+                ? "border-[#ed1c24]/20 hover:border-[#ed1c24]/40 bg-[#ed1c24]/[0.06]"
+                : "border-white/[0.06] hover:border-white/[0.12]"
+            }`;
+            const cardStyle = service.internal ? {} : { backgroundColor: "rgba(255,255,255,0.03)" };
+
+            return service.internal ? (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Link href={service.href} className={cardClass} style={cardStyle}>
+                  {cardContent}
+                </Link>
+              </motion.div>
+            ) : (
+              <motion.a
+                key={service.title}
+                href={service.href}
+                target="_blank"
+                rel="noopener"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={cardClass}
+                style={cardStyle}
+              >
+                {cardContent}
+              </motion.a>
+            );
+          })}
         </div>
       </div>
     </section>
