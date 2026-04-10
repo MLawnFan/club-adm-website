@@ -4,7 +4,7 @@
  */
 import { motion } from "framer-motion";
 
-const COACHING_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/warm-coaching-dB7EJzLiCMfi3Uda7NgAys.webp";
+const COACHING_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/coach-medball_2946a194.jpg";
 
 const STEPS = [
   { num: "1", title: "Consultation Gratuite", desc: "On veut connaître ton histoire et tes objectifs! Quoi de mieux que de jaser un peu pour qu'on apprenne à se connaître." },
