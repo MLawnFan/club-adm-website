@@ -177,13 +177,13 @@ export default function Navbar() {
 
           {/* CTA + Mobile toggle */}
           <div className="flex items-center gap-3">
-            <a
-              href="https://clubadm.com/contact-us/"
+            <Link
+              href="/consultation-gratuite"
               className="hidden md:inline-flex items-center px-5 py-2.5 text-white text-[12px] font-bold uppercase tracking-[0.06em] rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/25"
               style={{ backgroundColor: "#ed1c24" }}
             >
               Consultation Gratuite
-            </a>
+            </Link>
             <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 text-white" aria-label="Menu">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -246,9 +246,9 @@ export default function Navbar() {
                 </div>
               ))}
               <div className="pt-6">
-                <a href="https://clubadm.com/contact-us/" className="block w-full text-center py-4 text-white text-sm font-bold uppercase tracking-[0.1em] rounded-lg" style={{ backgroundColor: "#ed1c24" }}>
+                <Link href="/consultation-gratuite" className="block w-full text-center py-4 text-white text-sm font-bold uppercase tracking-[0.1em] rounded-lg" style={{ backgroundColor: "#ed1c24" }}>
                   Consultation Gratuite
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

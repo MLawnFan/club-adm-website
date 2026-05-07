@@ -73,7 +73,7 @@ export default function Footer() {
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5 group-hover:bg-white/10 transition-colors"><Phone size={14} /></div>
                 450-600-2448
               </a>
-              <a href="https://clubadm.com/contact-us/" className="flex items-center gap-3 text-white/35 text-sm hover:text-white transition-colors group">
+              <a href="/consultation-gratuite" className="flex items-center gap-3 text-white/35 text-sm hover:text-white transition-colors group">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/5 group-hover:bg-white/10 transition-colors"><Mail size={14} /></div>
                 Nous contacter
               </a>

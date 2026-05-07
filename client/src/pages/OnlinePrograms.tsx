@@ -112,7 +112,7 @@ function ProgramCard({ program, index }: { program: typeof PROGRAMS[0]; index: n
             <span className="text-3xl font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>{program.price}$</span>
             <span className="text-sm" style={{ color: "rgba(255,255,255,0.3)" }}>{program.period}</span>
           </div>
-          <a href="https://clubadm.com/contact-us/" className="inline-flex items-center gap-1.5 px-4 py-2.5 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24" }}>
+          <a href="/consultation-gratuite" className="inline-flex items-center gap-1.5 px-4 py-2.5 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24" }}>
             Commencer <ArrowRight size={12} />
           </a>
         </div>
@@ -218,7 +218,7 @@ export default function OnlinePrograms() {
               <a href="#programmes" className="inline-flex items-center gap-2 px-7 py-3.5 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24" }}>
                 Voir les programmes <ArrowRight size={16} />
               </a>
-              <a href="https://clubadm.com/contact-us/" className="inline-flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-white/10 transition-colors">
+              <a href="/consultation-gratuite" className="inline-flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-white/10 transition-colors">
                 Consultation gratuite
               </a>
             </div>
@@ -350,7 +350,7 @@ export default function OnlinePrograms() {
               Réserve ta consultation gratuite avec un de nos coachs. On t'aidera à choisir le programme parfait pour tes objectifs.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <a href="https://clubadm.com/contact-us/" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-gray-100 transition-colors" style={{ color: "#ed1c24" }}>
+              <a href="/consultation-gratuite" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-gray-100 transition-colors" style={{ color: "#ed1c24" }}>
                 Consultation gratuite <ArrowRight size={16} />
               </a>
               <a href="#programmes" className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white text-white text-sm font-bold uppercase tracking-wider rounded-lg hover:bg-white/10 transition-colors">

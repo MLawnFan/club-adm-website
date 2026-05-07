@@ -51,7 +51,7 @@ export default function HeroSection() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://clubadm.com/contact-us/"
+                  href="/consultation-gratuite"
                   className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-white text-sm font-bold uppercase tracking-[0.08em] rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-0.5"
                   style={{ backgroundColor: "#ed1c24" }}
                 >

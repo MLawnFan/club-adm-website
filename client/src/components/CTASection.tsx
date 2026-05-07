@@ -29,7 +29,7 @@ export default function CTASection() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://clubadm.com/contact-us/"
+                href="/consultation-gratuite"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-[0.08em] rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
                 style={{ backgroundColor: "#fff", color: "#ed1c24" }}
               >

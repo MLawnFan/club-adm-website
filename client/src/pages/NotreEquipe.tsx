@@ -119,7 +119,7 @@ export default function NotreEquipe() {
             <p className="text-base max-w-md mx-auto mb-8" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
               Réserve ta consultation gratuite et découvre comment on peut t'aider à atteindre tes objectifs.
             </p>
-            <a href="https://clubadm.com/contact-us/" className="inline-flex items-center gap-2 px-8 py-3.5 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
+            <a href="/consultation-gratuite" className="inline-flex items-center gap-2 px-8 py-3.5 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
               Consultation Gratuite
             </a>
           </motion.div>

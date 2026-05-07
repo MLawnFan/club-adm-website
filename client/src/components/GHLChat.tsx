@@ -107,7 +107,7 @@ export default function GHLChat() {
                     ].map((q) => (
                       <button
                         key={q}
-                        onClick={() => window.open("https://clubadm.com/contact-us/", "_blank")}
+                        onClick={() => window.location.href = "/consultation-gratuite"}
                         className="block w-full text-left px-4 py-2.5 text-sm rounded-xl border border-gray-100 hover:border-adm-red/30 hover:bg-red-50/30 text-navy/70 hover:text-adm-red transition-all"
                         style={{ fontFamily: "var(--font-body)" }}
                       >
@@ -128,12 +128,12 @@ export default function GHLChat() {
                     style={{ fontFamily: "var(--font-body)" }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
-                        window.open("https://clubadm.com/contact-us/", "_blank");
+                        window.location.href = "/consultation-gratuite";
                       }
                     }}
                   />
                   <button
-                    onClick={() => window.open("https://clubadm.com/contact-us/", "_blank")}
+                    onClick={() => window.location.href = "/consultation-gratuite"}
                     className="w-9 h-9 rounded-full flex items-center justify-center text-white flex-shrink-0"
                     style={{ backgroundColor: "#ed1c24" }}
                   >

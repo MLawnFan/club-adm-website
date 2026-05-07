@@ -21,7 +21,7 @@ export default function Contact() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success("Merci! On te contacte très bientôt.", { description: "Un membre de notre équipe va te répondre dans les prochaines 24h." });
-    window.open("https://clubadm.com/contact-us/", "_blank");
+    // Form submitted successfully
   };
 
   const inputStyle = "w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500/30 placeholder:text-white/20";
@@ -129,7 +129,7 @@ export default function Contact() {
                 <p className="text-sm leading-relaxed mb-5" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-body)" }}>
                   La meilleure façon de commencer, c'est de jaser. Réserve ta consultation gratuite et on va bâtir un plan ensemble.
                 </p>
-                <a href="https://clubadm.com/contact-us/" className="inline-flex items-center gap-2 px-5 py-2.5 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
+                <a href="/consultation-gratuite" className="inline-flex items-center gap-2 px-5 py-2.5 text-white text-xs font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
                   Réserver <ArrowRight size={14} />
                 </a>
               </div>
