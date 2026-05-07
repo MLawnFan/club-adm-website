@@ -14,15 +14,15 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 /* ─── IMAGES ─── */
-const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/online-hero-KJ6UgbpPd5kHrcWLqGTUP6.webp";
-const IMG_TRANSFORMATION = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/program-transformation-KPWqKMDt4NAx8Jes63stZY.webp";
-const IMG_PERFORMANCE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/program-performance-JTmDUmBet9vDmHTBJrLSid.webp";
-const IMG_WELLNESS = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/program-wellness-6udJtNAeYaSkQms7H2b8z3.webp";
-const IMG_NUTRITION = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/nutrition-coaching_96dfabb5.png";
-const IMG_PERSONAL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/personal-training-coach_d1d13c04.jpeg";
-const IMG_TESTIMONIAL_1 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/testimonial-1-MNfXfwrHyebsn452VLJAht.webp";
-const IMG_TESTIMONIAL_2 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/testimonial-2-MijPphbTvukrJsrwjAQFWG.webp";
-const IMG_TESTIMONIAL_3 = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/testimonial-3-2oyiFbiBAEuMJtg5MkpPvF.webp";
+const HERO_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const IMG_TRANSFORMATION = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
+const IMG_PERFORMANCE = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const IMG_WELLNESS = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
+const IMG_NUTRITION = "/manus-storage/fb-group-class-action_5685642b.jpeg";
+const IMG_PERSONAL = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
+const IMG_TESTIMONIAL_1 = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
+const IMG_TESTIMONIAL_2 = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
+const IMG_TESTIMONIAL_3 = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 
 const TESTIMONIALS = [
   { name: "Marie-Ève L.", program: "Programme Transformation", duration: "Membre depuis 6 mois", quote: "Je n'aurais jamais cru pouvoir m'entraîner aussi efficacement de chez moi. Les vidéos sont claires, le suivi est incroyable et j'ai perdu 18 lbs en 90 jours. Le support des coachs fait toute la différence.", rating: 5, image: IMG_TESTIMONIAL_1, videoId: "placeholder", result: "-18 lbs en 90 jours" },

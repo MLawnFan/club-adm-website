@@ -8,8 +8,8 @@ import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
 
-const WARM_COMMUNITY = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/community-group-600_0ad3159b.jpeg";
-const WARM_COACHING = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/coach-medball_2946a194.jpg";
+const WARM_COMMUNITY = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
+const WARM_COACHING = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 
 const values = [
   { icon: Heart, title: "Passion", desc: "On vit et respire le fitness. Notre passion se transmet à chaque membre, à chaque cours." },

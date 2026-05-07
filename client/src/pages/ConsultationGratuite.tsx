@@ -13,7 +13,7 @@ import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
 
-const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/hero-group-gym_99b77ba2.jpeg";
+const HERO_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 
 const BENEFITS = [
   { icon: Users, text: "Rencontre un coach dédié" },

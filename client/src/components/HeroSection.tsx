@@ -7,8 +7,8 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 
-const HERO_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/hero-group-gym_99b77ba2.jpeg";
-const COMMUNITY_IMG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/community-group-600_0ad3159b.jpeg";
+const HERO_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
+const COMMUNITY_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 
 export default function HeroSection() {
   return (

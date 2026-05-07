@@ -9,11 +9,11 @@ import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
 
-const SERVICES_GROUP = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/group-class-hero-wide_f013f08e.jpeg";
-const SERVICES_NUTRITION = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/nutrition-coaching_96dfabb5.png";
-const SERVICES_PERSONAL = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/personal-training-coach_d1d13c04.jpeg";
-const WARM_COACHING = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/coach-medball_2946a194.jpg";
-const WARM_COMMUNITY = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/community-group-600_0ad3159b.jpeg";
+const SERVICES_GROUP = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const SERVICES_NUTRITION = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
+const SERVICES_PERSONAL = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
+const WARM_COACHING = "/manus-storage/fb-group-class-action_5685642b.jpeg";
+const WARM_COMMUNITY = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 
 const programs = [
   { title: "Cours de Groupe", slug: "groupe", desc: "Développe ton endurance, ta mobilité et ta force dans une ambiance motivante. Nos cours de groupe combinent entraînement fonctionnel, cardio et musculation pour des résultats complets.", image: SERVICES_GROUP, icon: Users, features: ["Entraînement fonctionnel varié", "Tous les niveaux bienvenus", "Coachs certifiés", "Ambiance motivante"], href: "https://clubadm.com/groupe-classes/" },

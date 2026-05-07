@@ -6,10 +6,10 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, Quote, TrendingUp } from "lucide-react";
 
-const IMG_MARIE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/member-marie-JcbM7rCTAvvmvMiS3ePT9f.webp";
-const IMG_MARC = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/member-marc-3FFQ4mTdJ3T5A6fFDtHAHz.webp";
-const IMG_SOPHIE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/member-sophie-eiWqknhVpNiJXn4y3i5RPh.webp";
-const IMG_JEAN = "https://d2xsxph8kpxj0f.cloudfront.net/310519663348789384/FcpQjdNnFRM23KMeDmmcD6/member-jean-EkDPp5J7g6qmhh7mvX3acK.webp";
+const IMG_MARIE = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
+const IMG_MARC = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
+const IMG_SOPHIE = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const IMG_JEAN = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 
 const testimonials = [
   {
