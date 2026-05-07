@@ -1,15 +1,14 @@
 /*
  * PAGE CONSULTATION GRATUITE — Dark premium
- * Formulaire de capture de leads avec flow engageant
+ * Formulaire de capture de leads via iframe PushPress/GHL
  * Fond navy sombre, accents rouges, texte blanc/crème
  */
-import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-  ArrowRight, CheckCircle2, Users, Dumbbell, Clock,
+  ArrowRight, Users, Dumbbell,
   Heart, Star, Shield, Phone, Calendar,
 } from "lucide-react";
-import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
@@ -30,36 +29,16 @@ const SOCIAL_PROOF = [
 ];
 
 export default function ConsultationGratuite() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    age: "",
-    location: "",
-    goal: "",
-    experience: "",
-    availability: "",
-    howHeard: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-    toast.success("Demande envoyée avec succès!", {
-      description: "Un coach te contactera dans les prochaines 24h pour planifier ta consultation.",
-    });
-  };
-
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const inputStyle = "w-full px-4 py-3.5 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-red-500/40 transition-all placeholder:text-white/20";
-  const inputBg = { backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", fontFamily: "var(--font-body)" };
-  const labelStyle = "block text-xs font-bold uppercase tracking-wider mb-2";
-  const labelColor = { color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" };
+  // Load PushPress form embed script
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src="https://api.grow.pushpress.com/js/form_embed.js"]');
+    if (!existingScript) {
+      const script = document.createElement("script");
+      script.src = "https://api.grow.pushpress.com/js/form_embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#0f1229" }}>
@@ -75,7 +54,7 @@ export default function ConsultationGratuite() {
         </div>
 
         <div className="relative max-w-[1280px] mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             {/* Left — Copy */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ backgroundColor: "rgba(237,28,36,0.1)", border: "1px solid rgba(237,28,36,0.2)" }}>
@@ -121,239 +100,27 @@ export default function ConsultationGratuite() {
               </div>
             </motion.div>
 
-            {/* Right — Form card */}
+            {/* Right — PushPress Form Embed */}
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}>
-              {!isSubmitted ? (
-                <div className="rounded-2xl p-8 lg:p-10 border border-white/[0.08] shadow-2xl shadow-black/30" style={{ backgroundColor: "rgba(19, 22, 54, 0.95)", backdropFilter: "blur(20px)" }}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: "#ed1c24" }}>
-                      <Phone size={18} className="text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-xl text-white" style={{ fontFamily: "var(--font-display)" }}>COMMENCE ICI</h2>
-                    </div>
-                  </div>
-                  <p className="text-sm mb-8" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-body)" }}>
-                    Remplis le formulaire et un coach te contactera pour planifier ta consultation.
-                  </p>
-
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Nom */}
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelStyle} style={labelColor}>Prénom *</label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.firstName}
-                          onChange={(e) => handleChange("firstName", e.target.value)}
-                          className={inputStyle}
-                          style={inputBg}
-                          placeholder="Ton prénom"
-                        />
-                      </div>
-                      <div>
-                        <label className={labelStyle} style={labelColor}>Nom *</label>
-                        <input
-                          type="text"
-                          required
-                          value={formData.lastName}
-                          onChange={(e) => handleChange("lastName", e.target.value)}
-                          className={inputStyle}
-                          style={inputBg}
-                          placeholder="Ton nom"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Contact */}
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelStyle} style={labelColor}>Courriel *</label>
-                        <input
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => handleChange("email", e.target.value)}
-                          className={inputStyle}
-                          style={inputBg}
-                          placeholder="ton@courriel.com"
-                        />
-                      </div>
-                      <div>
-                        <label className={labelStyle} style={labelColor}>Téléphone *</label>
-                        <input
-                          type="tel"
-                          required
-                          value={formData.phone}
-                          onChange={(e) => handleChange("phone", e.target.value)}
-                          className={inputStyle}
-                          style={inputBg}
-                          placeholder="450-000-0000"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Âge + Succursale */}
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className={labelStyle} style={labelColor}>Âge</label>
-                        <input
-                          type="number"
-                          min="14"
-                          max="99"
-                          value={formData.age}
-                          onChange={(e) => handleChange("age", e.target.value)}
-                          className={inputStyle}
-                          style={inputBg}
-                          placeholder="Ton âge"
-                        />
-                      </div>
-                      <div>
-                        <label className={labelStyle} style={labelColor}>Succursale préférée *</label>
-                        <select
-                          required
-                          value={formData.location}
-                          onChange={(e) => handleChange("location", e.target.value)}
-                          className={inputStyle}
-                          style={inputBg}
-                        >
-                          <option value="">Choisir...</option>
-                          <option value="brossard">Brossard</option>
-                          <option value="chambly">Chambly</option>
-                          <option value="en-ligne">Programmation en ligne</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* Objectif */}
-                    <div>
-                      <label className={labelStyle} style={labelColor}>Quel est ton objectif principal? *</label>
-                      <select
-                        required
-                        value={formData.goal}
-                        onChange={(e) => handleChange("goal", e.target.value)}
-                        className={inputStyle}
-                        style={inputBg}
-                      >
-                        <option value="">Choisir...</option>
-                        <option value="perte-poids">Perte de poids</option>
-                        <option value="gain-muscle">Gain de masse musculaire</option>
-                        <option value="condition-generale">Améliorer ma condition générale</option>
-                        <option value="performance">Performance sportive</option>
-                        <option value="sante-mentale">Santé mentale & bien-être</option>
-                        <option value="rehabilitation">Réhabilitation / retour à l'entraînement</option>
-                        <option value="autre">Autre</option>
-                      </select>
-                    </div>
-
-                    {/* Expérience */}
-                    <div>
-                      <label className={labelStyle} style={labelColor}>Niveau d'expérience en entraînement</label>
-                      <select
-                        value={formData.experience}
-                        onChange={(e) => handleChange("experience", e.target.value)}
-                        className={inputStyle}
-                        style={inputBg}
-                      >
-                        <option value="">Choisir...</option>
-                        <option value="debutant">Débutant (0-6 mois)</option>
-                        <option value="intermediaire">Intermédiaire (6 mois - 2 ans)</option>
-                        <option value="avance">Avancé (2+ ans)</option>
-                        <option value="jamais">Je n'ai jamais fait d'entraînement</option>
-                      </select>
-                    </div>
-
-                    {/* Disponibilité */}
-                    <div>
-                      <label className={labelStyle} style={labelColor}>Meilleur moment pour te joindre</label>
-                      <select
-                        value={formData.availability}
-                        onChange={(e) => handleChange("availability", e.target.value)}
-                        className={inputStyle}
-                        style={inputBg}
-                      >
-                        <option value="">Choisir...</option>
-                        <option value="matin">Matin (8h-12h)</option>
-                        <option value="apres-midi">Après-midi (12h-17h)</option>
-                        <option value="soir">Soir (17h-20h)</option>
-                        <option value="fin-semaine">Fin de semaine</option>
-                      </select>
-                    </div>
-
-                    {/* Comment tu as entendu parler */}
-                    <div>
-                      <label className={labelStyle} style={labelColor}>Comment as-tu entendu parler de nous?</label>
-                      <select
-                        value={formData.howHeard}
-                        onChange={(e) => handleChange("howHeard", e.target.value)}
-                        className={inputStyle}
-                        style={inputBg}
-                      >
-                        <option value="">Choisir...</option>
-                        <option value="facebook">Facebook / Instagram</option>
-                        <option value="google">Recherche Google</option>
-                        <option value="ami">Recommandation d'un ami</option>
-                        <option value="passage">Je suis passé devant</option>
-                        <option value="autre">Autre</option>
-                      </select>
-                    </div>
-
-                    {/* Submit */}
-                    <button
-                      type="submit"
-                      className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 text-white text-sm font-bold uppercase tracking-[0.08em] rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-0.5 mt-2"
-                      style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
-                    >
-                      Réserver ma consultation gratuite
-                      <ArrowRight size={16} />
-                    </button>
-
-                    <p className="text-center text-xs mt-3" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-body)" }}>
-                      En soumettant ce formulaire, tu acceptes d'être contacté par un membre de notre équipe.
-                    </p>
-                  </form>
-                </div>
-              ) : (
-                /* Success state */
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="rounded-2xl p-10 lg:p-12 border border-white/[0.08] text-center"
-                  style={{ backgroundColor: "rgba(19, 22, 54, 0.95)" }}
-                >
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: "rgba(34,197,94,0.1)" }}>
-                    <CheckCircle2 size={40} style={{ color: "#22c55e" }} />
-                  </div>
-                  <h2 className="text-3xl mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>
-                    DEMANDE ENVOYÉE!
-                  </h2>
-                  <p className="text-base leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
-                    Merci {formData.firstName}! Un coach te contactera dans les prochaines <strong className="text-white">24 heures</strong> pour planifier ta consultation gratuite.
-                  </p>
-                  <div className="rounded-xl p-5 mb-6" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                    <p className="text-sm font-medium mb-2" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "var(--font-body)" }}>En attendant, tu peux :</p>
-                    <ul className="space-y-2 text-left">
-                      <li className="flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
-                        <CheckCircle2 size={14} style={{ color: "#22c55e" }} /> Consulter nos programmes
-                      </li>
-                      <li className="flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
-                        <CheckCircle2 size={14} style={{ color: "#22c55e" }} /> Nous suivre sur Instagram
-                      </li>
-                      <li className="flex items-center gap-2 text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
-                        <CheckCircle2 size={14} style={{ color: "#22c55e" }} /> Lire notre blog
-                      </li>
-                    </ul>
-                  </div>
-                  <a
-                    href="/"
-                    className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all"
-                    style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
-                  >
-                    Retour à l'accueil <ArrowRight size={14} />
-                  </a>
-                </motion.div>
-              )}
+              <div className="rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/30" style={{ backgroundColor: "rgba(255,255,255,0.98)", minHeight: "1403px" }}>
+                <iframe
+                  src="https://api.grow.pushpress.com/widget/form/1G0nJKExBuTtyD8QLm5a"
+                  style={{ width: "100%", minHeight: "1403px", height: "1403px", border: "none", borderRadius: "4px", display: "block" }}
+                  id="inline-1G0nJKExBuTtyD8QLm5a"
+                  data-layout='{"id":"INLINE"}'
+                  data-trigger-type="alwaysShow"
+                  data-trigger-value=""
+                  data-activation-type="alwaysActivated"
+                  data-activation-value=""
+                  data-deactivation-type="neverDeactivate"
+                  data-deactivation-value=""
+                  data-form-name="Contact Us"
+                  data-height="1403"
+                  data-layout-iframe-id="inline-1G0nJKExBuTtyD8QLm5a"
+                  data-form-id="1G0nJKExBuTtyD8QLm5a"
+                  title="Contact Us"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
