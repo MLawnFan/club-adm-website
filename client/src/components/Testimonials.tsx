@@ -26,9 +26,9 @@ const testimonials = [
   },
   {
     name: "Sophie T.", age: 28, image: IMG_SOPHIE, location: "Brossard", duration: "6 mois",
-    result: "-4 tailles", resultLabel: "Transformation",
+    result: "-4 tailles", resultLabel: "On Rstart la Machine",
     quote: "Ce qui m'a convaincue, c'est la consultation gratuite. Pas de pression, juste une vraie conversation sur mes objectifs. Six mois plus tard, j'ai perdu 4 tailles et gagné une communauté incroyable.",
-    program: "Programme Transformation",
+    program: "On Rstart la Machine",
   },
   {
     name: "Jean-François D.", age: 52, image: IMG_JEAN, location: "Chambly", duration: "2 ans",

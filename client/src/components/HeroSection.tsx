@@ -8,7 +8,6 @@ import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 
 const HERO_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
-const COMMUNITY_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 
 export default function HeroSection() {
   return (
@@ -103,28 +102,6 @@ export default function HeroSection() {
               />
               {/* Dark overlay for blending */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0f1229] via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#0f1229] lg:via-[#0f1229]/30 lg:to-transparent" />
-            </motion.div>
-
-            {/* Floating community card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
-              className="absolute bottom-6 left-6 right-6 lg:bottom-10 lg:left-10 lg:right-auto lg:w-72"
-            >
-              <div className="rounded-xl p-4 shadow-2xl shadow-black/30 border border-white/10" style={{ backgroundColor: "rgba(15, 18, 41, 0.85)", backdropFilter: "blur(12px)" }}>
-                <img
-                  src={COMMUNITY_IMG}
-                  alt="Communauté Club ADM"
-                  className="w-full h-32 object-cover rounded-lg mb-3"
-                />
-                <p className="text-sm font-semibold text-white">
-                  Plus qu'un gym, une famille.
-                </p>
-                <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.45)" }}>
-                  Rejoins une communauté qui te soutient.
-                </p>
-              </div>
             </motion.div>
           </div>
         </div>

@@ -130,13 +130,13 @@ export default function Services() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent group-hover:from-black/90 transition-all duration-500" />
 
-              {/* Badge NOUVEAU */}
+              {/* Badge EN CONSTRUCTION */}
               <div className="absolute top-5 left-5">
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white"
                   style={{ backgroundColor: "#ed1c24" }}
                 >
-                  🔥 Nouveau
+                  🚀 En Construction
                 </span>
               </div>
 
@@ -145,10 +145,10 @@ export default function Services() {
                   Programmation En Ligne
                 </h3>
                 <p className="text-sm leading-relaxed mb-4 max-w-md" style={{ color: "rgba(255,255,255,0.7)" }}>
-                  Entraîne-toi de partout avec nos programmes structurés, coaching vidéo et suivi personnalisé. La même qualité Club ADM, chez toi.
+                  Bientôt disponible. Entraîne-toi de partout avec nos programmes structurés et notre coaching personnalisé.
                 </p>
                 <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all" style={{ color: "#ed1c24" }}>
-                  Découvrir
+                  Stay Tuned
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>

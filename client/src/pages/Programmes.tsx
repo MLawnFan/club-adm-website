@@ -101,13 +101,13 @@ export default function Programmes() {
       <section className="py-16 lg:py-20" style={{ backgroundColor: "#131636" }}>
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="text-sm font-bold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>Nouveau</p>
-            <h2 className="text-4xl lg:text-5xl mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>ENTRAÎNE-TOI DE PARTOUT</h2>
+            <p className="text-sm font-bold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>🚀 En Construction</p>
+            <h2 className="text-4xl lg:text-5xl mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>PROGRAMMATION EN LIGNE</h2>
             <p className="text-base max-w-xl mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)", fontFamily: "var(--font-body)" }}>
-              Découvre notre programmation en ligne. Des programmes complets accessibles où que tu sois, avec le même encadrement professionnel.
+              Bientôt disponible. Nos programmes en ligne arrivent très bientôt. Stay tuned!
             </p>
             <Link href="/en-ligne" className="inline-flex items-center gap-2 px-8 py-3.5 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
-              Découvrir la programmation en ligne <ArrowRight size={16} />
+              Stay Tuned <ArrowRight size={16} />
             </Link>
           </motion.div>
         </div>

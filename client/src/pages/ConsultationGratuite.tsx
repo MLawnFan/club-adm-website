@@ -1,13 +1,13 @@
 /*
  * PAGE CONSULTATION GRATUITE — Dark premium
- * Formulaire de capture de leads via iframe PushPress/GHL
+ * Formulaire de capture de leads custom (prêt pour webhook)
  * Fond navy sombre, accents rouges, texte blanc/crème
  */
-import { useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Users, Dumbbell,
-  Heart, Star, Shield, Phone, Calendar,
+  Heart, Star, Shield, Phone, Calendar, CheckCircle2, Loader2,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
@@ -28,17 +28,47 @@ const SOCIAL_PROOF = [
   { stat: "92%", label: "Taux de rétention" },
 ];
 
+const LOCATIONS = ["Brossard", "Chambly"];
+
+const OBJECTIVES = [
+  "Perte de poids",
+  "Gain musculaire",
+  "Améliorer ma condition physique",
+  "Réduire le stress",
+  "Préparer une compétition",
+  "Autre",
+];
+
 export default function ConsultationGratuite() {
-  // Load PushPress form embed script
-  useEffect(() => {
-    const existingScript = document.querySelector('script[src="https://api.grow.pushpress.com/js/form_embed.js"]');
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "https://api.grow.pushpress.com/js/form_embed.js";
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    location: "",
+    objective: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // TODO: Replace with actual webhook URL
+    // Example: await fetch("https://your-webhook-url.com", { method: "POST", body: JSON.stringify(formData) });
+    
+    // Simulate submission delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+  };
+
+  const inputStyle = "w-full px-4 py-3.5 rounded-lg text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ed1c24]/50 transition-all";
+  const inputBg = { backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" };
+  const labelStyle = "block text-xs font-bold uppercase tracking-wider mb-2";
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#0f1229" }}>
@@ -100,26 +130,168 @@ export default function ConsultationGratuite() {
               </div>
             </motion.div>
 
-            {/* Right — PushPress Form Embed */}
+            {/* Right — Custom Form */}
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}>
-              <div className="rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl shadow-black/30" style={{ backgroundColor: "rgba(255,255,255,0.98)", minHeight: "1403px" }}>
-                <iframe
-                  src="https://api.grow.pushpress.com/widget/form/1G0nJKExBuTtyD8QLm5a"
-                  style={{ width: "100%", minHeight: "1403px", height: "1403px", border: "none", borderRadius: "4px", display: "block" }}
-                  id="inline-1G0nJKExBuTtyD8QLm5a"
-                  data-layout='{"id":"INLINE"}'
-                  data-trigger-type="alwaysShow"
-                  data-trigger-value=""
-                  data-activation-type="alwaysActivated"
-                  data-activation-value=""
-                  data-deactivation-type="neverDeactivate"
-                  data-deactivation-value=""
-                  data-form-name="Contact Us"
-                  data-height="1403"
-                  data-layout-iframe-id="inline-1G0nJKExBuTtyD8QLm5a"
-                  data-form-id="1G0nJKExBuTtyD8QLm5a"
-                  title="Contact Us"
-                />
+              <div className="rounded-2xl p-8 lg:p-10 border border-white/[0.08] shadow-2xl shadow-black/30" style={{ backgroundColor: "rgba(15, 18, 41, 0.95)" }}>
+                {isSubmitted ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="text-center py-12"
+                  >
+                    <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style={{ backgroundColor: "rgba(237,28,36,0.15)" }}>
+                      <CheckCircle2 size={40} style={{ color: "#ed1c24" }} />
+                    </div>
+                    <h3 className="text-2xl mb-3 text-white" style={{ fontFamily: "var(--font-display)" }}>DEMANDE ENVOYÉE!</h3>
+                    <p className="text-sm leading-relaxed max-w-sm mx-auto" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
+                      Un de nos coachs te contactera dans les prochaines 24 heures pour planifier ta consultation gratuite.
+                    </p>
+                  </motion.div>
+                ) : (
+                  <>
+                    <div className="mb-8">
+                      <h3 className="text-xl mb-2 text-white" style={{ fontFamily: "var(--font-display)" }}>REMPLIS LE FORMULAIRE</h3>
+                      <p className="text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
+                        On te contacte dans les 24h pour planifier ta consultation.
+                      </p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      {/* Name row */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Prénom *</label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.firstName}
+                            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                            className={inputStyle}
+                            style={inputBg}
+                            placeholder="Ton prénom"
+                          />
+                        </div>
+                        <div>
+                          <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Nom *</label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.lastName}
+                            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                            className={inputStyle}
+                            style={inputBg}
+                            placeholder="Ton nom"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Email */}
+                      <div>
+                        <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Courriel *</label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className={inputStyle}
+                          style={inputBg}
+                          placeholder="ton@courriel.com"
+                        />
+                      </div>
+
+                      {/* Phone */}
+                      <div>
+                        <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Téléphone *</label>
+                        <input
+                          type="tel"
+                          required
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          className={inputStyle}
+                          style={inputBg}
+                          placeholder="(450) 000-0000"
+                        />
+                      </div>
+
+                      {/* Location */}
+                      <div>
+                        <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Succursale préférée *</label>
+                        <div className="grid grid-cols-2 gap-3">
+                          {LOCATIONS.map((loc) => (
+                            <button
+                              key={loc}
+                              type="button"
+                              onClick={() => setFormData({ ...formData, location: loc })}
+                              className={`px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
+                                formData.location === loc
+                                  ? "text-white border-[#ed1c24]"
+                                  : "text-white/50 hover:text-white/70 border-white/[0.08]"
+                              }`}
+                              style={{
+                                backgroundColor: formData.location === loc ? "rgba(237,28,36,0.15)" : "rgba(255,255,255,0.05)",
+                                border: `1px solid ${formData.location === loc ? "#ed1c24" : "rgba(255,255,255,0.08)"}`,
+                              }}
+                            >
+                              {loc}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Objective */}
+                      <div>
+                        <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Objectif principal</label>
+                        <select
+                          value={formData.objective}
+                          onChange={(e) => setFormData({ ...formData, objective: e.target.value })}
+                          className={`${inputStyle} appearance-none cursor-pointer`}
+                          style={inputBg}
+                        >
+                          <option value="" style={{ backgroundColor: "#0f1229" }}>Sélectionne ton objectif</option>
+                          {OBJECTIVES.map((obj) => (
+                            <option key={obj} value={obj} style={{ backgroundColor: "#0f1229" }}>{obj}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Message */}
+                      <div>
+                        <label className={labelStyle} style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-body)" }}>Message (optionnel)</label>
+                        <textarea
+                          rows={3}
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          className={`${inputStyle} resize-none`}
+                          style={inputBg}
+                          placeholder="Dis-nous en plus sur tes objectifs..."
+                        />
+                      </div>
+
+                      {/* Submit */}
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full flex items-center justify-center gap-2 px-8 py-4 text-white text-sm font-bold uppercase tracking-[0.08em] rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/30 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                        style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 size={16} className="animate-spin" />
+                            Envoi en cours...
+                          </>
+                        ) : (
+                          <>
+                            Réserver ma consultation <ArrowRight size={16} />
+                          </>
+                        )}
+                      </button>
+
+                      <p className="text-center text-[11px]" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-body)" }}>
+                        En soumettant ce formulaire, tu acceptes d'être contacté par notre équipe.
+                      </p>
+                    </form>
+                  </>
+                )}
               </div>
             </motion.div>
           </div>

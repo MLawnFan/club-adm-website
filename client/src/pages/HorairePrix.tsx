@@ -3,7 +3,7 @@
  * Fond navy sombre, cartes sombres, texte blanc/crème
  */
 import { motion } from "framer-motion";
-import { Clock, DollarSign, MapPin, ArrowRight, CheckCircle2, Calendar, Users } from "lucide-react";
+import { Clock, MapPin, ArrowRight, CheckCircle2, Calendar, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
@@ -18,11 +18,7 @@ const scheduleBlocks = [
   { day: "Dimanche", classes: ["9:00 — Open Gym", "10:00 — Yoga / Mobilité"] },
 ];
 
-const plans = [
-  { name: "Essentiel", price: "149", period: "/mois", desc: "Parfait pour commencer", features: ["3 cours de groupe par semaine", "Accès aux heures d'ouverture", "Cours d'initiation inclus", "Application de suivi"], popular: false },
-  { name: "Illimité", price: "189", period: "/mois", desc: "Notre plan le plus populaire", features: ["Cours de groupe illimités", "Open Gym illimité", "Programmation personnalisée", "Application de suivi", "Accès aux 2 succursales"], popular: true },
-  { name: "Premium", price: "249", period: "/mois", desc: "L'expérience complète", features: ["Tout du plan Illimité", "1 séance personnelle / semaine", "Coaching nutritionnel", "Programmation en ligne incluse", "Priorité de réservation"], popular: false },
-];
+
 
 export default function HorairePrix() {
   return (
@@ -90,7 +86,7 @@ export default function HorairePrix() {
         </div>
       </section>
 
-      {/* Tarifs */}
+      {/* Forfaits - CTA vers consultation */}
       <section className="py-20 lg:py-28" style={{ backgroundColor: "#131636" }}>
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
@@ -100,7 +96,10 @@ export default function HorairePrix() {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {plans.map((plan, i) => (
+            {[{ name: "Essentiel", desc: "Parfait pour commencer", features: ["3 cours de groupe par semaine", "Accès aux heures d'ouverture", "Cours d'initiation inclus", "Application de suivi"], popular: false },
+              { name: "Illimité", desc: "Notre plan le plus populaire", features: ["Cours de groupe illimités", "Open Gym illimité", "Programmation personnalisée", "Application de suivi", "Accès aux 2 succursales"], popular: true },
+              { name: "Premium", desc: "L'expérience complète", features: ["Tout du plan Illimité", "1 séance personnelle / semaine", "Coaching nutritionnel", "Programmation en ligne incluse", "Priorité de réservation"], popular: false },
+            ].map((plan, i) => (
               <motion.div key={plan.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className={`relative rounded-xl p-7 border transition-all ${plan.popular ? "border-red-500/40 shadow-xl shadow-red-500/5 scale-[1.02]" : "border-white/[0.06] hover:border-white/[0.12]"}`}
                 style={{ backgroundColor: plan.popular ? "rgba(237,28,36,0.06)" : "rgba(255,255,255,0.03)" }}>
@@ -109,10 +108,6 @@ export default function HorairePrix() {
                 )}
                 <h3 className="text-2xl mb-1 text-white" style={{ fontFamily: "var(--font-display)" }}>{plan.name.toUpperCase()}</h3>
                 <p className="text-xs mb-5" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-body)" }}>{plan.desc}</p>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-4xl font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>{plan.price}$</span>
-                  <span className="text-sm" style={{ color: "rgba(255,255,255,0.25)" }}>{plan.period}</span>
-                </div>
                 <div className="space-y-3 mb-8">
                   {plan.features.map((f) => (
                     <div key={f} className="flex items-start gap-2.5">
@@ -121,19 +116,13 @@ export default function HorairePrix() {
                     </div>
                   ))}
                 </div>
-                <a href="https://clubadm.com/contact-us/"
+                <a href="/consultation-gratuite"
                   className={`block text-center py-3 text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 ${plan.popular ? "text-white hover:shadow-lg hover:shadow-red-500/20" : "border border-white/[0.12] text-white/70 hover:border-red-500/40 hover:text-white"}`}
                   style={plan.popular ? { backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" } : { fontFamily: "var(--font-body)" }}>
                   Consultation Gratuite
                 </a>
               </motion.div>
             ))}
-          </div>
-
-          <div className="mt-10 text-center">
-            <a href="https://clubadm.com/rates/" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:underline" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
-              <DollarSign size={16} /> Voir tous les tarifs détaillés <ArrowRight size={14} />
-            </a>
           </div>
         </div>
       </section>
