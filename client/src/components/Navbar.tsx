@@ -36,6 +36,15 @@ const NAV_LINKS: NavItem[] = [
     ],
   },
   { label: "En Ligne", href: "/en-ligne", internal: true },
+  {
+    label: "Drop In",
+    href: "#",
+    internal: false,
+    children: [
+      { label: "Chambly", href: "https://crossfitadm.pushpress.com/landing/plans/plan_fddd82cc949c85", desc: "Réserve ton drop in à Chambly", external: true },
+      { label: "Brossard", href: "https://crossfitadm.pushpress.com/landing/plans/plan_9b73348d83c575", desc: "Réserve ton drop in à Brossard", external: true },
+    ],
+  },
   { label: "Horaire & Prix", href: "/horaire-prix", internal: true },
   { label: "Blog", href: "/blog", internal: true },
   {
