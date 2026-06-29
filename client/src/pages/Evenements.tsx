@@ -151,6 +151,16 @@ export default function Evenements() {
             <p className="text-xl text-center font-bold text-white" style={{ fontFamily: "var(--font-body)" }}>
               C'est ça, le Club ADM.
             </p>
+
+            {/* Logo Fondation */}
+            <div className="flex flex-col items-center gap-3 mt-10 pt-8 border-t border-white/[0.08]">
+              <span className="text-xs uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>Au profit de la fondation</span>
+              <img
+                src="/manus-storage/logo-fcjm-white_7b1042df.svg"
+                alt="Fondation du Centre Jeunesse de la Montérégie"
+                className="h-14 w-auto opacity-90"
+              />
+            </div>
           </motion.div>
         </div>
       </section>
