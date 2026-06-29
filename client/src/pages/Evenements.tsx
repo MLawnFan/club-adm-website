@@ -10,7 +10,7 @@ import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
-const EVENT_IMAGE = "/manus-storage/la_meute_clubadm_v5_01bcb9a6.webp";
+
 
 const DISTANCES = [
   { label: "42,2 KM", subtitle: "Marathon", href: "#", color: "#ed1c24" },
@@ -42,11 +42,10 @@ export default function Evenements() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0f1229]" />
         
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left — Content */}
+          <div className="max-w-3xl mx-auto text-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
               {/* Badge */}
@@ -69,7 +68,7 @@ export default function Evenements() {
               </p>
 
               {/* Key info */}
-              <div className="flex flex-wrap gap-4 mb-8">
+              <div className="flex flex-wrap gap-4 mb-8 justify-center">
                 <div className="flex items-center gap-2 px-4 py-2 rounded-lg" style={{ backgroundColor: "rgba(255,255,255,0.05)" }}>
                   <MapPin size={16} style={{ color: "#ed1c24" }} />
                   <span className="text-sm text-white/70" style={{ fontFamily: "var(--font-body)" }}>Chambly, QC</span>
@@ -93,21 +92,6 @@ export default function Evenements() {
               </a>
             </motion.div>
 
-            {/* Right — Event Image */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
-                <img
-                  src={EVENT_IMAGE}
-                  alt="Événement Course Club ADM - 19 septembre Chambly"
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
