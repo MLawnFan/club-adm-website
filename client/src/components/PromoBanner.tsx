@@ -9,8 +9,8 @@ import { X } from "lucide-react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 
-const PROMO_TEXT = "NOUVEAU — PROGRAMMATION EN LIGNE DISPONIBLE";
-const PROMO_EMOJI = "🔥";
+const PROMO_TEXT = "ON RSTART LA MACHINE — PROGRAMME DE TRANSFORMATION";
+const PROMO_EMOJI = "💪";
 
 export default function PromoBanner() {
   const [visible, setVisible] = useState(true);
@@ -36,7 +36,7 @@ export default function PromoBanner() {
                 {Array.from({ length: 8 }).map((_, i) => (
                   <Link
                     key={i}
-                    href="/en-ligne"
+                    href="/consultation-gratuite"
                     className="inline-flex items-center gap-3 mx-8 text-white hover:text-white/90 transition-colors"
                   >
                     <span className="text-[11px] font-bold uppercase tracking-[0.15em]" style={{ fontFamily: "var(--font-body)" }}>
@@ -45,7 +45,7 @@ export default function PromoBanner() {
                     <span
                       className="text-[10px] font-semibold uppercase tracking-wider px-2.5 py-0.5 border border-white/40 rounded-full text-white/90"
                     >
-                      Découvrir →
+                      En savoir plus →
                     </span>
                   </Link>
                 ))}
