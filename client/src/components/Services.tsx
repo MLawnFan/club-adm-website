@@ -35,10 +35,11 @@ const MAIN_SERVICES = [
 
 const EXTRA_SERVICES = [
   {
-    title: "Bien-être au travail",
-    desc: "Séances d'entraînement en entreprise pour vos employés.",
-    href: "https://clubadm.com/bien-etre-au-travail/",
-    icon: "🏢",
+    title: "On Rstart la Machine",
+    desc: "Programme de transformation complet. Remets-toi en forme avec un encadrement personnalisé, un plan nutritionnel et le soutien de la communauté.",
+    href: "/consultation-gratuite",
+    icon: "🔥",
+    internal: true,
   },
   {
     title: "Enfant / Ado",
@@ -157,30 +158,52 @@ export default function Services() {
 
           {/* 3 extra services stacked */}
           <div className="flex flex-col gap-4 justify-between">
-            {EXTRA_SERVICES.map((service, i) => (
-              <motion.a
-                key={service.title}
-                href={service.href}
-                target="_blank"
-                rel="noopener"
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5 flex-1"
-                style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
-              >
-                <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
-                <div>
-                  <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
-                    {service.title}
-                  </h4>
-                  <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    {service.desc}
-                  </p>
-                </div>
-              </motion.a>
-            ))}
+            {EXTRA_SERVICES.map((service, i) => {
+              const cardContent = (
+                <>
+                  <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
+                  <div>
+                    <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
+                      {service.title}
+                    </h4>
+                    <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+                      {service.desc}
+                    </p>
+                  </div>
+                </>
+              );
+              const className = "group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5 flex-1";
+              const style = { backgroundColor: "rgba(255,255,255,0.03)" };
+
+              return (service as any).internal ? (
+                <motion.div
+                  key={service.title}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Link href={service.href} className={className} style={style}>
+                    {cardContent}
+                  </Link>
+                </motion.div>
+              ) : (
+                <motion.a
+                  key={service.title}
+                  href={service.href}
+                  target="_blank"
+                  rel="noopener"
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className={className}
+                  style={style}
+                >
+                  {cardContent}
+                </motion.a>
+              );
+            })}
           </div>
         </div>
       </div>

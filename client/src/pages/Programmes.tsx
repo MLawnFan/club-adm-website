@@ -4,7 +4,7 @@
  */
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { Users, Dumbbell, Apple, Baby, Building2, GraduationCap, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Users, Dumbbell, Apple, Baby, GraduationCap, ArrowRight, CheckCircle2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
@@ -21,7 +21,7 @@ const programs = [
   { title: "Entraînement Personnel", slug: "personnel", desc: "Des séances privées ou semi-privées adaptées à tes objectifs spécifiques. Ton coach conçoit un programme sur mesure pour maximiser tes résultats.", image: SERVICES_PERSONAL, icon: Dumbbell, features: ["Programme 100% personnalisé", "Suivi individuel", "Flexibilité horaire", "Résultats accélérés"], href: "https://clubadm.com/entrainement-personnel/" },
   { title: "Coaching Nutritionnel", slug: "nutrition", desc: "Un accompagnement personnalisé pour de meilleurs choix alimentaires. Nos experts en nutrition t'aident à atteindre tes objectifs avec un plan adapté à ton mode de vie.", image: SERVICES_NUTRITION, icon: Apple, features: ["Plan alimentaire personnalisé", "Suivi hebdomadaire", "Recettes et guides", "Approche sans privation"], href: "https://clubadm.com/coaching-nutritionnel/" },
   { title: "Enfant / Ado (Rookies)", slug: "rookies", desc: "On entraîne les jeunes rookies pour leur développement physique et mental. Un programme adapté qui développe la confiance, la coordination et le plaisir de bouger.", image: WARM_COACHING, icon: Baby, features: ["Adapté aux 6-17 ans", "Développement moteur", "Confiance en soi", "Plaisir garanti"], href: "https://clubadm.com/rookies/" },
-  { title: "Bien-être au Travail", slug: "travail", desc: "Séances d'entraînement en entreprise pour vos employés. Améliorez la productivité, réduisez l'absentéisme et renforcez la cohésion d'équipe.", image: SERVICES_GROUP, icon: Building2, features: ["Séances sur site ou en ligne", "Adapté aux horaires d'entreprise", "Team building actif", "Améliore la productivité"], href: "https://clubadm.com/bien-etre-au-travail/" },
+  { title: "On Rstart la Machine", slug: "rstart", desc: "Programme de transformation complet pour te remettre en forme. Encadrement personnalisé, plan nutritionnel adapté et soutien de la communauté pour des résultats durables.", image: SERVICES_GROUP, icon: Dumbbell, features: ["Programme structuré sur plusieurs semaines", "Coaching personnalisé", "Plan nutritionnel inclus", "Communauté de soutien"], href: "/consultation-gratuite", internal: true },
 ];
 
 const fadeUp = {
@@ -87,9 +87,15 @@ export default function Programmes() {
                       </div>
                     ))}
                   </div>
-                  <a href={prog.href} target="_blank" rel="noopener" className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
-                    En savoir plus <ArrowRight size={16} />
-                  </a>
+                  {(prog as any).internal ? (
+                    <Link href={prog.href} className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
+                      Réserver ma consultation <ArrowRight size={16} />
+                    </Link>
+                  ) : (
+                    <a href={prog.href} target="_blank" rel="noopener" className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
+                      En savoir plus <ArrowRight size={16} />
+                    </a>
+                  )}
                 </div>
               </motion.div>
             ))}

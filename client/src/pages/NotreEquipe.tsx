@@ -24,7 +24,7 @@ const coaches = [
   { name: "Alexandre Roy", role: "Coach CrossFit L2", bio: "Ancien athlète compétitif, Alex apporte son énergie contagieuse et son expertise technique à chaque cours de groupe.", image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400&h=500&fit=crop", instagram: "https://www.instagram.com/clubadm/" },
   { name: "Émilie Gagnon", role: "Coach & Spécialiste Rookies", bio: "Éducatrice physique de formation, Émilie est passionnée par le développement des jeunes athlètes et leur confiance en soi.", image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=500&fit=crop", instagram: "https://www.instagram.com/clubadm/" },
   { name: "Philippe Lavoie", role: "Coach & Entraîneur personnel", bio: "Spécialiste en réhabilitation et en performance, Philippe adapte chaque séance aux besoins spécifiques de ses clients.", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=500&fit=crop", instagram: "https://www.instagram.com/clubadm/" },
-  { name: "Camille Bergeron", role: "Coach & Bien-être au travail", bio: "Certifiée en ergonomie et en fitness corporatif, Camille aide les entreprises à améliorer la santé de leurs employés.", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop", instagram: "https://www.instagram.com/clubadm/" },
+  { name: "Camille Bergeron", role: "Coach & On Rstart la Machine", bio: "Certifiée en coaching de transformation, Camille accompagne les membres dans leur remise en forme avec un encadrement personnalisé et motivant.", image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop", instagram: "https://www.instagram.com/clubadm/" },
 ];
 
 export default function NotreEquipe() {
