@@ -31,7 +31,7 @@ const EVENTS: Event[] = [
     dateDisplay: "19 septembre 2025",
     time: "8h00",
     location: "Chambly, QC",
-    description: "Que tu coures 1 km ou 42,2 km, peu importe ton niveau — ce jour-là, on avance ensemble. Les profits sont remis à la Fondation du Centre Jeunesse de la Montérégie.",
+    description: "Que tu coures 1 km ou 21,1 km, peu importe ton niveau — ce jour-là, on avance ensemble. Les profits sont remis à la Fondation du Centre Jeunesse de la Montérégie. Programmation de course incluse (3x/semaine).",
     category: "Course caritative",
     href: "/evenements/course-19-septembre",
     featured: true,

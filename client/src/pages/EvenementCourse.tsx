@@ -4,7 +4,7 @@
  * Design dark premium cohérent avec le reste du site
  */
 import { motion } from "framer-motion";
-import { Calendar, MapPin, Heart, ArrowRight, ArrowLeft, Users, Target, Clock } from "lucide-react";
+import { Calendar, MapPin, Heart, ArrowRight, ArrowLeft, Users, Target, Clock, Dumbbell, CalendarDays, Sun } from "lucide-react";
 import { Link } from "wouter";
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
@@ -12,10 +12,9 @@ import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
 const DISTANCES = [
-  { label: "42,2 KM", subtitle: "Marathon", href: "#", color: "#ed1c24" },
   { label: "21,1 KM", subtitle: "Demi-marathon", href: "#", color: "#ed1c24" },
   { label: "10 KM", subtitle: "Course", href: "#", color: "#ed1c24" },
-  { label: "3,3 KM", subtitle: "Course / Marche", href: "#", color: "#ed1c24" },
+  { label: "5 KM", subtitle: "Course", href: "#", color: "#ed1c24" },
   { label: "1 KM", subtitle: "Familial", href: "#", color: "#ed1c24" },
 ];
 
@@ -71,7 +70,7 @@ export default function EvenementCourse() {
                 T'as déjà eu envie de te dépasser, mais de le faire pour quelque chose de <strong className="text-white">plus grand que toi</strong> ?
               </p>
               <p className="text-base leading-relaxed mb-8" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
-                Que tu coures 1 km ou 42,2 km, peu importe ton niveau, peu importe ton rythme — ce jour-là, on avance ensemble.
+                Que tu coures 1 km ou 21,1 km, peu importe ton niveau, peu importe ton rythme — ce jour-là, on avance ensemble.
               </p>
 
               {/* Key info */}
@@ -175,8 +174,90 @@ export default function EvenementCourse() {
         </div>
       </section>
 
+      {/* Programmation incluse */}
+      <section className="py-20 lg:py-28" style={{ backgroundColor: "#0f1229" }}>
+        <div className="max-w-4xl mx-auto px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <p className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
+              Inclus avec ton inscription
+            </p>
+            <h2 className="text-3xl lg:text-5xl leading-[0.9] mb-4 text-white" style={{ fontFamily: "var(--font-display)" }}>
+              PROGRAMMATION DE<br /><span style={{ color: "#ed1c24" }}>COURSE</span>
+            </h2>
+            <p className="text-base max-w-lg mx-auto" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
+              Chaque participant reçoit une programmation de course sur 3 entraînements par semaine pour te préparer à ta distance.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* 2x sur ton temps */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              className="rounded-2xl p-6 lg:p-8 border border-white/[0.08] text-center"
+              style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
+            >
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "rgba(237,28,36,0.12)" }}>
+                <Dumbbell size={24} style={{ color: "#ed1c24" }} />
+              </div>
+              <span className="text-3xl font-bold text-white block mb-1" style={{ fontFamily: "var(--font-display)" }}>2x</span>
+              <span className="text-sm uppercase tracking-wider block mb-3" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>par semaine</span>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "var(--font-body)" }}>
+                Sur ton propre temps, à ton rythme. Programmation personnalisée selon ta distance.
+              </p>
+            </motion.div>
+
+            {/* 1x Run Club */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="rounded-2xl p-6 lg:p-8 border border-red-500/30 text-center"
+              style={{ backgroundColor: "rgba(237,28,36,0.05)" }}
+            >
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "rgba(237,28,36,0.12)" }}>
+                <Sun size={24} style={{ color: "#ed1c24" }} />
+              </div>
+              <span className="text-3xl font-bold text-white block mb-1" style={{ fontFamily: "var(--font-display)" }}>1x</span>
+              <span className="text-sm uppercase tracking-wider block mb-3" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>le dimanche</span>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "var(--font-body)" }}>
+                Avec le Run Club. On court ensemble, on se motive, on se dépasse en groupe.
+              </p>
+            </motion.div>
+
+            {/* Total */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="rounded-2xl p-6 lg:p-8 border border-white/[0.08] text-center"
+              style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
+            >
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "rgba(237,28,36,0.12)" }}>
+                <CalendarDays size={24} style={{ color: "#ed1c24" }} />
+              </div>
+              <span className="text-3xl font-bold text-white block mb-1" style={{ fontFamily: "var(--font-display)" }}>3x</span>
+              <span className="text-sm uppercase tracking-wider block mb-3" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>par semaine</span>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "var(--font-body)" }}>
+                Total : 3 entraînements par semaine pour être prêt le jour J.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* Distances Section */}
-      <section id="distances" className="py-20 lg:py-28" style={{ backgroundColor: "#0f1229" }}>
+      <section id="distances" className="py-20 lg:py-28" style={{ backgroundColor: "#131636" }}>
         <div className="max-w-5xl mx-auto px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
