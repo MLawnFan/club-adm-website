@@ -1,57 +1,62 @@
 /*
  * SERVICES — Dark premium
  * Fond navy principal, cartes image avec overlay sombre, services secondaires sombres
- * Layout: rangée du haut 3 colonnes, rangée du bas: En Ligne (large) + 3 petits services
+ * Layout: rangée du haut 3 colonnes (Groupe, Semi-Privé, Hyrox), rangée du bas: En Ligne (large) + 3 petits services
  */
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 
 const GROUP_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
-const NUTRITION_IMG = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
-const PERSONAL_IMG = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
+const SEMI_PRIVE_IMG = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
+const HYROX_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 const ONLINE_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
 
 const MAIN_SERVICES = [
   {
     title: "Cours de Groupe",
-    desc: "Développe ton endurance, ta mobilité et ta force dans une ambiance motivante.",
+    desc: "Variable selon la périodisation : force, haltérophilie, musculation, course, gymnastique. Tu ne fais jamais deux fois la même chose.",
     img: GROUP_IMG,
-    href: "https://clubadm.com/groupe-classes/",
+    href: "/programmes",
+    internal: true,
   },
   {
-    title: "Coaching Nutritionnel",
-    desc: "Un accompagnement personnalisé pour de meilleurs choix alimentaires.",
-    img: NUTRITION_IMG,
-    href: "https://clubadm.com/coaching-nutritionnel/",
+    title: "Cours Semi-Privé",
+    desc: "3 à 5 personnes, programme 100% adapté à toi. L'attention d'un entraîneur privé avec la motivation collective.",
+    img: SEMI_PRIVE_IMG,
+    href: "/programmes",
+    internal: true,
   },
   {
-    title: "Entraînement Personnel",
-    desc: "Des séances privées ou semi-privées adaptées à tes objectifs.",
-    img: PERSONAL_IMG,
-    href: "https://clubadm.com/entrainement-personnel/",
+    title: "Hyrox",
+    desc: "75% endurance / 25% musculation. Courses, rameur, sled push, wall balls — repousse tes limites cardiovasculaires.",
+    img: HYROX_IMG,
+    href: "/programmes",
+    internal: true,
   },
 ];
 
 const EXTRA_SERVICES = [
   {
+    title: "Hybrid",
+    desc: "60% musculation / 40% endurance. Le parfait équilibre pour être fort ET en shape.",
+    href: "/programmes",
+    icon: "⚡",
+    internal: true,
+  },
+  {
     title: "On Rstart la Machine",
-    desc: "Programme de transformation complet. Remets-toi en forme avec un encadrement personnalisé, un plan nutritionnel et le soutien de la communauté.",
+    desc: "Programme de transformation complet. Habitudes durables, coaching personnalisé et plan nutritionnel inclus.",
     href: "/consultation-gratuite",
     icon: "🔥",
     internal: true,
   },
   {
-    title: "Enfant / Ado",
-    desc: "On entraîne les jeunes rookies pour leur développement physique et mental.",
-    href: "https://clubadm.com/rookies/",
-    icon: "⚡",
-  },
-  {
-    title: "Cours d'initiation",
-    desc: "Débute en toute confiance avec nos cours adaptés aux débutants.",
-    href: "https://clubadm.com/cours-dinitiation/",
-    icon: "🎯",
+    title: "Coaching Nutritionnel",
+    desc: "Accompagnement personnalisé pour bâtir des habitudes alimentaires qui durent, sans privation.",
+    href: "/consultation-gratuite",
+    icon: "🍎",
+    internal: true,
   },
 ];
 
@@ -76,37 +81,38 @@ export default function Services() {
         {/* Main services — image cards */}
         <div className="grid md:grid-cols-3 gap-5 lg:gap-6 mb-5 lg:mb-6">
           {MAIN_SERVICES.map((service, i) => (
-            <motion.a
+            <motion.div
               key={service.title}
-              href={service.href}
-              target="_blank"
-              rel="noopener"
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
-              className="group relative rounded-xl overflow-hidden h-[380px] lg:h-[440px]"
             >
-              <img
-                src={service.img}
-                alt={service.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-500" />
+              <Link
+                href={service.href}
+                className="group relative rounded-xl overflow-hidden h-[380px] lg:h-[440px] block"
+              >
+                <img
+                  src={service.img}
+                  alt={service.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-500" />
 
-              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-                <h3 className="text-2xl lg:text-3xl text-white mb-2 uppercase" style={{ fontFamily: "var(--font-display)" }}>
-                  {service.title}
-                </h3>
-                <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>
-                  {service.desc}
-                </p>
-                <span className="inline-flex items-center gap-2 text-white text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all">
-                  Découvrir
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-              </div>
-            </motion.a>
+                <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+                  <h3 className="text-2xl lg:text-3xl text-white mb-2 uppercase" style={{ fontFamily: "var(--font-display)" }}>
+                    {service.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>
+                    {service.desc}
+                  </p>
+                  <span className="inline-flex items-center gap-2 text-white text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all">
+                    Découvrir
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
 
@@ -158,9 +164,15 @@ export default function Services() {
 
           {/* 3 extra services stacked */}
           <div className="flex flex-col gap-4 justify-between">
-            {EXTRA_SERVICES.map((service, i) => {
-              const cardContent = (
-                <>
+            {EXTRA_SERVICES.map((service, i) => (
+              <motion.div
+                key={service.title}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Link href={service.href} className="group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5 flex-1" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
                   <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
                   <div>
                     <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
@@ -170,40 +182,9 @@ export default function Services() {
                       {service.desc}
                     </p>
                   </div>
-                </>
-              );
-              const className = "group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5 flex-1";
-              const style = { backgroundColor: "rgba(255,255,255,0.03)" };
-
-              return (service as any).internal ? (
-                <motion.div
-                  key={service.title}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link href={service.href} className={className} style={style}>
-                    {cardContent}
-                  </Link>
-                </motion.div>
-              ) : (
-                <motion.a
-                  key={service.title}
-                  href={service.href}
-                  target="_blank"
-                  rel="noopener"
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className={className}
-                  style={style}
-                >
-                  {cardContent}
-                </motion.a>
-              );
-            })}
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
