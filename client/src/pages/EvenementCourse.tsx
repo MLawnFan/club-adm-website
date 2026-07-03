@@ -169,9 +169,15 @@ export default function EvenementCourse() {
                 alt="Fondation du Centre Jeunesse de la Montérégie"
                 className="h-28 lg:h-36 w-auto"
               />
-              <p className="text-sm text-center max-w-md" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
-                Fondation du Centre Jeunesse de la Montérégie
-              </p>
+              <a
+                href="https://fcjmonteregie.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-center max-w-md underline underline-offset-4 hover:text-white transition-colors"
+                style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}
+              >
+                Découvrir la mission de la Fondation →
+              </a>
             </div>
           </motion.div>
         </div>
