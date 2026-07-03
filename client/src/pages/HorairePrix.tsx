@@ -96,9 +96,9 @@ export default function HorairePrix() {
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {[{ name: "Essentiel", desc: "Parfait pour commencer", features: ["3 cours de groupe par semaine", "Accès aux heures d'ouverture", "Cours d'initiation inclus", "Application de suivi"], popular: false },
-              { name: "Illimité", desc: "Notre plan le plus populaire", features: ["Cours de groupe illimités", "Open Gym illimité", "Programmation personnalisée", "Application de suivi", "Accès aux 2 succursales"], popular: true },
-              { name: "Premium", desc: "L'expérience complète", features: ["Tout du plan Illimité", "1 séance personnelle / semaine", "Coaching nutritionnel", "Programmation en ligne incluse", "Priorité de réservation"], popular: false },
+            {[{ name: "Essentiel", desc: "Parfait pour commencer", features: ["8 cours de groupe aux 4 semaines", "2 rencontres par année avec un entraîneur", "Plan de match personnalisé", "Accès aux heures d'ouverture", "Application de suivi"], popular: false },
+              { name: "Illimité", desc: "Notre plan le plus populaire", features: ["Cours de groupe illimités", "Open Gym illimité", "2 suivis par année avec un entraîneur", "Application de suivi", "Accès aux 2 succursales"], popular: true },
+              { name: "Premium", desc: "L'expérience semi-privée", features: ["Tout du plan Illimité", "Cours en semi-privé (3 à 5 personnes)", "Programmation plus personnalisée", "Encadrement adapté à tes objectifs", "Accès aux 2 succursales"], popular: false },
             ].map((plan, i) => (
               <motion.div key={plan.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className={`relative rounded-xl p-7 border transition-all ${plan.popular ? "border-red-500/40 shadow-xl shadow-red-500/5 scale-[1.02]" : "border-white/[0.06] hover:border-white/[0.12]"}`}
