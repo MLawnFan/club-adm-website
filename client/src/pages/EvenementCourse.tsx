@@ -12,10 +12,10 @@ import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
 const DISTANCES = [
-  { label: "21,1 KM", subtitle: "Demi-marathon", href: "#", color: "#ed1c24" },
-  { label: "10 KM", subtitle: "Course", href: "#", color: "#ed1c24" },
-  { label: "5 KM", subtitle: "Course", href: "#", color: "#ed1c24" },
-  { label: "1 KM", subtitle: "Familial", href: "#", color: "#ed1c24" },
+  { label: "21,1 KM", subtitle: "Demi-marathon", href: "https://crossfitadm.pushpress.com/landing/events/cal-efc08a7164434bd988bdf625407d/message", color: "#ed1c24" },
+  { label: "10 KM", subtitle: "Course", href: "https://crossfitadm.pushpress.com/landing/events/cal-49fbf3df98da4277a3e5799563dd/message", color: "#ed1c24" },
+  { label: "5 KM", subtitle: "Course", href: "https://crossfitadm.pushpress.com/landing/events/cal-4eed06d3999b446b83e644a5edc3/message", color: "#ed1c24" },
+  { label: "1 KM", subtitle: "Familial", href: "https://crossfitadm.pushpress.com/landing/events/cal-4eed06d3999b446b83e644a5edc3/message", color: "#ed1c24" },
 ];
 
 export default function EvenementCourse() {
