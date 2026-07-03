@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ChevronDown, MapPin } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
-const LOGO_WHITE = "/manus-storage/logo_rond_white_clean_6fc6a7eb.png";
+const LOGO_WHITE = "/manus-storage/logo_rond_color_clean_df0a84b0.png";
 
 interface NavChild {
   label: string;
@@ -122,7 +122,7 @@ export default function Navbar() {
       >
         <div className="max-w-[1280px] mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-[68px]">
           <Link href="/" className="flex-shrink-0">
-            <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-12 lg:h-14 w-auto" />
+            <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-14 lg:h-16 w-auto" />
           </Link>
 
           {/* Desktop nav */}
