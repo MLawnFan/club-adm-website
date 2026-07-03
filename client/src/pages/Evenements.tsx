@@ -168,11 +168,14 @@ export default function Evenements() {
                           </div>
                         </div>
 
-                        {/* Arrow */}
-                        <div className="flex-shrink-0 hidden lg:flex items-center">
-                          <div className="w-10 h-10 rounded-full flex items-center justify-center border border-white/[0.1] group-hover:border-red-500/50 group-hover:bg-red-500/10 transition-all">
-                            <ArrowRight size={16} className="text-white/40 group-hover:text-red-400 transition-colors" />
-                          </div>
+                        {/* CTA Button */}
+                        <div className="flex-shrink-0 flex items-center mt-4 lg:mt-0">
+                          <span
+                            className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-wider text-white rounded-lg transition-all duration-300 group-hover:shadow-lg group-hover:shadow-red-500/20 group-hover:scale-[1.02]"
+                            style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
+                          >
+                            Voir les détails <ArrowRight size={16} />
+                          </span>
                         </div>
                       </div>
                     </motion.div>
