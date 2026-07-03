@@ -28,11 +28,13 @@ const NAV_LINKS: NavItem[] = [
     href: "/programmes",
     internal: true,
     children: [
-      { label: "Tous les programmes", href: "/programmes", desc: "Vue d'ensemble de nos services" },
-      { label: "Cours de groupe", href: "https://clubadm.com/groupe-classes/", desc: "Entraînement fonctionnel en équipe", external: true },
-      { label: "Entraînement personnel", href: "https://clubadm.com/entrainement-personnel/", desc: "Coaching 1-on-1", external: true },
-      { label: "Coaching nutritionnel", href: "https://clubadm.com/coaching-nutritionnel/", desc: "Plans alimentaires personnalisés", external: true },
-      { label: "Rookies (Enfant/Ado)", href: "https://clubadm.com/rookies/", desc: "Programme jeunesse", external: true },
+      { label: "Cours de Groupe", href: "/programmes#groupe", desc: "Force, haltérophilie, musculation, course, gymnastique" },
+      { label: "Cours Semi-Privé", href: "/programmes#semi-prive", desc: "3 à 5 personnes, programme adapté à toi" },
+      { label: "Hyrox", href: "/programmes#hyrox", desc: "75% endurance / 25% musculation" },
+      { label: "Hybrid", href: "/programmes#hybrid", desc: "60% musculation / 40% endurance" },
+      { label: "On Rstart la Machine", href: "/programmes#rstart", desc: "Programme de transformation complet" },
+      { label: "Coaching Nutritionnel", href: "/programmes#nutrition", desc: "Habitudes alimentaires durables" },
+      { label: "Tous les programmes", href: "/programmes", desc: "Vue d'ensemble complète" },
     ],
   },
   { label: "En Ligne", href: "/en-ligne", internal: true },
@@ -167,6 +169,11 @@ export default function Navbar() {
                         {link.children.map((child) =>
                           child.external ? (
                             <a key={child.label} href={child.href} target="_blank" rel="noopener" className="block px-5 py-2.5 hover:bg-white/5 transition-colors group">
+                              <span className="block text-sm text-white/85 font-medium group-hover:text-white transition-colors">{child.label}</span>
+                              {child.desc && <span className="block text-[11px] text-white/35 mt-0.5">{child.desc}</span>}
+                            </a>
+                          ) : child.href.includes('#') ? (
+                            <a key={child.label} href={child.href} className="block px-5 py-2.5 hover:bg-white/5 transition-colors group">
                               <span className="block text-sm text-white/85 font-medium group-hover:text-white transition-colors">{child.label}</span>
                               {child.desc && <span className="block text-[11px] text-white/35 mt-0.5">{child.desc}</span>}
                             </a>

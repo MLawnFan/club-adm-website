@@ -194,13 +194,14 @@ export default function Programmes() {
           <div className="space-y-24 lg:space-y-32">
             {programs.map((prog, i) => (
               <motion.div
+                id={prog.slug}
                 key={prog.slug}
                 custom={i}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
                 variants={fadeUp}
-                className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${i % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
+                className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center scroll-mt-24 ${i % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
               >
                 {/* Image */}
                 <div className={`relative overflow-hidden rounded-xl ${i % 2 === 1 ? "lg:col-start-2" : ""}`}>
