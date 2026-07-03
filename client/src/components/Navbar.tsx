@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ChevronDown, MapPin } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
-const LOGO_WHITE = "/manus-storage/logo_rond_color_clean_df0a84b0.png";
+const LOGO_WHITE = "/manus-storage/logo_rond_white_final_5a8f7fef.png";
 
 interface NavChild {
   label: string;
@@ -120,17 +120,17 @@ export default function Navbar() {
         className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? "shadow-lg shadow-black/30" : "border-b border-white/5"}`}
         style={{ backgroundColor: scrolled ? "#0f1229" : "rgba(15, 18, 41, 0.92)", backdropFilter: "blur(16px)" }}
       >
-        <div className="max-w-[1280px] mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-[68px]">
+        <div className="max-w-[1280px] mx-auto px-4 lg:px-8 flex items-center justify-between h-16 lg:h-[72px]">
           <Link href="/" className="flex-shrink-0">
-            <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-14 lg:h-16 w-auto" />
+            <img src={LOGO_WHITE} alt="Club ADM Fitness" className="h-12 lg:h-14 w-auto" />
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1 h-full">
             {NAV_LINKS.map((link) => (
               <div
                 key={link.label}
-                className="relative"
+                className="relative flex items-center h-full"
                 onMouseEnter={() => link.children ? handleMouseEnter(link.label) : undefined}
                 onMouseLeave={handleMouseLeave}
               >

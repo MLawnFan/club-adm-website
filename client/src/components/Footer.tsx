@@ -5,7 +5,7 @@
 import { Link } from "wouter";
 import { Phone, Mail, MapPin, Instagram, Facebook } from "lucide-react";
 
-const LOGO_WHITE = "/manus-storage/logo_rond_color_clean_df0a84b0.png";
+const LOGO_WHITE = "/manus-storage/logo_rond_white_final_5a8f7fef.png";
 
 export default function Footer() {
   return (
