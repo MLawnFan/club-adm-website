@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import ConsultationGratuite from "./pages/ConsultationGratuite";
 import Evenements from "./pages/Evenements";
 import EvenementCourse from "./pages/EvenementCourse";
+import ThankYouCourse from "./pages/ThankYouCourse";
 import GHLChat from "./components/GHLChat";
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
       <Route path={"/consultation-gratuite"} component={ConsultationGratuite} />
       <Route path={"/evenements"} component={Evenements} />
       <Route path={"/evenements/course-19-septembre"} component={EvenementCourse} />
+      <Route path={"/merci-course"} component={ThankYouCourse} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
