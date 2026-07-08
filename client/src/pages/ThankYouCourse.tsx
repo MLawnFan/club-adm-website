@@ -131,8 +131,22 @@ export default function ThankYouCourse() {
                 </div>
               ))}
             </div>
-            <p className="text-sm mt-6 pt-6 border-t border-white/[0.06]" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
-              Les détails de ta programmation te seront envoyés par courriel sous peu.
+
+            {/* Encadré mise en évidence : envoi par courriel et SMS */}
+            <div className="mt-8 rounded-lg p-5 border" style={{ backgroundColor: "rgba(237,28,36,0.06)", borderColor: "rgba(237,28,36,0.25)" }}>
+              <div className="flex items-start gap-3 mb-3">
+                <Mail size={20} style={{ color: "#ed1c24" }} className="flex-shrink-0 mt-0.5" />
+                <p className="text-sm font-semibold text-white" style={{ fontFamily: "var(--font-body)" }}>
+                  Ta programmation t'a été envoyée par <span style={{ color: "#ed1c24" }}>courriel</span> et par <span style={{ color: "#ed1c24" }}>SMS</span>.
+                </p>
+              </div>
+              <p className="text-sm leading-relaxed ml-8" style={{ color: "rgba(255,255,255,0.55)", fontFamily: "var(--font-body)" }}>
+                Prends bien le temps de lire le message au complet pour comprendre le fonctionnement de ta programmation — fréquence des entraînements, comment suivre ta progression, et les détails du Run Club du dimanche.
+              </p>
+            </div>
+
+            <p className="text-xs mt-5 pt-5 border-t border-white/[0.06]" style={{ color: "rgba(255,255,255,0.35)", fontFamily: "var(--font-body)" }}>
+              Tu n'as pas reçu le message? Vérifie tes courriels indésirables ou contacte-nous au 450-600-2448.
             </p>
           </motion.div>
         </div>
