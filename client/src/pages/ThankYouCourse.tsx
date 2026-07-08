@@ -3,7 +3,7 @@
  * Page cachée (pas dans le menu), accessible uniquement via lien direct
  * Affichée après inscription à l'événement course du 19 septembre
  */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, Calendar, MapPin, Clock, Users, Copy, Check, Mail, Share2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -12,12 +12,29 @@ import { toast } from "sonner";
 
 const LOGO_FCJM = "https://d2xsxph8kpxj0f.cloudfront.net/3b";
 
+const WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/cfnRtYJPMcFSYVED4IcY/webhook-trigger/dc2b1ca6-b3ef-466d-81e6-1b136c6f096c";
+
 const EVENT_URL = "https://clubadmfit-fcpqjdnn.manus.space/evenements/course-19-septembre";
 const EVENT_TEXT = "Je me suis inscrit à la course caritative du Club ADM le 19 septembre à Chambly! 🏃‍♂️ Distances: 21.1 km, 10 km, 5 km, 1 km. Les profits vont à la Fondation du Centre Jeunesse de la Montérégie. Viens courir avec moi!";
 const EVENT_TEXT_SHORT = "Course caritative Club ADM — 19 sept à Chambly! Viens courir avec moi 🏃‍♂️";
 
 export default function ThankYouCourse() {
   const [copied, setCopied] = useState(false);
+
+  // Trigger le webhook CRM (GoHighLevel) au chargement de la page
+  useEffect(() => {
+    fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event: "course_registration_confirmed",
+        page: "/merci-course",
+        timestamp: new Date().toISOString(),
+      }),
+    }).catch(() => {
+      // Silencieux — ne pas bloquer l'expérience utilisateur
+    });
+  }, []);
 
   const handleCopyLink = async () => {
     try {
