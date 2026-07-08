@@ -70,6 +70,20 @@ export default function ThankYouCourse() {
               </motion.div>
             ))}
           </div>
+
+          {/* Bouton Ajouter au calendrier */}
+          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="mt-8 text-center">
+            <a
+              href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=%C3%89v%C3%A9nement+Course+Club+ADM&dates=20250919T080000/20250919T140000&details=Course+caritative+au+profit+de+la+Fondation+du+Centre+Jeunesse+de+la+Mont%C3%A9r%C3%A9gie.+Distances+%3A+21.1+km%2C+10+km%2C+5+km%2C+1+km.+Programmation+de+course+incluse+%283x%2Fsemaine%29.&location=Chambly%2C+QC&sf=true&output=xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-6 py-3.5 text-white text-sm font-bold uppercase tracking-wider rounded-lg border-2 transition-all duration-300 hover:shadow-lg hover:shadow-red-500/10 hover:border-red-500/50"
+              style={{ borderColor: "rgba(237,28,36,0.4)", backgroundColor: "rgba(237,28,36,0.08)", fontFamily: "var(--font-body)" }}
+            >
+              <Calendar size={20} style={{ color: "#ed1c24" }} />
+              Ajouter à mon calendrier
+            </a>
+          </motion.div>
         </div>
       </section>
 
