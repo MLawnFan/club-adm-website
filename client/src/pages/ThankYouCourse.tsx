@@ -3,7 +3,7 @@
  * Page cachée (pas dans le menu), accessible uniquement via lien direct
  * Affichée après inscription à l'événement course du 19 septembre
  */
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, Calendar, MapPin, Clock, Users, Copy, Check, Mail, Share2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
@@ -50,20 +50,6 @@ export default function ThankYouCourse() {
     }
   };
 
-  // Trigger le webhook CRM (GoHighLevel) au chargement de la page
-  useEffect(() => {
-    fetch(WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        event: "course_registration_confirmed",
-        page: "/merci-course",
-        timestamp: new Date().toISOString(),
-      }),
-    }).catch(() => {
-      // Silencieux — ne pas bloquer l'expérience utilisateur
-    });
-  }, []);
 
   const handleCopyLink = async () => {
     try {
