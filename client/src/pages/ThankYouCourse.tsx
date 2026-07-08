@@ -20,6 +20,35 @@ const EVENT_TEXT_SHORT = "Course caritative Club ADM — 19 sept à Chambly! Vie
 
 export default function ThankYouCourse() {
   const [copied, setCopied] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmitPlan = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName.trim() || !email.trim()) return;
+    setIsSubmitting(true);
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "plan_course_request",
+          first_name: firstName.trim(),
+          email: email.trim(),
+          page: "/merci-course",
+          timestamp: new Date().toISOString(),
+        }),
+      });
+      setIsSubmitted(true);
+      toast.success("C'est envoyé! Vérifie ta boîte courriel.");
+    } catch {
+      toast.error("Une erreur est survenue. Réessaie.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // Trigger le webhook CRM (GoHighLevel) au chargement de la page
   useEffect(() => {
@@ -84,8 +113,73 @@ export default function ThankYouCourse() {
         </div>
       </section>
 
-      {/* Détails de l'événement */}
+      {/* Formulaire Plan de Course */}
       <section className="py-16 lg:py-20" style={{ backgroundColor: "#131636" }}>
+        <div className="max-w-[560px] mx-auto px-6 lg:px-8">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-xl p-8 lg:p-10 border" style={{ backgroundColor: "rgba(237,28,36,0.04)", borderColor: "rgba(237,28,36,0.3)" }}>
+            {isSubmitted ? (
+              <div className="text-center py-4">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{ backgroundColor: "rgba(34,197,94,0.15)", border: "2px solid rgba(34,197,94,0.3)" }}>
+                  <CheckCircle2 size={32} style={{ color: "#22c55e" }} />
+                </div>
+                <h3 className="text-xl text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>C'EST PARTI!</h3>
+                <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "var(--font-body)" }}>Ton plan de course est en route vers ta boîte courriel. Vérifie tes courriels indésirables si tu ne le vois pas dans les prochaines minutes.</p>
+              </div>
+            ) : (
+              <>
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4" style={{ backgroundColor: "rgba(237,28,36,0.12)", border: "1px solid rgba(237,28,36,0.25)" }}>
+                    <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>Dernière étape</span>
+                  </div>
+                  <h3 className="text-2xl lg:text-3xl text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>REÇOIS TON PLAN DE COURSE</h3>
+                  <p className="text-sm" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>Remplis les infos suivantes pour recevoir ta programmation personnalisée directement par courriel.</p>
+                </div>
+                <form onSubmit={handleSubmitPlan} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>Prénom</label>
+                    <input
+                      type="text"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Ton prénom"
+                      className="w-full px-4 py-3 rounded-lg text-white text-sm placeholder:text-white/30 outline-none transition-all duration-200 focus:ring-2"
+                      style={{ backgroundColor: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", fontFamily: "var(--font-body)", focusRingColor: "rgba(237,28,36,0.5)" } as React.CSSProperties}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(237,28,36,0.5)"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider mb-2" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>Courriel</label>
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="ton@courriel.com"
+                      className="w-full px-4 py-3 rounded-lg text-white text-sm placeholder:text-white/30 outline-none transition-all duration-200 focus:ring-2"
+                      style={{ backgroundColor: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", fontFamily: "var(--font-body)" } as React.CSSProperties}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(237,28,36,0.5)"; }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; }}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full py-4 rounded-lg text-white text-sm font-bold uppercase tracking-wider transition-all duration-300 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
+                  >
+                    {isSubmitting ? "Envoi en cours..." : "Recevoir mon plan de course"}
+                  </button>
+                </form>
+              </>
+            )}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Détails de l'événement */}
+      <section className="py-16 lg:py-20" style={{ backgroundColor: "#0f1229" }}>
         <div className="max-w-[900px] mx-auto px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-10">
             <p className="text-sm font-bold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>Les détails</p>
