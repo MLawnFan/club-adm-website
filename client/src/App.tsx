@@ -19,6 +19,9 @@ import ThankYouCourse21km from "./pages/ThankYouCourse21km";
 import ThankYouCourse10km from "./pages/ThankYouCourse10km";
 import ThankYouCourse5km from "./pages/ThankYouCourse5km";
 import ThankYouCourse1km from "./pages/ThankYouCourse1km";
+import Programmation5km from "./pages/Programmation5km";
+import Programmation10km from "./pages/Programmation10km";
+import ProgrammationDemiMarathon from "./pages/ProgrammationDemiMarathon";
 import GHLChat from "./components/GHLChat";
 
 function Router() {
@@ -39,6 +42,9 @@ function Router() {
       <Route path={"/merci-course-10km"} component={ThankYouCourse10km} />
       <Route path={"/merci-course-5km"} component={ThankYouCourse5km} />
       <Route path={"/merci-course-1km"} component={ThankYouCourse1km} />
+      <Route path={"/programmation-5km"} component={Programmation5km} />
+      <Route path={"/programmation-10km"} component={Programmation10km} />
+      <Route path={"/programmation-21km"} component={ProgrammationDemiMarathon} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
