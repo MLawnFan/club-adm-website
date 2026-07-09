@@ -6,7 +6,7 @@
 export default function ProgrammationDemiMarathon() {
   return (
     <iframe
-      src="/manus-storage/programme-demi-marathon-clubadm_ea1cac87.html"
+      src="/manus-storage/programme-demi-marathon-clubadm_067f9b94.html"
       title="Programme Demi-Marathon — 14 semaines | Club ADM Fitness"
       className="w-full h-screen border-0"
       style={{ minHeight: "100vh" }}

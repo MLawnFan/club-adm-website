@@ -6,7 +6,7 @@
 export default function Programmation10km() {
   return (
     <iframe
-      src="/manus-storage/programme-10km-clubadm_538ec662.html"
+      src="/manus-storage/programme-10km-clubadm_9a843d06.html"
       title="Programme 10 km — 12 semaines | Club ADM Fitness"
       className="w-full h-screen border-0"
       style={{ minHeight: "100vh" }}
