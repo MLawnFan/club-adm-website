@@ -15,7 +15,6 @@ import Contact from "./pages/Contact";
 import ConsultationGratuite from "./pages/ConsultationGratuite";
 import Evenements from "./pages/Evenements";
 import EvenementCourse from "./pages/EvenementCourse";
-import ThankYouCourse from "./pages/ThankYouCourse";
 import ThankYouCourse21km from "./pages/ThankYouCourse21km";
 import ThankYouCourse10km from "./pages/ThankYouCourse10km";
 import ThankYouCourse5km from "./pages/ThankYouCourse5km";
@@ -36,7 +35,6 @@ function Router() {
       <Route path={"/consultation-gratuite"} component={ConsultationGratuite} />
       <Route path={"/evenements"} component={Evenements} />
       <Route path={"/evenements/course-19-septembre"} component={EvenementCourse} />
-      <Route path={"/merci-course"} component={ThankYouCourse} />
       <Route path={"/merci-course-21km"} component={ThankYouCourse21km} />
       <Route path={"/merci-course-10km"} component={ThankYouCourse10km} />
       <Route path={"/merci-course-5km"} component={ThankYouCourse5km} />
