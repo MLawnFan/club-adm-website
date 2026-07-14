@@ -78,10 +78,19 @@ export default function HorairePrix() {
             ))}
           </div>
 
-          <div className="mt-8 text-center">
-            <a href="https://clubadm.com/horaire/" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:underline" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
-              <Calendar size={16} /> Voir l'horaire complet sur clubadm.com <ArrowRight size={14} />
-            </a>
+          <div className="mt-12 text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>Voir l'horaire complet</p>
+            <h3 className="text-2xl lg:text-3xl mb-6 text-white" style={{ fontFamily: "var(--font-display)" }}>CHOISIS TA SUCCURSALE</h3>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="https://crossfitadm.pushpress.com/landing/calendar?location=location_905bf6e1757775" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105 border border-white/[0.1]" style={{ backgroundColor: "rgba(237,28,36,0.15)", fontFamily: "var(--font-body)" }}>
+                <MapPin size={18} style={{ color: "#ed1c24" }} /> Brossard <ArrowRight size={14} />
+              </a>
+              <a href="https://crossfitadm.pushpress.com/landing/calendar?location=location_c3981012b747b7" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105 border border-white/[0.1]" style={{ backgroundColor: "rgba(237,28,36,0.15)", fontFamily: "var(--font-body)" }}>
+                <MapPin size={18} style={{ color: "#ed1c24" }} /> Chambly <ArrowRight size={14} />
+              </a>
+            </div>
           </div>
         </div>
       </section>
