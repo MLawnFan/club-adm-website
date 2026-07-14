@@ -50,6 +50,7 @@ const NAV_LINKS: NavItem[] = [
   { label: "Horaire & Prix", href: "/horaire-prix", internal: true },
   { label: "Blog", href: "/blog", internal: true },
   { label: "Événements", href: "/evenements", internal: true },
+  { label: "Espace Membre", href: "/programme", internal: true },
   {
     label: "À Propos",
     href: "/notre-equipe",

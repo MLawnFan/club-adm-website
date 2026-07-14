@@ -1,16 +1,27 @@
-# Pages manquantes à créer
+# Project TODO
 
-## Widget Chat GHL
-- [ ] Créer composant GHLChat.tsx — widget flottant en bas à droite
-- [ ] Intégrer dans App.tsx pour apparaître sur toutes les pages
+## Pages publiques
+- [x] Homepage layout complet
+- [x] Widget Chat GHL
+- [x] /programmes — Page listing de tous les programmes
+- [x] /horaire-prix — Page Horaire & Prix
+- [x] /notre-equipe — Page Notre Équipe (en construction)
+- [x] /contact — Page Contact
+- [x] /consultation-gratuite — Page consultation
+- [x] /evenements — Page événements
+- [x] /evenements/course-19-septembre — Événement course
+- [x] Pages de remerciement courses
+- [x] Pages de programmation (5km, 10km, 21km)
+- [x] Drop In links (Brossard & Chambly) sur Horaire & Prix
 
-## Pages à créer (internes au site)
-- [ ] /programmes — Page listing de tous les programmes
-- [ ] /horaire-prix — Page Horaire & Prix
-- [ ] /notre-equipe — Page Notre Équipe avec coachs et histoire
-- [ ] /contact — Page Contact avec formulaire, carte, emplacements
-- [ ] /drop-in — Page Drop In pour visiteurs ponctuels
-
-## Mises à jour navbar/footer
-- [ ] Mettre à jour les liens navbar pour pointer vers les nouvelles pages internes
-- [ ] Mettre à jour les liens footer pour pointer vers les nouvelles pages internes
+## Espace Membre - Programme On R'start la Machine
+- [x] Upgrade fullstack (web-db-user) pour authentification
+- [x] Schéma DB pour suivi de progression
+- [x] Procédures tRPC (enrollment, progress, check-in)
+- [x] Données des 14 modules (contenu, habitudes, astuces)
+- [x] Page tableau de bord programme (login gate, enrollment, liste modules)
+- [x] Page détail module (contenu, check-in, complétion)
+- [x] Routes /programme et /programme/module/:id
+- [x] Ajouter lien "Espace Membre" dans la navbar
+- [x] Écrire tests vitest pour les procédures du programme
+- [x] Vérifier le flux complet dans le navigateur
