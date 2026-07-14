@@ -30,3 +30,4 @@
 - [x] Ajouter un mode démo/preview pour accéder au contenu des modules sans authentification
 - [x] Ajouter des boutons de téléchargement fictifs avec icônes dans le Module 2 (Les Outils)
 - [x] Ajouter un lecteur vidéo fictif au-dessus des boutons de téléchargement dans le Module 2
+- [x] Ajouter bouton "Marquer comme terminé" sous la vidéo + barre de progression globale du programme

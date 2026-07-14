@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, Eye, Download, FileText, Play, Volume2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, Eye, Download, FileText, Play, Volume2, Check } from "lucide-react";
 import { PROGRAMME_MODULES } from "@/data/programmeModules";
 import { Link, useParams, useLocation } from "wouter";
+import { useState, useEffect } from "react";
 
 /**
  * Mode Preview d'un module individuel - accessible sans authentification
@@ -11,6 +12,22 @@ export default function ProgrammePreviewModule() {
   const params = useParams<{ id: string }>();
   const [location] = useLocation();
   
+  // Track completed modules in localStorage for preview mode
+  const [completedModules, setCompletedModules] = useState<number[]>(() => {
+    try {
+      const saved = localStorage.getItem("preview_completed_modules");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("preview_completed_modules", JSON.stringify(completedModules));
+    } catch {}
+  }, [completedModules]);
+
   // Fallback: extract ID from URL path if useParams doesn't work
   const getModuleId = (): number => {
     if (params.id) return parseInt(params.id);
@@ -25,6 +42,19 @@ export default function ProgrammePreviewModule() {
   
   const moduleId = getModuleId();
   const module = PROGRAMME_MODULES.find(m => m.id === moduleId);
+
+  const isCompleted = completedModules.includes(moduleId);
+  const totalModules = PROGRAMME_MODULES.length;
+  const completedCount = completedModules.length;
+  const progressPercent = Math.round((completedCount / totalModules) * 100);
+
+  const handleMarkComplete = () => {
+    if (!isCompleted) {
+      setCompletedModules(prev => [...prev, moduleId]);
+    } else {
+      setCompletedModules(prev => prev.filter(id => id !== moduleId));
+    }
+  };
 
   if (!module) {
     return (
@@ -52,9 +82,35 @@ export default function ProgrammePreviewModule() {
             <p className="text-xs font-bold uppercase tracking-wider" style={{ color: "#ed1c24" }}>{module.title}</p>
             <h1 className="text-lg text-white font-bold" style={{ fontFamily: "var(--font-display)" }}>{module.subtitle.toUpperCase()}</h1>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-500/30" style={{ backgroundColor: "rgba(245,158,11,0.1)" }}>
-            <Eye size={14} style={{ color: "#f59e0b" }} />
-            <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>APERÇU</span>
+          {isCompleted && (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full" style={{ backgroundColor: "rgba(34,197,94,0.15)" }}>
+              <CheckCircle2 size={14} style={{ color: "#22c55e" }} />
+              <span className="text-xs font-bold" style={{ color: "#22c55e" }}>Complété</span>
+            </div>
+          )}
+          {!isCompleted && (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-500/30" style={{ backgroundColor: "rgba(245,158,11,0.1)" }}>
+              <Eye size={14} style={{ color: "#f59e0b" }} />
+              <span className="text-xs font-bold" style={{ color: "#f59e0b" }}>APERÇU</span>
+            </div>
+          )}
+        </div>
+
+        {/* Global progress bar in header */}
+        <div className="max-w-[800px] mx-auto px-6 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
+              <motion.div
+                className="h-full rounded-full"
+                style={{ backgroundColor: "#ed1c24" }}
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercent}%` }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              />
+            </div>
+            <span className="text-[11px] font-bold text-white/50 whitespace-nowrap">
+              {completedCount}/{totalModules} modules
+            </span>
           </div>
         </div>
       </header>
@@ -87,7 +143,7 @@ export default function ProgrammePreviewModule() {
           ))}
         </motion.div>
 
-        {/* Video Player (Module 2 only) */}
+        {/* Video Player (Module with documents) */}
         {module.documents && module.documents.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -135,6 +191,68 @@ export default function ProgrammePreviewModule() {
             </div>
           </motion.div>
         )}
+
+        {/* Mark as complete button */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.13 }}
+          className="mb-8"
+        >
+          <button
+            onClick={handleMarkComplete}
+            className={`w-full py-4 px-6 rounded-xl font-bold text-sm flex items-center justify-center gap-3 transition-all ${
+              isCompleted
+                ? "border-2"
+                : "hover:opacity-90 hover:scale-[1.01] active:scale-[0.99]"
+            }`}
+            style={
+              isCompleted
+                ? { backgroundColor: "rgba(34,197,94,0.1)", borderColor: "#22c55e", color: "#22c55e" }
+                : { backgroundColor: "#ed1c24", color: "white" }
+            }
+          >
+            {isCompleted ? (
+              <>
+                <CheckCircle2 size={20} />
+                Module complété — Cliquer pour annuler
+              </>
+            ) : (
+              <>
+                <Check size={20} />
+                Marquer comme terminé
+              </>
+            )}
+          </button>
+
+          {/* Progress summary under button */}
+          <div className="mt-4 p-4 rounded-lg flex items-center gap-4" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+            <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: "rgba(237,28,36,0.1)" }}>
+              <Trophy size={20} style={{ color: "#ed1c24" }} />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-white/40 mb-1">Progression globale</p>
+              <div className="flex items-center gap-3">
+                <div className="flex-1 h-2.5 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ backgroundColor: progressPercent === 100 ? "#22c55e" : "#ed1c24" }}
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progressPercent}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                  />
+                </div>
+                <span className="text-sm font-bold text-white">{progressPercent}%</span>
+              </div>
+              <p className="text-[11px] text-white/30 mt-1">
+                {completedCount === totalModules
+                  ? "Félicitations! Tu as complété tous les modules! 🎉"
+                  : `${completedCount} module${completedCount > 1 ? "s" : ""} complété${completedCount > 1 ? "s" : ""} sur ${totalModules}`
+                }
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Documents / Downloads */}
         {module.documents && module.documents.length > 0 && (
