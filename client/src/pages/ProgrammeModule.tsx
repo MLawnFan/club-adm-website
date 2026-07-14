@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, AlertTriangle, Download, FileText } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, AlertTriangle, Download, FileText, Play, Volume2 } from "lucide-react";
 import { PROGRAMME_MODULES } from "@/data/programmeModules";
 import { Link, useParams, useLocation, useRoute } from "wouter";
 import { useState, useMemo } from "react";
@@ -164,6 +164,45 @@ export default function ProgrammeModule() {
             </p>
           ))}
         </motion.div>
+
+        {/* Video Player (Module 2 only) */}
+        {module.documents && module.documents.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.12 }}
+            className="mb-8 rounded-xl overflow-hidden border border-white/[0.08]"
+          >
+            <div className="relative aspect-video w-full" style={{ backgroundColor: "#0a0c1a" }}>
+              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #1a1d3a 0%, #0f1229 50%, #1a0a0a 100%)" }} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <button
+                  onClick={() => toast.info('Vidéo tutoriel à intégrer prochainement')}
+                  className="w-20 h-20 rounded-full flex items-center justify-center transition-all hover:scale-110 hover:shadow-lg hover:shadow-red-500/30 cursor-pointer"
+                  style={{ backgroundColor: "rgba(237,28,36,0.9)" }}
+                >
+                  <Play size={32} className="text-white ml-1" fill="white" />
+                </button>
+              </div>
+              <div className="absolute top-4 left-4">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded" style={{ backgroundColor: "rgba(237,28,36,0.8)", color: "white" }}>Tutoriel</span>
+              </div>
+              <div className="absolute bottom-4 right-4">
+                <span className="text-xs font-bold px-2 py-1 rounded" style={{ backgroundColor: "rgba(0,0,0,0.7)", color: "white" }}>12:34</span>
+              </div>
+            </div>
+            <div className="px-5 py-4 flex items-center justify-between" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
+              <div>
+                <p className="text-sm font-bold text-white">Comment utiliser tes outils</p>
+                <p className="text-xs text-white/40 mt-0.5">Tutoriel complet pour bien démarrer le programme</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Volume2 size={14} className="text-white/30" />
+                <span className="text-xs text-white/30">FR</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Documents / Downloads */}
         {module.documents && module.documents.length > 0 && (
