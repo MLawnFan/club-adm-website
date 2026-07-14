@@ -24,6 +24,8 @@ import Programmation10km from "./pages/Programmation10km";
 import ProgrammationDemiMarathon from "./pages/ProgrammationDemiMarathon";
 import ProgrammeDashboard from "./pages/ProgrammeDashboard";
 import ProgrammeModule from "./pages/ProgrammeModule";
+import ProgrammePreview from "./pages/ProgrammePreview";
+import ProgrammePreviewModule from "./pages/ProgrammePreviewModule";
 import GHLChat from "./components/GHLChat";
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -47,6 +49,8 @@ function Router() {
       <Route path={"/programmation-5km"} component={Programmation5km} />
       <Route path={"/programmation-10km"} component={Programmation10km} />
       <Route path={"/programmation-21km"} component={ProgrammationDemiMarathon} />
+      <Route path={"/programme/preview/:id"} component={ProgrammePreviewModule} />
+      <Route path={"/programme/preview"} component={ProgrammePreview} />
       <Route path={"/programme/module/:id"} component={ProgrammeModule} />
       <Route path={"/programme"} component={ProgrammeDashboard} />
       <Route path={"/404"} component={NotFound} />

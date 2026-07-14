@@ -25,3 +25,6 @@
 - [x] Ajouter lien "Espace Membre" dans la navbar
 - [x] Écrire tests vitest pour les procédures du programme
 - [x] Vérifier le flux complet dans le navigateur
+
+## Mode Démo
+- [x] Ajouter un mode démo/preview pour accéder au contenu des modules sans authentification
