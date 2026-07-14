@@ -28,3 +28,4 @@
 
 ## Mode Démo
 - [x] Ajouter un mode démo/preview pour accéder au contenu des modules sans authentification
+- [x] Ajouter des boutons de téléchargement fictifs avec icônes dans le Module 2 (Les Outils)

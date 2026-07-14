@@ -2,7 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { motion } from "framer-motion";
-import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, AlertTriangle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, AlertTriangle, Download, FileText } from "lucide-react";
 import { PROGRAMME_MODULES } from "@/data/programmeModules";
 import { Link, useParams, useLocation, useRoute } from "wouter";
 import { useState, useMemo } from "react";
@@ -164,6 +164,46 @@ export default function ProgrammeModule() {
             </p>
           ))}
         </motion.div>
+
+        {/* Documents / Downloads */}
+        {module.documents && module.documents.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mb-8 p-6 rounded-xl border border-white/[0.08]"
+            style={{ backgroundColor: "rgba(255,255,255,0.03)" }}
+          >
+            <div className="flex items-center gap-2 mb-5">
+              <FileText size={16} style={{ color: "#ed1c24" }} />
+              <p className="text-sm font-bold text-white">Documents à télécharger</p>
+            </div>
+            <div className="grid gap-3">
+              {module.documents.map((doc, i) => (
+                <button
+                  key={i}
+                  onClick={() => toast.info(`Téléchargement de "${doc.name}" bientôt disponible`)}
+                  className="flex items-center gap-4 p-4 rounded-lg border border-white/[0.06] hover:border-white/[0.15] transition-all group cursor-pointer text-left w-full"
+                  style={{ backgroundColor: "rgba(255,255,255,0.02)" }}
+                >
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 text-xl" style={{ backgroundColor: "rgba(237,28,36,0.1)" }}>
+                    {doc.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-white group-hover:text-white/90 truncate">{doc.name}</p>
+                    <p className="text-xs text-white/40 mt-0.5 truncate">{doc.description}</p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="text-[10px] font-bold px-2 py-1 rounded bg-white/[0.06] text-white/50">{doc.fileType}</span>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors group-hover:bg-red-500/20" style={{ backgroundColor: "rgba(237,28,36,0.1)" }}>
+                      <Download size={14} style={{ color: "#ed1c24" }} />
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {/* Habit objective */}
         {module.habit && (

@@ -13,6 +13,7 @@ export interface ProgrammeModule {
   appointmentType?: string;
   checkinHabits: string[];
   content: string[];
+  documents?: { name: string; description: string; icon: string; fileType: string }[];
 }
 
 export const PROGRAMME_MODULES: ProgrammeModule[] = [
@@ -43,14 +44,19 @@ export const PROGRAMME_MODULES: ProgrammeModule[] = [
     quote: "Donne-moi six heures pour couper un arbre, j'en passerai quatre à affûter ma hache.",
     quoteAuthor: "Abraham Lincoln",
     checkinHabits: [],
+    documents: [
+      { name: "Plan alimentaire personnalisé", description: "Guide selon tes objectifs, ton poids et ton niveau d'activité", icon: "📋", fileType: "PDF" },
+      { name: "Meal Prep en 90 minutes", description: "Prépare tous tes repas de la semaine en moins de 90 minutes", icon: "⏱️", fileType: "PDF" },
+      { name: "Livre de recettes", description: "Recettes simples, savoureuses et nutritives", icon: "📖", fileType: "PDF" },
+      { name: "Qu'est-ce que je dois boire?", description: "Guide complet sur l'hydratation — eau, café, thé", icon: "🥤", fileType: "PDF" },
+      { name: "25 manières de bien manger à l'extérieur", description: "Faire de bons choix au restaurant, en voyage ou chez des amis", icon: "🍽️", fileType: "PDF" },
+      { name: "Qu'est-ce que je dois manger?", description: "Comprendre les macronutriments et construire des repas équilibrés", icon: "🥗", fileType: "PDF" },
+      { name: "Comment réserver tes cours", description: "Tutoriel pour l'application PushPress", icon: "📱", fileType: "PDF" },
+    ],
     content: [
-      "Ton plan alimentaire : Un guide personnalisé selon tes objectifs, ton poids et ton niveau d'activité. Ce n'est pas un régime — c'est un cadre flexible pour bien nourrir ton corps.",
-      "La meal prep en 90 minutes : Apprends à préparer tous tes repas de la semaine en moins de 90 minutes. La clé du succès, c'est la préparation.",
-      "Le livre de recettes : Des recettes simples, savoureuses et nutritives. Pas besoin d'être chef — juste d'avoir les bons ingrédients.",
-      "Qu'est-ce que je dois boire? : Guide complet sur l'hydratation — eau, café, thé, et ce qu'il faut éviter. L'hydratation est la base de tout.",
-      "25 manières de bien manger à l'extérieur : Tu ne peux pas toujours manger à la maison. Ce guide t'aide à faire de bons choix au restaurant, en voyage ou chez des amis.",
-      "Qu'est-ce que je dois manger? : Un guide simplifié pour comprendre les macronutriments et construire des repas équilibrés sans se casser la tête.",
-      "Comment réserver tes cours : Tutoriel pour utiliser l'application PushPress et réserver tes séances d'entraînement. Planifie ta semaine à l'avance pour maximiser ta constance.",
+      "Voici ta boîte à outils complète pour réussir le programme. Chaque document a été conçu pour te simplifier la vie et t'aider à prendre les meilleures décisions au quotidien.",
+      "Prends le temps de lire chaque document attentivement. Tu n'as pas besoin de tout mémoriser — ils sont là pour te servir de référence tout au long du programme.",
+      "Astuce : Télécharge les documents sur ton téléphone pour y avoir accès en tout temps, même au supermarché ou au restaurant.",
     ],
   },
   {
