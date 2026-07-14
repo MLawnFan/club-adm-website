@@ -47,8 +47,8 @@ function Router() {
       <Route path={"/programmation-5km"} component={Programmation5km} />
       <Route path={"/programmation-10km"} component={Programmation10km} />
       <Route path={"/programmation-21km"} component={ProgrammationDemiMarathon} />
-      <Route path={"/programme"} component={ProgrammeDashboard} />
       <Route path={"/programme/module/:id"} component={ProgrammeModule} />
+      <Route path={"/programme"} component={ProgrammeDashboard} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

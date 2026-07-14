@@ -4,14 +4,29 @@ import { getLoginUrl } from "@/const";
 import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, Trophy, Calendar, Lightbulb, AlertTriangle } from "lucide-react";
 import { PROGRAMME_MODULES } from "@/data/programmeModules";
-import { Link, useParams, useLocation } from "wouter";
+import { Link, useParams, useLocation, useRoute } from "wouter";
 import { useState, useMemo } from "react";
 import { toast } from "sonner";
 
 export default function ProgrammeModule() {
   const params = useParams<{ id: string }>();
-  const [, navigate] = useLocation();
-  const moduleId = parseInt(params.id || "1");
+  const [location, navigate] = useLocation();
+  
+  // Fallback: extract ID from URL path if useParams doesn't work
+  const getModuleId = (): number => {
+    if (params.id) return parseInt(params.id);
+    // Fallback: parse from current URL
+    const match = location.match(/\/programme\/module\/(\d+)/);
+    if (match) return parseInt(match[1]);
+    // Last resort: try window.location
+    if (typeof window !== 'undefined') {
+      const urlMatch = window.location.pathname.match(/\/programme\/module\/(\d+)/);
+      if (urlMatch) return parseInt(urlMatch[1]);
+    }
+    return 0;
+  };
+  
+  const moduleId = getModuleId();
   const module = PROGRAMME_MODULES.find(m => m.id === moduleId);
 
   const { user, isAuthenticated, loading: authLoading } = useAuth();
@@ -38,17 +53,35 @@ export default function ProgrammeModule() {
   const isCompleted = existingProgress?.completed === 1;
   const isUnlocked = moduleId <= (enrollment?.currentModule || 1) || isCompleted;
 
-  if (!module) {
+  // Show loading while auth is being checked
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#0f1229" }}>
-        <p className="text-white">Module introuvable</p>
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-t-transparent rounded-full animate-spin mx-auto mb-4" style={{ borderColor: "#ed1c24", borderTopColor: "transparent" }} />
+          <p className="text-white/50">Chargement...</p>
+        </div>
       </div>
     );
   }
 
-  if (!authLoading && !isAuthenticated) {
+  if (!isAuthenticated) {
     window.location.href = getLoginUrl();
     return null;
+  }
+
+  if (!module) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#0f1229" }}>
+        <div className="text-center px-6">
+          <p className="text-white text-lg mb-4">Module introuvable</p>
+          <p className="text-white/40 text-sm mb-6">Le module demandé n'existe pas ou l'URL est incorrecte.</p>
+          <Link href="/programme" className="text-sm hover:underline" style={{ color: "#ed1c24" }}>
+            ← Retour au tableau de bord
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   if (!isUnlocked) {
