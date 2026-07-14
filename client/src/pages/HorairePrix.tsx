@@ -114,9 +114,16 @@ export default function HorairePrix() {
                   </div>
                 ))}
               </div>
-              <a href="https://clubadm.com/drop-in/" className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
-                Réserver un Drop In <ArrowRight size={16} />
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <a href="https://crossfitadm.pushpress.com/landing/plans/plan_9b73348d83c575" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
+                  <MapPin size={16} /> Drop In Brossard <ArrowRight size={14} />
+                </a>
+                <a href="https://crossfitadm.pushpress.com/landing/plans/plan_fddd82cc949c85" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105" style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}>
+                  <MapPin size={16} /> Drop In Chambly <ArrowRight size={14} />
+                </a>
+              </div>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="flex justify-center">
