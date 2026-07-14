@@ -3,20 +3,10 @@
  * Fond navy sombre, cartes sombres, texte blanc/crème
  */
 import { motion } from "framer-motion";
-import { Clock, MapPin, ArrowRight, CheckCircle2, Calendar, Users } from "lucide-react";
+import { MapPin, ArrowRight, CheckCircle2, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
-
-const scheduleBlocks = [
-  { day: "Lundi", classes: ["6:00 — CrossFit", "9:00 — Fonctionnel", "12:00 — Express 45min", "16:30 — Rookies", "17:30 — CrossFit", "18:30 — CrossFit"] },
-  { day: "Mardi", classes: ["6:00 — CrossFit", "9:00 — Fonctionnel", "12:00 — Express 45min", "17:30 — CrossFit", "18:30 — Initiation"] },
-  { day: "Mercredi", classes: ["6:00 — CrossFit", "9:00 — Fonctionnel", "12:00 — Express 45min", "16:30 — Rookies", "17:30 — CrossFit", "18:30 — CrossFit"] },
-  { day: "Jeudi", classes: ["6:00 — CrossFit", "9:00 — Fonctionnel", "12:00 — Express 45min", "17:30 — CrossFit", "18:30 — Initiation"] },
-  { day: "Vendredi", classes: ["6:00 — CrossFit", "9:00 — Fonctionnel", "12:00 — Express 45min", "17:30 — CrossFit"] },
-  { day: "Samedi", classes: ["8:00 — CrossFit", "9:00 — Fonctionnel", "10:00 — Team WOD"] },
-  { day: "Dimanche", classes: ["9:00 — Open Gym", "10:00 — Yoga / Mobilité"] },
-];
 
 
 
@@ -44,41 +34,7 @@ export default function HorairePrix() {
       {/* Horaire */}
       <section className="py-20 lg:py-28" style={{ backgroundColor: "#0f1229" }}>
         <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.15em] mb-2" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>Horaire des cours</p>
-              <h2 className="text-3xl lg:text-4xl text-white" style={{ fontFamily: "var(--font-display)" }}>CETTE SEMAINE</h2>
-            </div>
-            <div className="hidden sm:flex items-center gap-3">
-              <a href="https://clubadm.com/centre-de-brossard/" className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors" style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
-                <MapPin size={12} /> Brossard
-              </a>
-              <a href="https://clubadm.com/centre-de-chambly/" className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider border rounded-lg transition-colors" style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
-                <MapPin size={12} /> Chambly
-              </a>
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-            {scheduleBlocks.map((block, i) => (
-              <motion.div key={block.day} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05, duration: 0.4 }}
-                className="rounded-xl overflow-hidden border border-white/[0.06]" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
-                <div className="px-4 py-3" style={{ backgroundColor: i < 5 ? "#232862" : "#ed1c24" }}>
-                  <h3 className="text-white text-sm font-bold uppercase tracking-wider text-center" style={{ fontFamily: "var(--font-body)" }}>{block.day}</h3>
-                </div>
-                <div className="p-4 space-y-2">
-                  {block.classes.map((c) => (
-                    <div key={c} className="flex items-start gap-2">
-                      <Clock size={12} style={{ color: "#ed1c24" }} className="mt-0.5 flex-shrink-0" />
-                      <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>{c}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
+          <div className="text-center">
             <p className="text-sm font-bold uppercase tracking-[0.15em] mb-4" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>Voir l'horaire complet</p>
             <h3 className="text-2xl lg:text-3xl mb-6 text-white" style={{ fontFamily: "var(--font-display)" }}>CHOISIS TA SUCCURSALE</h3>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
