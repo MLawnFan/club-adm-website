@@ -34,15 +34,15 @@
 - [x] Ajouter bouton "Marquer comme terminé" sous la vidéo + barre de progression globale du programme
 
 ## Gamification & Redevabilité
-- [ ] Système de streak (série consécutive de check-ins complétés)
-- [ ] Barre XP animée avec gains visuels à chaque action
-- [ ] Badges/Achievements débloquables (première semaine, streak 4 sem, etc.)
-- [ ] Check-in obligatoire avant déblocage du module suivant
-- [ ] Confettis à la complétion d'un module
-- [ ] Indicateur de niveau visuel (Débutant → Engagé → Discipliné → Machine → Légende)
+- [x] Système de streak (série consécutive de check-ins complétés)
+- [x] Barre XP animée avec gains visuels à chaque action
+- [x] Badges/Achievements débloquables (première semaine, streak 4 sem, etc.)
+- [x] Check-in obligatoire avant déblocage du module suivant
+- [x] Confettis à la complétion d'un module
+- [x] Indicateur de niveau visuel (Débutant → Engagé → Discipliné → Machine → Légende)
 
 ## Responsive
-- [ ] Rendre ProgrammePreview responsive (mobile-first)
-- [ ] Rendre ProgrammePreviewModule responsive (mobile-first)
-- [ ] Rendre ProgrammeDashboard responsive (mobile-first)
-- [ ] Rendre ProgrammeModule responsive (mobile-first)
+- [x] Rendre ProgrammePreview responsive (mobile-first)
+- [x] Rendre ProgrammePreviewModule responsive (mobile-first)
+- [x] Rendre ProgrammeDashboard responsive (mobile-first)
+- [x] Rendre ProgrammeModule responsive (mobile-first)
