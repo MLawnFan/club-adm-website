@@ -1,6 +1,6 @@
 import ThankYouCourseTemplate from "./ThankYouCourseTemplate";
 
-const WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/cfnRtYJPMcFSYVED4IcY/webhook-trigger/dc2b1ca6-b3ef-466d-81e6-1b136c6f096c";
+const WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/cfnRtYJPMcFSYVED4IcY/webhook-trigger/OKZ424YD3u1bTIgB8mB1";
 
 export default function ThankYouCourse5km() {
   return (
