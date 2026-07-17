@@ -46,3 +46,9 @@
 - [x] Rendre ProgrammePreviewModule responsive (mobile-first)
 - [x] Rendre ProgrammeDashboard responsive (mobile-first)
 - [x] Rendre ProgrammeModule responsive (mobile-first)
+
+## Programmation adaptative (course)
+- [x] Extraire les données des 3 programmations (5km, 10km, 21km) en fichiers de données
+- [x] Créer composant React de programmation adaptative (calcul semaines, allures, localStorage)
+- [x] Remplacer les 3 pages iframe par les nouvelles pages React adaptatives
+- [x] Tester les 3 distances et vérifier la persistance des données

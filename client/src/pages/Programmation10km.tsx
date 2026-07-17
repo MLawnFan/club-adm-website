@@ -1,15 +1,11 @@
+import ProgrammationAdaptive from "./ProgrammationAdaptive";
+import { PROGRAMMES } from "@/data/programmationCourse";
+
 /*
  * PAGE PROGRAMMATION 10 KM
  * Page cachée (pas dans le menu), accessible uniquement via lien direct
- * Affiche la programmation de course 10 km en plein écran
+ * Adapte automatiquement le nombre de semaines selon la date de première visite
  */
 export default function Programmation10km() {
-  return (
-    <iframe
-      src="/manus-storage/programme-10km-clubadm_61b03ca7.html"
-      title="Programme 10 km — 12 semaines | Club ADM Fitness"
-      className="w-full h-screen border-0"
-      style={{ minHeight: "100vh" }}
-    />
-  );
+  return <ProgrammationAdaptive config={PROGRAMMES["10km"]} />;
 }

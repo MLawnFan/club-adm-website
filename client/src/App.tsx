@@ -49,6 +49,7 @@ function Router() {
       <Route path={"/programmation-5km"} component={Programmation5km} />
       <Route path={"/programmation-10km"} component={Programmation10km} />
       <Route path={"/programmation-21km"} component={ProgrammationDemiMarathon} />
+      <Route path={"/programmation-demi-marathon"} component={ProgrammationDemiMarathon} />
       <Route path={"/programme/preview/:id"} component={ProgrammePreviewModule} />
       <Route path={"/programme/preview"} component={ProgrammePreview} />
       <Route path={"/programme/module/:id"} component={ProgrammeModule} />
