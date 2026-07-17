@@ -21,9 +21,10 @@ interface ThankYouCourseProps {
   distanceLabel: string; // ex: "Demi-marathon (21.1 km)", "10 km", "5 km", "Course familiale (1 km)"
   webhookUrl: string;
   pagePath: string; // ex: "/merci-course-21km"
+  showPlanForm?: boolean; // si false, masque le formulaire de plan de course et la section programmation
 }
 
-export default function ThankYouCourseTemplate({ distance, distanceLabel, webhookUrl, pagePath }: ThankYouCourseProps) {
+export default function ThankYouCourseTemplate({ distance, distanceLabel, webhookUrl, pagePath, showPlanForm = true }: ThankYouCourseProps) {
   const [copied, setCopied] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -108,7 +109,7 @@ export default function ThankYouCourseTemplate({ distance, distanceLabel, webhoo
       </section>
 
       {/* Formulaire Plan de Course */}
-      <section className="py-16 lg:py-20" style={{ backgroundColor: "#131636" }}>
+      {showPlanForm && <section className="py-16 lg:py-20" style={{ backgroundColor: "#131636" }}>
         <div className="max-w-[560px] mx-auto px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-xl p-8 lg:p-10 border" style={{ backgroundColor: "rgba(237,28,36,0.04)", borderColor: "rgba(237,28,36,0.3)" }}>
             {isSubmitted ? (
@@ -170,7 +171,7 @@ export default function ThankYouCourseTemplate({ distance, distanceLabel, webhoo
             )}
           </motion.div>
         </div>
-      </section>
+      </section>}
 
       {/* Détails de l'événement */}
       <section className="py-16 lg:py-20" style={{ backgroundColor: "#0f1229" }}>
@@ -212,7 +213,7 @@ export default function ThankYouCourseTemplate({ distance, distanceLabel, webhoo
       </section>
 
       {/* Programmation incluse */}
-      <section className="py-16 lg:py-20" style={{ backgroundColor: "#0f1229" }}>
+      {showPlanForm && <section className="py-16 lg:py-20" style={{ backgroundColor: "#0f1229" }}>
         <div className="max-w-[800px] mx-auto px-6 lg:px-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-xl p-8 lg:p-10 border border-white/[0.06]" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
             <div className="flex items-center gap-3 mb-6">
@@ -255,7 +256,7 @@ export default function ThankYouCourseTemplate({ distance, distanceLabel, webhoo
             </p>
           </motion.div>
         </div>
-      </section>
+      </section>}
 
       {/* Groupe communautaire privé */}
       <section className="py-16 lg:py-20" style={{ backgroundColor: "#131636" }}>

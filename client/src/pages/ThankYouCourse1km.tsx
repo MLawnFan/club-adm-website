@@ -9,6 +9,7 @@ export default function ThankYouCourse1km() {
       distanceLabel="Course familiale (1 km)"
       webhookUrl={WEBHOOK_URL}
       pagePath="/merci-course-1km"
+      showPlanForm={false}
     />
   );
 }
