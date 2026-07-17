@@ -25,9 +25,24 @@
 - [x] Ajouter lien "Espace Membre" dans la navbar
 - [x] Écrire tests vitest pour les procédures du programme
 - [x] Vérifier le flux complet dans le navigateur
+- [x] Mettre à jour le webhook GHL de la page Thank You 10km
 
 ## Mode Démo
 - [x] Ajouter un mode démo/preview pour accéder au contenu des modules sans authentification
 - [x] Ajouter des boutons de téléchargement fictifs avec icônes dans le Module 2 (Les Outils)
 - [x] Ajouter un lecteur vidéo fictif au-dessus des boutons de téléchargement dans le Module 2
 - [x] Ajouter bouton "Marquer comme terminé" sous la vidéo + barre de progression globale du programme
+
+## Gamification & Redevabilité
+- [ ] Système de streak (série consécutive de check-ins complétés)
+- [ ] Barre XP animée avec gains visuels à chaque action
+- [ ] Badges/Achievements débloquables (première semaine, streak 4 sem, etc.)
+- [ ] Check-in obligatoire avant déblocage du module suivant
+- [ ] Confettis à la complétion d'un module
+- [ ] Indicateur de niveau visuel (Débutant → Engagé → Discipliné → Machine → Légende)
+
+## Responsive
+- [ ] Rendre ProgrammePreview responsive (mobile-first)
+- [ ] Rendre ProgrammePreviewModule responsive (mobile-first)
+- [ ] Rendre ProgrammeDashboard responsive (mobile-first)
+- [ ] Rendre ProgrammeModule responsive (mobile-first)
