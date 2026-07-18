@@ -340,64 +340,93 @@ export default function ProgrammationAdaptive({ config }: Props) {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap');
         @media print {
+          /* Force print color rendering */
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-          body { background: #ffffff !important; color: #1a1a1a !important; font-family: 'Barlow', sans-serif !important; font-size: 11pt !important; line-height: 1.5 !important; }
-          .min-h-screen { min-height: auto !important; background: #ffffff !important; color: #1a1a1a !important; }
+          
+          /* GLOBAL RESET: Force white background and dark text everywhere */
+          html, body { background: #ffffff !important; color: #1a1a1a !important; font-family: 'Barlow', sans-serif !important; font-size: 11pt !important; line-height: 1.5 !important; }
+          #root, #root > div { background: #ffffff !important; color: #1a1a1a !important; min-height: auto !important; }
+          #root > div > div.min-h-screen[style] { background-color: #ffffff !important; }
+          
+          /* Force ALL text to dark - this overrides inline style="color: ..." */
+          p, span, div, h1, h2, h3, h4, h5, h6, li, strong, em, a, label { color: #1a1a1a !important; }
+          
+          /* Muted text (descriptions, secondary info) */
+          .text-xs { color: #444444 !important; }
+          .text-sm { color: #333333 !important; }
+          
+          /* Header */
           header { background: #ffffff !important; border-bottom: 2px solid #ED1C24 !important; padding: 12pt 20pt !important; }
-          header * { color: #1a1a1a !important; }
-          header .text-white\/50, header .text-white\/40 { color: #666666 !important; }
-          .no-print, button, input { display: none !important; }
+          header div[style] { background-color: #ffffff !important; }
+          
+          /* Hide interactive elements */
+          button, input, .no-print { display: none !important; }
+          
+          /* Section spacing */
           section { page-break-inside: avoid; margin-bottom: 16pt !important; }
           .max-w-4xl { max-width: 100% !important; padding: 16pt 20pt !important; }
           
           /* Philosophie cards */
           .border.border-white\/10.rounded-lg { border: 1px solid #ddd !important; background: #f9f9f9 !important; padding: 10pt !important; }
-          .border.border-white\/10.rounded-lg .text-red-500 { color: #ED1C24 !important; }
-          .border.border-white\/10.rounded-lg p { color: #333333 !important; }
-          
-          /* Section titles */
           .text-red-500 { color: #ED1C24 !important; }
+          
+          /* Section titles - Bebas Neue */
           h2 { color: #1a1a1a !important; font-family: 'Bebas Neue', sans-serif !important; font-size: 18pt !important; margin-bottom: 8pt !important; }
-          .text-xs.uppercase.tracking-\[3px\] { color: #ED1C24 !important; font-size: 8pt !important; }
           
-          /* Allures table */
+          /* Subtitle labels (AVANT DE COMMENCER, ÉTAPE 1, etc.) */
+          .text-xs.uppercase { color: #ED1C24 !important; font-size: 8pt !important; }
+          
+          /* Allures section container */
           .border.border-white\/10.rounded-xl { border: 1px solid #ddd !important; background: #ffffff !important; padding: 12pt !important; }
-          .border.border-white\/10.rounded-xl .font-semibold { color: #1a1a1a !important; }
-          .border.border-white\/10.rounded-xl .text-xs.text-white\/50 { color: #666666 !important; }
           .border.border-white\/5 { border-color: #eee !important; }
-          .hover\:border-white\/20 { border-color: #ddd !important; }
           
-          /* Week headers */
-          .px-3.py-1.rounded { padding: 3pt 8pt !important; border-radius: 3pt !important; }
-          .text-xs.text-white\/40.uppercase { color: #666666 !important; }
+          /* Allure pace values - override inline color with dark versions */
+          .text-xl.font-black[style], .sm\:text-2xl.font-black[style],
+          div.font-black.px-4.py-1.rounded[style] {
+            color: #1a1a1a !important;
+            background-color: #f0f0f0 !important;
+            border: 2px solid #ccc !important;
+          }
+          
+          /* Week header badges - KEEP colored background + white text */
+          .px-3.py-1.rounded[style] {
+            color: white !important;
+          }
+          
+          /* Week tag text */
+          .flex.items-center.gap-3 span.text-xs { color: #666666 !important; }
           .flex-1.h-px { background: #ddd !important; height: 1px !important; }
           
           /* Session cards */
           .relative.border.rounded-lg { border: 1px solid #ddd !important; background: #ffffff !important; padding: 8pt !important; page-break-inside: avoid; margin-bottom: 6pt !important; }
-          .relative.border.rounded-lg .text-xs.font-bold { color: #333333 !important; }
-          .relative.border.rounded-lg .font-semibold.text-sm { color: #1a1a1a !important; font-weight: 600 !important; }
-          .relative.border.rounded-lg .text-xs.text-white\/50 { color: #555555 !important; }
-          .relative.border.rounded-lg .opacity-70 { opacity: 0.8 !important; }
+          .relative.border.rounded-lg .opacity-70 { opacity: 0.85 !important; }
           
-          /* Zone badges - keep colored */
-          .inline-flex.items-center.gap-2 { border-radius: 3pt !important; padding: 2pt 6pt !important; }
+          /* Zone badges in session cards - make them print-friendly with solid borders */
+          .inline-flex.items-center.gap-2[style] {
+            background-color: #f5f5f5 !important;
+            color: #1a1a1a !important;
+            border: 1.5px solid #999 !important;
+            border-radius: 3pt !important;
+            padding: 2pt 6pt !important;
+          }
+          .inline-flex.items-center.gap-2[style] span { color: #1a1a1a !important; }
           
           /* Footer */
           footer { border-top: 1px solid #ddd !important; margin-top: 16pt !important; padding-top: 8pt !important; }
-          footer p { color: #999999 !important; }
+          footer p { color: #666666 !important; }
           
           /* Grid layout for print */
           .grid { display: grid !important; }
           .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; gap: 8pt !important; }
           .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 { grid-template-columns: repeat(4, 1fr) !important; gap: 8pt !important; }
           
-          /* Test section - show results but hide inputs */
+          /* Test section */
           .border.border-red-500\/30 { border: 1px solid #ED1C24 !important; background: #fff5f5 !important; padding: 10pt !important; }
           .border.border-red-500\/30 p { color: #333333 !important; }
-          .border.border-red-500\/30 .bg-white\/5 { background: #f0f0f0 !important; border-color: #ddd !important; color: #1a1a1a !important; }
+          .border.border-red-500\/30 strong { color: #1a1a1a !important; }
           
           /* Prediction box */
-          .mt-4.px-4.py-3.bg-white\/5 { background: #f5f5f5 !important; border: 1px solid #ddd !important; color: #333333 !important; }
+          .mt-4.px-4.py-3 { background: #f5f5f5 !important; border: 1px solid #ddd !important; color: #333333 !important; }
           
           /* Space between weeks */
           .space-y-8 > * + * { margin-top: 12pt !important; }
