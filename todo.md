@@ -52,3 +52,4 @@
 - [x] Créer composant React de programmation adaptative (calcul semaines, allures, localStorage)
 - [x] Remplacer les 3 pages iframe par les nouvelles pages React adaptatives
 - [x] Tester les 3 distances et vérifier la persistance des données
+- [x] Corriger le PDF de téléchargement des programmations de course (couleurs, polices, espaces lisibles)
