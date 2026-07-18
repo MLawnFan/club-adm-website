@@ -53,3 +53,4 @@
 - [x] Remplacer les 3 pages iframe par les nouvelles pages React adaptatives
 - [x] Tester les 3 distances et vérifier la persistance des données
 - [x] Corriger le PDF de téléchargement des programmations de course (couleurs, polices, espaces lisibles)
+- [x] Ajuster la numérotation des semaines pour commencer à 1 (au lieu du numéro original du plan complet)

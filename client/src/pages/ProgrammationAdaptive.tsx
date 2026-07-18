@@ -283,7 +283,7 @@ export default function ProgrammationAdaptive({ config }: Props) {
                       color: "white",
                     }}
                   >
-                    SEMAINE {week.s}
+                    SEMAINE {weekIdx + 1}
                   </div>
                   {week.tag && <span className="text-xs text-white/40 uppercase tracking-wider">{week.tag}</span>}
                   <div className="flex-1 h-px bg-white/10" />
