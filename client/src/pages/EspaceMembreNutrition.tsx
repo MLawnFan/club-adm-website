@@ -17,14 +17,23 @@ interface NutritionProfile {
   niveauHabitudes: number;
 }
 
+interface PortionEquivalent {
+  aliment: string;
+  quantiteGrammes: number;
+  unite: string;
+}
+
 interface NutritionPlan {
   imc: number;
   imcCategory: string;
   caloriesEstimees: number;
-  proteines: { paumes: number; exemples: string[] };
-  legumes: { poings: number; exemples: string[] };
-  glucides: { poings: number; exemples: string[] };
-  lipides: { pouces: number; exemples: string[] };
+  proteinesGrammes: number;
+  glucidesGrammes: number;
+  lipidesGrammes: number;
+  proteines: { paumes: number; grammes: number; equivalents: PortionEquivalent[] };
+  legumes: { poings: number; grammes: number; equivalents: PortionEquivalent[] };
+  glucides: { poings: number; grammes: number; equivalents: PortionEquivalent[] };
+  lipides: { pouces: number; grammes: number; equivalents: PortionEquivalent[] };
   repas: MealPlan[];
   epicerie: GroceryCategory[];
   niveauDepart: number;
@@ -120,12 +129,60 @@ function calculateCalories(profile: NutritionProfile, imc: number): number {
   }
 }
 
-function calculatePortions(profile: NutritionProfile, calories: number): {
-  proteines: { paumes: number; exemples: string[] };
-  legumes: { poings: number; exemples: string[] };
-  glucides: { poings: number; exemples: string[] };
-  lipides: { pouces: number; exemples: string[] };
-} {
+// ─── Équivalents en grammes par portion ──────────────────────
+const EQUIVALENTS_PROTEINES: PortionEquivalent[] = [
+  { aliment: "Poitrine de poulet", quantiteGrammes: 120, unite: "g" },
+  { aliment: "Poisson blanc (tilapia, sole)", quantiteGrammes: 140, unite: "g" },
+  { aliment: "Saumon", quantiteGrammes: 120, unite: "g" },
+  { aliment: "Boeuf maigre (90%+)", quantiteGrammes: 110, unite: "g" },
+  { aliment: "Oeufs entiers", quantiteGrammes: 150, unite: "g (3 oeufs)" },
+  { aliment: "Yogourt grec 0%", quantiteGrammes: 200, unite: "g (¾ tasse)" },
+  { aliment: "Tofu ferme", quantiteGrammes: 150, unite: "g" },
+  { aliment: "Crevettes", quantiteGrammes: 140, unite: "g" },
+  { aliment: "Dinde hachée", quantiteGrammes: 120, unite: "g" },
+  { aliment: "Cottage cheese 1%", quantiteGrammes: 200, unite: "g (¾ tasse)" },
+];
+
+const EQUIVALENTS_LEGUMES: PortionEquivalent[] = [
+  { aliment: "Brocoli", quantiteGrammes: 150, unite: "g (1 tasse)" },
+  { aliment: "Épinards crus", quantiteGrammes: 60, unite: "g (2 tasses)" },
+  { aliment: "Poivrons", quantiteGrammes: 150, unite: "g (1 moyen)" },
+  { aliment: "Courgettes", quantiteGrammes: 180, unite: "g (1 moyenne)" },
+  { aliment: "Carottes", quantiteGrammes: 130, unite: "g (2 moyennes)" },
+  { aliment: "Chou-fleur", quantiteGrammes: 150, unite: "g (1 tasse)" },
+  { aliment: "Tomates", quantiteGrammes: 180, unite: "g (1 grosse)" },
+  { aliment: "Concombre", quantiteGrammes: 200, unite: "g (½ concombre)" },
+  { aliment: "Haricots verts", quantiteGrammes: 150, unite: "g (1 tasse)" },
+  { aliment: "Champignons", quantiteGrammes: 150, unite: "g (1 tasse)" },
+];
+
+const EQUIVALENTS_GLUCIDES: PortionEquivalent[] = [
+  { aliment: "Riz cuit (basmati/jasmin)", quantiteGrammes: 150, unite: "g (¾ tasse)" },
+  { aliment: "Patate douce", quantiteGrammes: 150, unite: "g (1 moyenne)" },
+  { aliment: "Avoine sèche", quantiteGrammes: 45, unite: "g (½ tasse)" },
+  { aliment: "Quinoa cuit", quantiteGrammes: 130, unite: "g (¾ tasse)" },
+  { aliment: "Pain complet", quantiteGrammes: 60, unite: "g (2 tranches)" },
+  { aliment: "Pâtes cuites", quantiteGrammes: 150, unite: "g (¾ tasse)" },
+  { aliment: "Banane", quantiteGrammes: 120, unite: "g (1 moyenne)" },
+  { aliment: "Pomme de terre", quantiteGrammes: 150, unite: "g (1 moyenne)" },
+  { aliment: "Fruits de saison", quantiteGrammes: 150, unite: "g (1 tasse)" },
+  { aliment: "Tortilla blé entier", quantiteGrammes: 60, unite: "g (1 grande)" },
+];
+
+const EQUIVALENTS_LIPIDES: PortionEquivalent[] = [
+  { aliment: "Avocat", quantiteGrammes: 30, unite: "g (⅙ avocat)" },
+  { aliment: "Huile d'olive", quantiteGrammes: 7, unite: "g (1 c. à thé)" },
+  { aliment: "Noix mélangées", quantiteGrammes: 10, unite: "g (6-8 noix)" },
+  { aliment: "Beurre d'arachide naturel", quantiteGrammes: 10, unite: "g (1 c. à thé)" },
+  { aliment: "Graines de chia", quantiteGrammes: 8, unite: "g (1 c. à thé)" },
+  { aliment: "Fromage", quantiteGrammes: 15, unite: "g (1 tranche mince)" },
+  { aliment: "Graines de lin moulues", quantiteGrammes: 8, unite: "g (1 c. à thé)" },
+  { aliment: "Olives", quantiteGrammes: 15, unite: "g (3-4 olives)" },
+  { aliment: "Beurre d'amande", quantiteGrammes: 10, unite: "g (1 c. à thé)" },
+  { aliment: "Huile de coco", quantiteGrammes: 7, unite: "g (1 c. à thé)" },
+];
+
+function calculatePortions(profile: NutritionProfile, calories: number) {
   const isFemme = profile.sexe === "Femme";
   const palmeCalories = isFemme ? 120 : 160;
   const poingLegCalories = 25;
@@ -138,23 +195,46 @@ function calculatePortions(profile: NutritionProfile, calories: number): {
   const calLip = calories * 0.25;
   const calLeg = calories * 0.10;
 
+  const palmesProteines = Math.round(calProt / palmeCalories);
+  const poingsLegumes = Math.max(3, Math.round(calLeg / poingLegCalories));
+  const poingsGlucides = Math.round(calGluc / poingGlucCalories);
+  const poucesLipides = Math.round(calLip / pouceCalories);
+
+  // Calcul en grammes de macros
+  const proteinesGrammes = Math.round(calProt / 4);
+  const glucidesGrammes = Math.round(calGluc / 4);
+  const lipidesGrammes = Math.round(calLip / 9);
+
+  // Grammes par portion
+  const grammesParPalme = isFemme ? 100 : 130;
+  const grammesParPoingLeg = 150;
+  const grammesParPoingGluc = isFemme ? 120 : 150;
+  const grammesParPouce = 10;
+
   return {
     proteines: {
-      paumes: Math.round(calProt / palmeCalories),
-      exemples: ["Poulet", "Poisson", "Oeufs", "Tofu", "Boeuf maigre", "Yogourt grec"],
+      paumes: palmesProteines,
+      grammes: palmesProteines * grammesParPalme,
+      equivalents: EQUIVALENTS_PROTEINES,
     },
     legumes: {
-      poings: Math.max(3, Math.round(calLeg / poingLegCalories)),
-      exemples: ["Brocoli", "Épinards", "Poivrons", "Courgettes", "Carottes", "Chou-fleur"],
+      poings: poingsLegumes,
+      grammes: poingsLegumes * grammesParPoingLeg,
+      equivalents: EQUIVALENTS_LEGUMES,
     },
     glucides: {
-      poings: Math.round(calGluc / poingGlucCalories),
-      exemples: ["Riz", "Patates douces", "Avoine", "Quinoa", "Pain complet", "Fruits"],
+      poings: poingsGlucides,
+      grammes: poingsGlucides * grammesParPoingGluc,
+      equivalents: EQUIVALENTS_GLUCIDES,
     },
     lipides: {
-      pouces: Math.round(calLip / pouceCalories),
-      exemples: ["Avocat", "Huile d'olive", "Noix", "Beurre d'arachide", "Graines de chia", "Saumon"],
+      pouces: poucesLipides,
+      grammes: poucesLipides * grammesParPouce,
+      equivalents: EQUIVALENTS_LIPIDES,
     },
+    proteinesGrammes,
+    glucidesGrammes,
+    lipidesGrammes,
   };
 }
 
@@ -163,26 +243,37 @@ function generatePlan(profile: NutritionProfile): NutritionPlan {
   const calories = calculateCalories(profile, imc);
   const portions = calculatePortions(profile, calories);
 
+  const isFemme = profile.sexe === "Femme";
+  const gProtParPalme = isFemme ? 100 : 130;
+  const gGlucParPoing = isFemme ? 120 : 150;
+  const gLipParPouce = 10;
+  const gLegParPoing = 150;
+
+  const protParRepas = Math.ceil(portions.proteines.paumes / 3);
+  const glucParRepas = Math.ceil(portions.glucides.poings / 3);
+  const lipParRepas = Math.ceil(portions.lipides.pouces / 3);
+  const legParRepas = Math.ceil(portions.legumes.poings / 3);
+
   const repas: MealPlan[] = [
     {
       nom: "Déjeuner",
       description: "Premier repas de la journée — énergie et protéines",
-      portions: `${Math.ceil(portions.proteines.paumes / 3)} paume(s) protéines + ${Math.ceil(portions.glucides.poings / 3)} poing(s) glucides + ${Math.ceil(portions.lipides.pouces / 3)} pouce(s) lipides`,
+      portions: `${protParRepas} paume(s) protéines (~${protParRepas * gProtParPalme}g) + ${glucParRepas} poing(s) glucides (~${glucParRepas * gGlucParPoing}g) + ${lipParRepas} pouce(s) lipides (~${lipParRepas * gLipParPouce}g)`,
     },
     {
       nom: "Dîner",
       description: "Repas du midi — équilibre complet",
-      portions: `${Math.ceil(portions.proteines.paumes / 3)} paume(s) protéines + ${Math.ceil(portions.legumes.poings / 3)} poing(s) légumes + ${Math.ceil(portions.glucides.poings / 3)} poing(s) glucides + ${Math.ceil(portions.lipides.pouces / 3)} pouce(s) lipides`,
+      portions: `${protParRepas} paume(s) protéines (~${protParRepas * gProtParPalme}g) + ${legParRepas} poing(s) légumes (~${legParRepas * gLegParPoing}g) + ${glucParRepas} poing(s) glucides (~${glucParRepas * gGlucParPoing}g) + ${lipParRepas} pouce(s) lipides (~${lipParRepas * gLipParPouce}g)`,
     },
     {
       nom: "Souper",
       description: "Repas du soir — récupération",
-      portions: `${Math.ceil(portions.proteines.paumes / 3)} paume(s) protéines + ${Math.ceil(portions.legumes.poings / 2)} poing(s) légumes + ${Math.ceil(portions.glucides.poings / 4)} poing(s) glucides + ${Math.ceil(portions.lipides.pouces / 3)} pouce(s) lipides`,
+      portions: `${protParRepas} paume(s) protéines (~${protParRepas * gProtParPalme}g) + ${Math.ceil(portions.legumes.poings / 2)} poing(s) légumes (~${Math.ceil(portions.legumes.poings / 2) * gLegParPoing}g) + ${Math.ceil(portions.glucides.poings / 4)} poing(s) glucides (~${Math.ceil(portions.glucides.poings / 4) * gGlucParPoing}g) + ${lipParRepas} pouce(s) lipides (~${lipParRepas * gLipParPouce}g)`,
     },
     {
       nom: "Collation (si nécessaire)",
       description: "Entre les repas — selon ta faim",
-      portions: `1 paume protéines + 1 poing fruits ou glucides`,
+      portions: `1 paume protéines (~${gProtParPalme}g) + 1 poing fruits ou glucides (~${gGlucParPoing}g)`,
     },
   ];
 
@@ -206,6 +297,9 @@ function generatePlan(profile: NutritionProfile): NutritionPlan {
     imc,
     imcCategory: category,
     caloriesEstimees: calories,
+    proteinesGrammes: portions.proteinesGrammes,
+    glucidesGrammes: portions.glucidesGrammes,
+    lipidesGrammes: portions.lipidesGrammes,
     proteines: portions.proteines,
     legumes: portions.legumes,
     glucides: portions.glucides,
@@ -506,16 +600,26 @@ export default function EspaceMembreNutrition() {
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-foreground">{plan.imc}</span>
-                  <p className="text-xs text-muted-foreground mt-1">IMC ({plan.imcCategory})</p>
-                </div>
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
                   <span className="text-2xl font-bold text-primary">{plan.caloriesEstimees}</span>
                   <p className="text-xs text-muted-foreground mt-1">Calories/jour</p>
                 </div>
                 <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-foreground">{plan.proteines.paumes}</span>
-                  <p className="text-xs text-muted-foreground mt-1">Paumes protéines</p>
+                  <span className="text-2xl font-bold text-green-400">{plan.proteinesGrammes}g</span>
+                  <p className="text-xs text-muted-foreground mt-1">Protéines</p>
+                </div>
+                <div className="bg-secondary/50 rounded-xl p-4 text-center">
+                  <span className="text-2xl font-bold text-amber-400">{plan.glucidesGrammes}g</span>
+                  <p className="text-xs text-muted-foreground mt-1">Glucides</p>
+                </div>
+                <div className="bg-secondary/50 rounded-xl p-4 text-center">
+                  <span className="text-2xl font-bold text-purple-400">{plan.lipidesGrammes}g</span>
+                  <p className="text-xs text-muted-foreground mt-1">Lipides</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="bg-secondary/50 rounded-xl p-4 text-center">
+                  <span className="text-2xl font-bold text-foreground">{plan.imc}</span>
+                  <p className="text-xs text-muted-foreground mt-1">IMC ({plan.imcCategory})</p>
                 </div>
                 <div className="bg-secondary/50 rounded-xl p-4 text-center">
                   <span className="text-2xl font-bold text-foreground">Niv. {plan.niveauDepart}</span>
@@ -524,37 +628,90 @@ export default function EspaceMembreNutrition() {
               </div>
             </div>
 
-            {/* Portions quotidiennes */}
+            {/* Portions quotidiennes avec grammes */}
             <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
               <h2 className="font-display text-xl text-foreground mb-6">Tes portions quotidiennes</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold text-foreground">Protéines</span>
                     <span className="text-green-400 font-bold">{plan.proteines.paumes} paumes/jour</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">{plan.proteines.exemples.join(", ")}</p>
+                  <p className="text-sm text-primary font-medium">≈ {plan.proteines.grammes}g total/jour</p>
                 </div>
                 <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold text-foreground">Légumes</span>
                     <span className="text-emerald-400 font-bold">{plan.legumes.poings} poings/jour</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">{plan.legumes.exemples.join(", ")}</p>
+                  <p className="text-sm text-primary font-medium">≈ {plan.legumes.grammes}g total/jour</p>
                 </div>
                 <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold text-foreground">Glucides</span>
                     <span className="text-amber-400 font-bold">{plan.glucides.poings} poings/jour</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">{plan.glucides.exemples.join(", ")}</p>
+                  <p className="text-sm text-primary font-medium">≈ {plan.glucides.grammes}g total/jour</p>
                 </div>
                 <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold text-foreground">Bons gras</span>
                     <span className="text-purple-400 font-bold">{plan.lipides.pouces} pouces/jour</span>
                   </div>
-                  <p className="text-sm text-muted-foreground">{plan.lipides.exemples.join(", ")}</p>
+                  <p className="text-sm text-primary font-medium">≈ {plan.lipides.grammes}g total/jour</p>
+                </div>
+              </div>
+
+              {/* Tableau d'équivalents en grammes */}
+              <h3 className="font-semibold text-foreground mb-4 text-lg">1 portion = combien de grammes ?</h3>
+              <div className="space-y-4">
+                {/* Protéines */}
+                <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-4">
+                  <h4 className="font-semibold text-green-400 mb-3 text-sm">1 PAUME DE PROTÉINES =</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {plan.proteines.equivalents.map((eq, i) => (
+                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
+                        <span className="text-sm text-foreground">{eq.aliment}</span>
+                        <span className="text-sm font-bold text-green-400">{eq.quantiteGrammes}{eq.unite}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Légumes */}
+                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
+                  <h4 className="font-semibold text-emerald-400 mb-3 text-sm">1 POING DE LÉGUMES =</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {plan.legumes.equivalents.map((eq, i) => (
+                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
+                        <span className="text-sm text-foreground">{eq.aliment}</span>
+                        <span className="text-sm font-bold text-emerald-400">{eq.quantiteGrammes}{eq.unite}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Glucides */}
+                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
+                  <h4 className="font-semibold text-amber-400 mb-3 text-sm">1 POING DE GLUCIDES =</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {plan.glucides.equivalents.map((eq, i) => (
+                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
+                        <span className="text-sm text-foreground">{eq.aliment}</span>
+                        <span className="text-sm font-bold text-amber-400">{eq.quantiteGrammes}{eq.unite}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* Lipides */}
+                <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-4">
+                  <h4 className="font-semibold text-purple-400 mb-3 text-sm">1 POUCE DE LIPIDES =</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {plan.lipides.equivalents.map((eq, i) => (
+                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
+                        <span className="text-sm text-foreground">{eq.aliment}</span>
+                        <span className="text-sm font-bold text-purple-400">{eq.quantiteGrammes}{eq.unite}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

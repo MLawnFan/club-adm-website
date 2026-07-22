@@ -63,3 +63,7 @@
 - [x] Module 3 — Guide habitudes de vie (5 sous-modules + tracker + check-ins)
 - [x] Module 4 — Espace communauté (fil d'actualité + défis + Q&A)
 - [x] Dashboard membre avec progression globale
+
+## Starter Pack ADM — Améliorations
+- [x] Refactorer Module Entraînement : 4 semaines (pas 12), style BRUTE Pro (calendrier semaine, blocs détaillés, bouton Valider, liens Media)
+- [x] Enrichir Module Nutrition : ajouter portions en grammes + liste d'aliments avec quantités exactes par portion
