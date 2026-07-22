@@ -1,4 +1,4 @@
-# Project TODO
+# Project TODO - Club ADM
 
 ## Pages publiques
 - [x] Homepage layout complet
@@ -67,3 +67,4 @@
 ## Starter Pack ADM — Améliorations
 - [x] Refactorer Module Entraînement : 4 semaines (pas 12), style BRUTE Pro (calendrier semaine, blocs détaillés, bouton Valider, liens Media)
 - [x] Enrichir Module Nutrition : ajouter portions en grammes + liste d'aliments avec quantités exactes par portion
+- [x] Ajouter liste d'épicerie hebdomadaire automatique basée sur les portions en grammes et équivalents choisis

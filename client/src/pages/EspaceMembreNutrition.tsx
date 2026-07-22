@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, ArrowRight, Apple, Check, Printer, RotateCcw } from "lucide-react";
+import { ArrowLeft, ArrowRight, Apple, Check, Printer, RotateCcw, ShoppingCart, Plus, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -309,6 +309,297 @@ function generatePlan(profile: NutritionProfile): NutritionPlan {
     niveauDepart: profile.niveauHabitudes,
     progression,
   };
+}
+
+// ─── Liste d'épicerie hebdomadaire automatique ──────────────────
+interface WeeklyGroceryItem {
+  aliment: string;
+  quantiteParPortion: number;
+  unite: string;
+  portionsParJour: number;
+  totalSemaine: number;
+  categorie: 'proteines' | 'legumes' | 'glucides' | 'lipides';
+}
+
+function generateWeeklyGroceryList(plan: NutritionPlan): WeeklyGroceryItem[] {
+  const items: WeeklyGroceryItem[] = [];
+
+  // Protéines: répartir les portions sur les top 5 aliments variés
+  const protTopPicks = plan.proteines.equivalents.slice(0, 6);
+  const protPortionsPerItem = plan.proteines.paumes / protTopPicks.length;
+  protTopPicks.forEach((eq) => {
+    items.push({
+      aliment: eq.aliment,
+      quantiteParPortion: eq.quantiteGrammes,
+      unite: 'g',
+      portionsParJour: Math.round(protPortionsPerItem * 10) / 10,
+      totalSemaine: Math.round(protPortionsPerItem * eq.quantiteGrammes * 7),
+      categorie: 'proteines',
+    });
+  });
+
+  // Légumes: répartir sur les top 6 légumes
+  const legTopPicks = plan.legumes.equivalents.slice(0, 6);
+  const legPortionsPerItem = plan.legumes.poings / legTopPicks.length;
+  legTopPicks.forEach((eq) => {
+    items.push({
+      aliment: eq.aliment,
+      quantiteParPortion: eq.quantiteGrammes,
+      unite: 'g',
+      portionsParJour: Math.round(legPortionsPerItem * 10) / 10,
+      totalSemaine: Math.round(legPortionsPerItem * eq.quantiteGrammes * 7),
+      categorie: 'legumes',
+    });
+  });
+
+  // Glucides: répartir sur les top 5 sources
+  const glucTopPicks = plan.glucides.equivalents.slice(0, 5);
+  const glucPortionsPerItem = plan.glucides.poings / glucTopPicks.length;
+  glucTopPicks.forEach((eq) => {
+    items.push({
+      aliment: eq.aliment,
+      quantiteParPortion: eq.quantiteGrammes,
+      unite: 'g',
+      portionsParJour: Math.round(glucPortionsPerItem * 10) / 10,
+      totalSemaine: Math.round(glucPortionsPerItem * eq.quantiteGrammes * 7),
+      categorie: 'glucides',
+    });
+  });
+
+  // Lipides: répartir sur les top 5 sources
+  const lipTopPicks = plan.lipides.equivalents.slice(0, 5);
+  const lipPortionsPerItem = plan.lipides.pouces / lipTopPicks.length;
+  lipTopPicks.forEach((eq) => {
+    items.push({
+      aliment: eq.aliment,
+      quantiteParPortion: eq.quantiteGrammes,
+      unite: 'g',
+      portionsParJour: Math.round(lipPortionsPerItem * 10) / 10,
+      totalSemaine: Math.round(lipPortionsPerItem * eq.quantiteGrammes * 7),
+      categorie: 'lipides',
+    });
+  });
+
+  return items;
+}
+
+function formatGrams(g: number): string {
+  if (g >= 1000) return `${(g / 1000).toFixed(1)} kg`;
+  return `${g}g`;
+}
+
+// ─── Composant WeeklyGrocerySection ────────────────────────────
+interface SelectedFoods {
+  proteines: string[];
+  legumes: string[];
+  glucides: string[];
+  lipides: string[];
+}
+
+function WeeklyGrocerySection({ plan }: { plan: NutritionPlan }) {
+  const [nbPersonnes, setNbPersonnes] = useState(1);
+  const [selectedFoods, setSelectedFoods] = useState<SelectedFoods>(() => {
+    const saved = localStorage.getItem('starterpack-grocery-selections');
+    if (saved) {
+      try { return JSON.parse(saved); } catch {}
+    }
+    // Par défaut: sélectionner les 4 premiers de chaque catégorie
+    return {
+      proteines: plan.proteines.equivalents.slice(0, 4).map(e => e.aliment),
+      legumes: plan.legumes.equivalents.slice(0, 5).map(e => e.aliment),
+      glucides: plan.glucides.equivalents.slice(0, 4).map(e => e.aliment),
+      lipides: plan.lipides.equivalents.slice(0, 4).map(e => e.aliment),
+    };
+  });
+
+  // Persister les choix
+  useEffect(() => {
+    localStorage.setItem('starterpack-grocery-selections', JSON.stringify(selectedFoods));
+  }, [selectedFoods]);
+
+  const toggleFood = (categorie: keyof SelectedFoods, aliment: string) => {
+    setSelectedFoods(prev => {
+      const current = prev[categorie];
+      const updated = current.includes(aliment)
+        ? current.filter(a => a !== aliment)
+        : [...current, aliment];
+      return { ...prev, [categorie]: updated };
+    });
+  };
+
+  // Calculer la liste d'épicerie basée sur les aliments sélectionnés
+  const computedGrocery = useMemo(() => {
+    const result: { categorie: string; aliment: string; totalSemaine: number; color: string }[] = [];
+
+    // Protéines
+    const selProt = plan.proteines.equivalents.filter(e => selectedFoods.proteines.includes(e.aliment));
+    if (selProt.length > 0) {
+      const portionsPerItem = plan.proteines.paumes / selProt.length;
+      selProt.forEach(eq => {
+        result.push({ categorie: 'proteines', aliment: eq.aliment, totalSemaine: Math.round(portionsPerItem * eq.quantiteGrammes * 7), color: 'green' });
+      });
+    }
+
+    // Légumes
+    const selLeg = plan.legumes.equivalents.filter(e => selectedFoods.legumes.includes(e.aliment));
+    if (selLeg.length > 0) {
+      const portionsPerItem = plan.legumes.poings / selLeg.length;
+      selLeg.forEach(eq => {
+        result.push({ categorie: 'legumes', aliment: eq.aliment, totalSemaine: Math.round(portionsPerItem * eq.quantiteGrammes * 7), color: 'emerald' });
+      });
+    }
+
+    // Glucides
+    const selGluc = plan.glucides.equivalents.filter(e => selectedFoods.glucides.includes(e.aliment));
+    if (selGluc.length > 0) {
+      const portionsPerItem = plan.glucides.poings / selGluc.length;
+      selGluc.forEach(eq => {
+        result.push({ categorie: 'glucides', aliment: eq.aliment, totalSemaine: Math.round(portionsPerItem * eq.quantiteGrammes * 7), color: 'amber' });
+      });
+    }
+
+    // Lipides
+    const selLip = plan.lipides.equivalents.filter(e => selectedFoods.lipides.includes(e.aliment));
+    if (selLip.length > 0) {
+      const portionsPerItem = plan.lipides.pouces / selLip.length;
+      selLip.forEach(eq => {
+        result.push({ categorie: 'lipides', aliment: eq.aliment, totalSemaine: Math.round(portionsPerItem * eq.quantiteGrammes * 7), color: 'purple' });
+      });
+    }
+
+    return result;
+  }, [plan, selectedFoods]);
+
+  const categories = [
+    { key: 'proteines' as const, label: 'Protéines', color: 'green', equivalents: plan.proteines.equivalents },
+    { key: 'legumes' as const, label: 'Légumes', color: 'emerald', equivalents: plan.legumes.equivalents },
+    { key: 'glucides' as const, label: 'Glucides', color: 'amber', equivalents: plan.glucides.equivalents },
+    { key: 'lipides' as const, label: 'Bons gras', color: 'purple', equivalents: plan.lipides.equivalents },
+  ];
+
+  const colorClasses: Record<string, { bg: string; border: string; text: string; selected: string }> = {
+    green: { bg: 'bg-green-500/5', border: 'border-green-500/20', text: 'text-green-400', selected: 'bg-green-500/20 border-green-500/50' },
+    emerald: { bg: 'bg-emerald-500/5', border: 'border-emerald-500/20', text: 'text-emerald-400', selected: 'bg-emerald-500/20 border-emerald-500/50' },
+    amber: { bg: 'bg-amber-500/5', border: 'border-amber-500/20', text: 'text-amber-400', selected: 'bg-amber-500/20 border-amber-500/50' },
+    purple: { bg: 'bg-purple-500/5', border: 'border-purple-500/20', text: 'text-purple-400', selected: 'bg-purple-500/20 border-purple-500/50' },
+  };
+
+  return (
+    <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center">
+            <ShoppingCart className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <h2 className="font-display text-xl text-foreground">Épicerie hebdomadaire</h2>
+            <p className="text-sm text-muted-foreground">Sélectionne tes aliments préférés pour générer ta liste</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-2">
+          <button
+            onClick={() => setNbPersonnes(Math.max(1, nbPersonnes - 1))}
+            className="w-7 h-7 rounded-md bg-background flex items-center justify-center hover:bg-primary/20 transition-colors"
+          >
+            <Minus className="w-3 h-3 text-foreground" />
+          </button>
+          <span className="text-sm font-bold text-foreground min-w-[3ch] text-center">{nbPersonnes}</span>
+          <button
+            onClick={() => setNbPersonnes(Math.min(6, nbPersonnes + 1))}
+            className="w-7 h-7 rounded-md bg-background flex items-center justify-center hover:bg-primary/20 transition-colors"
+          >
+            <Plus className="w-3 h-3 text-foreground" />
+          </button>
+          <span className="text-xs text-muted-foreground ml-1">pers.</span>
+        </div>
+      </div>
+
+      {/* Sélection des aliments */}
+      <div className="space-y-4 mb-6">
+        {categories.map(({ key, label, color, equivalents }) => {
+          const cls = colorClasses[color];
+          const selected = selectedFoods[key];
+          return (
+            <div key={key} className={`${cls.bg} border ${cls.border} rounded-xl p-4`}>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className={`font-semibold ${cls.text} text-sm uppercase`}>{label}</h3>
+                <span className="text-xs text-muted-foreground">{selected.length} sélectionné(s)</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {equivalents.map((eq) => {
+                  const isSelected = selected.includes(eq.aliment);
+                  return (
+                    <button
+                      key={eq.aliment}
+                      onClick={() => toggleFood(key, eq.aliment)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                        isSelected
+                          ? `${cls.selected} ${cls.text}`
+                          : 'bg-background/30 border-border/50 text-muted-foreground hover:border-border'
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3 h-3 inline mr-1" />}
+                      {eq.aliment}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Liste d'épicerie calculée */}
+      <div className="border-t border-border pt-6">
+        <h3 className="font-display text-lg text-foreground mb-4">Ta liste de la semaine</h3>
+        <div className="space-y-3">
+          {(['proteines', 'legumes', 'glucides', 'lipides'] as const).map((cat) => {
+            const items = computedGrocery.filter(g => g.categorie === cat);
+            if (items.length === 0) return null;
+            const cls = colorClasses[items[0].color];
+            const catLabel = categories.find(c => c.key === cat)?.label || cat;
+            return (
+              <div key={cat} className={`${cls.bg} border ${cls.border} rounded-xl p-4`}>
+                <h4 className={`font-semibold ${cls.text} mb-2 text-sm uppercase`}>{catLabel}</h4>
+                <div className="space-y-1.5">
+                  {items.map((item, i) => (
+                    <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
+                      <div className="flex items-center gap-2">
+                        <Check className={`w-3 h-3 ${cls.text} flex-shrink-0`} />
+                        <span className="text-sm text-foreground">{item.aliment}</span>
+                      </div>
+                      <span className={`text-sm font-bold ${cls.text}`}>
+                        {formatGrams(item.totalSemaine * nbPersonnes)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2 pt-2 border-t border-border/50 flex justify-between">
+                  <span className="text-xs text-muted-foreground">Total</span>
+                  <span className={`text-xs font-bold ${cls.text}`}>
+                    {formatGrams(items.reduce((sum, item) => sum + item.totalSemaine * nbPersonnes, 0))}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Essentiels à toujours avoir */}
+      <div className="mt-4 bg-secondary/30 border border-border rounded-xl p-4">
+        <h3 className="font-semibold text-foreground mb-3 text-sm">ESSENTIELS À TOUJOURS AVOIR</h3>
+        <div className="grid grid-cols-2 gap-2">
+          {['Épices variées', 'Sauce soya réduite en sodium', 'Vinaigre balsamique', 'Moutarde de Dijon', 'Bouillon faible en sodium', 'Sel & poivre'].map((item, i) => (
+            <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Check className="w-3 h-3 text-muted-foreground flex-shrink-0" />
+              {item}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ─── Composant principal ───────────────────────────────────────
@@ -735,25 +1026,8 @@ export default function EspaceMembreNutrition() {
               </div>
             </div>
 
-            {/* Liste d'épicerie */}
-            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
-              <h2 className="font-display text-xl text-foreground mb-6">Liste d'épicerie</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {plan.epicerie.map((cat, i) => (
-                  <div key={i} className="bg-secondary/30 rounded-xl p-4">
-                    <h3 className="font-semibold text-foreground mb-2">{cat.categorie}</h3>
-                    <ul className="space-y-1">
-                      {cat.items.map((item, j) => (
-                        <li key={j} className="text-sm text-muted-foreground flex items-center gap-2">
-                          <Check className="w-3 h-3 text-green-400 flex-shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
+            {/* Liste d'épicerie hebdomadaire automatique */}
+            <WeeklyGrocerySection plan={plan} />
 
             {/* Parcours de progression */}
             <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
