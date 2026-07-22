@@ -26,6 +26,11 @@ import ProgrammeDashboard from "./pages/ProgrammeDashboard";
 import ProgrammeModule from "./pages/ProgrammeModule";
 import ProgrammePreview from "./pages/ProgrammePreview";
 import ProgrammePreviewModule from "./pages/ProgrammePreviewModule";
+import EspaceMembre from "./pages/EspaceMembre";
+import EspaceMembreNutrition from "./pages/EspaceMembreNutrition";
+import EspaceMembreEntrainement from "./pages/EspaceMembreEntrainement";
+import EspaceMembreHabitudes from "./pages/EspaceMembreHabitudes";
+import EspaceMembreCommunaute from "./pages/EspaceMembreCommunaute";
 import GHLChat from "./components/GHLChat";
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -54,6 +59,12 @@ function Router() {
       <Route path={"/programme/preview"} component={ProgrammePreview} />
       <Route path={"/programme/module/:id"} component={ProgrammeModule} />
       <Route path={"/programme"} component={ProgrammeDashboard} />
+      {/* Starter Pack ADM — Espace Membre */}
+      <Route path={"/espace-membre"} component={EspaceMembre} />
+      <Route path={"/espace-membre/nutrition"} component={EspaceMembreNutrition} />
+      <Route path={"/espace-membre/entrainement"} component={EspaceMembreEntrainement} />
+      <Route path={"/espace-membre/habitudes"} component={EspaceMembreHabitudes} />
+      <Route path={"/espace-membre/communaute"} component={EspaceMembreCommunaute} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

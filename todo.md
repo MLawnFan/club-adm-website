@@ -55,3 +55,11 @@
 - [x] Corriger le PDF de téléchargement des programmations de course (couleurs, polices, espaces lisibles)
 - [x] Ajuster la numérotation des semaines pour commencer à 1 (au lieu du numéro original du plan complet)
 - [x] Corriger le PDF : texte invisible (blanc sur blanc) lors de l'impression — forcer texte noir sur fond blanc
+
+## Starter Pack ADM — Modules interactifs
+- [x] Structure de base : routes /espace-membre, dashboard, navigation
+- [x] Module 1 — Plan nutritionnel personnalisé (questionnaire interactif + génération plan)
+- [x] Module 2 — Programmation entraînement adaptée (gym/maison, objectifs, blessures, 12 semaines)
+- [x] Module 3 — Guide habitudes de vie (5 sous-modules + tracker + check-ins)
+- [x] Module 4 — Espace communauté (fil d'actualité + défis + Q&A)
+- [x] Dashboard membre avec progression globale
