@@ -11,6 +11,30 @@ const IMG_MARC = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
 const IMG_SOPHIE = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
 const IMG_JEAN = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 
+const videoTestimonials = [
+  {
+    name: "M.A.",
+    language: "Français",
+    quote: "J’essaie de progresser chaque fois. Pas toujours facile, mais on y arrive.",
+    video: "/manus-storage/temoignage-ma-web_41cbdbcb.mp4",
+    poster: "/manus-storage/temoignage-ma-poster_238617e2.jpg",
+  },
+  {
+    name: "Fares",
+    language: "Français",
+    quote: "Les coachs font vraiment la différence. Ici, on est vraiment bien tombés.",
+    video: "/manus-storage/temoignage-fares-web_d5ff2428.mp4",
+    poster: "/manus-storage/temoignage-fares-poster_2ada9acd.jpg",
+  },
+  {
+    name: "Anne",
+    language: "English",
+    quote: "Ils me poussent à me dépasser, étape par étape. Je vois les progrès.",
+    video: "/manus-storage/temoignage-anne-web_f7e21fce.mp4",
+    poster: "/manus-storage/temoignage-anne-poster_bf6c4e41.jpg",
+  },
+];
+
 const testimonials = [
   {
     name: "Marie-Ève L.", age: 32, image: IMG_MARIE, location: "Brossard", duration: "8 mois",
@@ -61,6 +85,74 @@ export default function Testimonials() {
           <h2 className="text-4xl md:text-5xl lg:text-6xl leading-none text-white" style={{ fontFamily: "var(--font-display)" }}>
             ILS ONT TRANSFORMÉ LEUR VIE
           </h2>
+        </div>
+
+        {/* Video Testimonials */}
+        <div className="mb-16 lg:mb-20">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-8">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] mb-2" style={{ color: "#ed1c24" }}>
+                Témoignages vidéo
+              </p>
+              <h3 className="text-3xl md:text-4xl text-white leading-none">
+                ÉCOUTE LEUR HISTOIRE
+              </h3>
+            </div>
+            <p className="max-w-xl text-sm md:text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+              Trois membres racontent, dans leurs propres mots, ce qui les fait progresser et revenir chez Club ADM.
+            </p>
+          </div>
+
+          <div className="-mx-6 px-6 lg:mx-0 lg:px-0 overflow-x-auto lg:overflow-visible snap-x snap-mandatory pb-4 lg:pb-0">
+            <div className="flex lg:grid lg:grid-cols-3 gap-5 lg:gap-6">
+              {videoTestimonials.map((testimonial, index) => (
+                <motion.article
+                  key={testimonial.name}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  className="group min-w-[82vw] sm:min-w-[360px] lg:min-w-0 snap-center rounded-xl overflow-hidden border border-white/[0.08] transition-transform duration-200 hover:-translate-y-1"
+                  style={{ backgroundColor: "rgba(255,255,255,0.035)" }}
+                >
+                  <div className="relative aspect-[9/16] overflow-hidden bg-black">
+                    <video
+                      className="h-full w-full object-cover"
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster={testimonial.poster}
+                      aria-label={`Témoignage vidéo de ${testimonial.name}`}
+                    >
+                      <source src={testimonial.video} type="video/mp4" />
+                      Ton navigateur ne prend pas en charge la lecture vidéo.
+                    </video>
+                    <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2 rounded-full border border-white/10 bg-[#0f1229]/85 px-3 py-1.5 backdrop-blur-md">
+                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: "#ed1c24" }} />
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/80">
+                        {testimonial.language}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-5 lg:p-6">
+                    <div className="flex gap-1 mb-3" aria-label="5 étoiles sur 5">
+                      {Array.from({ length: 5 }).map((_, starIndex) => (
+                        <Star key={starIndex} size={14} fill="#ed1c24" stroke="none" />
+                      ))}
+                    </div>
+                    <p className="text-white/70 leading-relaxed mb-4">
+                      « {testimonial.quote} »
+                    </p>
+                    <p className="font-bold text-white">{testimonial.name}</p>
+                    <p className="text-xs uppercase tracking-[0.14em] text-white/35">Membre Club ADM</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+          <p className="mt-3 text-center text-xs text-white/30 lg:hidden">
+            Glisse pour voir les trois témoignages
+          </p>
         </div>
 
         {/* Testimonial Card */}
