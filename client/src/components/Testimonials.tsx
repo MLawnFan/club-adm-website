@@ -17,21 +17,21 @@ const videoTestimonials = [
     language: "Français",
     quote: "J’essaie de progresser chaque fois. Pas toujours facile, mais on y arrive.",
     video: "/manus-storage/temoignage-ma-web_41cbdbcb.mp4",
-    poster: "/manus-storage/temoignage-ma-poster_238617e2.jpg",
+    poster: "/manus-storage/temoignage-ma-thumbnail-original_63bb092b.jpg",
   },
   {
     name: "Fares",
     language: "Français",
     quote: "Les coachs font vraiment la différence. Ici, on est vraiment bien tombés.",
     video: "/manus-storage/temoignage-fares-web_d5ff2428.mp4",
-    poster: "/manus-storage/temoignage-fares-poster_2ada9acd.jpg",
+    poster: "/manus-storage/temoignage-fares-thumbnail-original_cf23c0f4.jpg",
   },
   {
     name: "Anne",
     language: "English",
     quote: "Ils me poussent à me dépasser, étape par étape. Je vois les progrès.",
     video: "/manus-storage/temoignage-anne-web_f7e21fce.mp4",
-    poster: "/manus-storage/temoignage-anne-poster_bf6c4e41.jpg",
+    poster: "/manus-storage/temoignage-anne-thumbnail-original_7a66f626.jpg",
   },
 ];
 
