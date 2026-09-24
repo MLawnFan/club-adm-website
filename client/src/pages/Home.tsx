@@ -1,7 +1,6 @@
 import PromoBanner from "@/components/PromoBanner";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import ValueProps from "@/components/ValueProps";
 import Services from "@/components/Services";
 import Testimonials from "@/components/Testimonials";
 import HowItWorks from "@/components/HowItWorks";
@@ -16,7 +15,6 @@ export default function Home() {
       <PromoBanner />
       <Navbar />
       <HeroSection />
-      <ValueProps />
       <Services />
       <Testimonials />
       <HowItWorks />
