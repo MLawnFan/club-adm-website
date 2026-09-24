@@ -27,6 +27,13 @@ type Service = {
 
 const SERVICES: Service[] = [
   {
+    title: "Hybrid",
+    eyebrow: "Fort et en shape",
+    desc: "Le juste équilibre entre musculation fonctionnelle et endurance pour bâtir un physique athlétique, fort et performant.",
+    poster: HYBRID_IMG,
+    href: "/programmes#hybrid",
+  },
+  {
     title: "Cours de Groupe",
     eyebrow: "Bouger ensemble",
     desc: "Force, haltérophilie, musculation, course et gymnastique dans une programmation variée, encadrée et adaptée à tous les niveaux.",
@@ -46,13 +53,6 @@ const SERVICES: Service[] = [
     desc: "Une préparation qui combine course et mouvements fonctionnels pour développer ton moteur, ta force et ta capacité à soutenir l'effort.",
     poster: HYROX_IMG,
     href: "/programmes#hyrox",
-  },
-  {
-    title: "Hybrid",
-    eyebrow: "Fort et en shape",
-    desc: "Le juste équilibre entre musculation fonctionnelle et endurance pour bâtir un physique athlétique, fort et performant.",
-    poster: HYBRID_IMG,
-    href: "/programmes#hybrid",
   },
   {
     title: "Programmation En Ligne",
@@ -91,7 +91,7 @@ export default function Services() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-10 lg:mb-14"
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-7"
         >
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
@@ -125,6 +125,31 @@ export default function Services() {
             </button>
           </div>
         </motion.div>
+
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2">
+            {SERVICES.map((item, index) => {
+              const isActive = index === current;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => setCurrent(index)}
+                  aria-label={`Afficher ${item.title}`}
+                  aria-pressed={isActive}
+                  className="rounded-full border px-4 py-2.5 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-200 active:scale-[0.97]"
+                  style={{
+                    borderColor: isActive ? "#ed1c24" : "rgba(255,255,255,0.1)",
+                    backgroundColor: isActive ? "#ed1c24" : "rgba(255,255,255,0.03)",
+                    color: isActive ? "#ffffff" : "rgba(255,255,255,0.58)",
+                  }}
+                >
+                  {item.title}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         <div className="relative rounded-2xl border border-white/[0.08] overflow-hidden" style={{ backgroundColor: "#131636" }}>
           <AnimatePresence mode="wait" initial={false}>
@@ -201,41 +226,6 @@ export default function Services() {
             </motion.article>
           </AnimatePresence>
         </div>
-
-        <div className="mt-5 -mx-6 overflow-x-auto px-6 pb-3 lg:mx-0 lg:px-0">
-          <div className="flex min-w-max gap-3 lg:grid lg:min-w-0 lg:grid-cols-7">
-            {SERVICES.map((item, index) => {
-              const isActive = index === current;
-              return (
-                <button
-                  key={item.title}
-                  type="button"
-                  onClick={() => setCurrent(index)}
-                  aria-label={`Afficher ${item.title}`}
-                  aria-pressed={isActive}
-                  className="group relative w-[156px] overflow-hidden rounded-xl border text-left transition-all duration-200 active:scale-[0.97] lg:w-auto"
-                  style={{ borderColor: isActive ? "#ed1c24" : "rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.03)" }}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <img src={item.poster} alt="" className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1229] via-[#0f1229]/25 to-transparent" />
-                    <span
-                      className="absolute bottom-0 left-0 h-1 transition-all duration-200"
-                      style={{ width: isActive ? "100%" : "0%", backgroundColor: "#ed1c24" }}
-                    />
-                  </div>
-                  <span className="block min-h-[56px] px-3 py-3 text-xs font-bold uppercase leading-tight text-white/75">
-                    {item.title}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <p className="mt-1 text-xs text-white/30 lg:hidden">
-          Glisse les services ou utilise les flèches pour découvrir la suite.
-        </p>
       </div>
     </section>
   );
