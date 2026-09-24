@@ -1,192 +1,241 @@
 /*
- * SERVICES — Dark premium
- * Fond navy principal, cartes image avec overlay sombre, services secondaires sombres
- * Layout: rangée du haut 3 colonnes (Groupe, Semi-Privé, Hyrox), rangée du bas: En Ligne (large) + 3 petits services
+ * SERVICES — Carrousel vidéo
+ * Une capsule distincte par service, navigation clavier/clic et CTA vers le détail.
+ * Les couvertures actuelles restent affichées jusqu'à la réception des vidéos finales.
  */
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, ArrowRight, PlayCircle, Video } from "lucide-react";
 import { Link } from "wouter";
 
-const GROUP_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const GROUP_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 const SEMI_PRIVE_IMG = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
-const HYROX_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
+const HYROX_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const HYBRID_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 const ONLINE_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
+const RSTART_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
+const NUTRITION_IMG = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
 
-const MAIN_SERVICES = [
+type Service = {
+  title: string;
+  eyebrow: string;
+  desc: string;
+  poster: string;
+  href: string;
+  video?: string;
+};
+
+const SERVICES: Service[] = [
   {
     title: "Cours de Groupe",
-    desc: "Variable selon la périodisation : force, haltérophilie, musculation, course, gymnastique. Tu ne fais jamais deux fois la même chose.",
-    img: GROUP_IMG,
-    href: "/programmes",
-    internal: true,
+    eyebrow: "Bouger ensemble",
+    desc: "Force, haltérophilie, musculation, course et gymnastique dans une programmation variée, encadrée et adaptée à tous les niveaux.",
+    poster: GROUP_IMG,
+    href: "/programmes#groupe",
   },
   {
     title: "Cours Semi-Privé",
-    desc: "3 à 5 personnes, programme 100% adapté à toi. L'attention d'un entraîneur privé avec la motivation collective.",
-    img: SEMI_PRIVE_IMG,
-    href: "/programmes",
-    internal: true,
+    eyebrow: "Coaching personnalisé",
+    desc: "Un programme adapté à tes objectifs dans un petit groupe de 3 à 5 personnes, avec l'attention d'un coach et l'énergie de la gang.",
+    poster: SEMI_PRIVE_IMG,
+    href: "/programmes#semi-prive",
   },
   {
     title: "Hyrox",
-    desc: "75% endurance / 25% musculation. Courses, rameur, sled push, wall balls — repousse tes limites cardiovasculaires.",
-    img: HYROX_IMG,
-    href: "/programmes",
-    internal: true,
+    eyebrow: "Endurance et performance",
+    desc: "Une préparation qui combine course et mouvements fonctionnels pour développer ton moteur, ta force et ta capacité à soutenir l'effort.",
+    poster: HYROX_IMG,
+    href: "/programmes#hyrox",
   },
-];
-
-const EXTRA_SERVICES = [
   {
     title: "Hybrid",
-    desc: "60% musculation / 40% endurance. Le parfait équilibre pour être fort ET en shape.",
-    href: "/programmes",
-    icon: "⚡",
-    internal: true,
+    eyebrow: "Fort et en shape",
+    desc: "Le juste équilibre entre musculation fonctionnelle et endurance pour bâtir un physique athlétique, fort et performant.",
+    poster: HYBRID_IMG,
+    href: "/programmes#hybrid",
+  },
+  {
+    title: "Programmation En Ligne",
+    eyebrow: "S'entraîner partout",
+    desc: "Des entraînements structurés et un accompagnement accessible de partout pour progresser avec une direction claire.",
+    poster: ONLINE_IMG,
+    href: "/en-ligne",
   },
   {
     title: "On Rstart la Machine",
-    desc: "Programme de transformation complet. Habitudes durables, coaching personnalisé et plan nutritionnel inclus.",
-    href: "/consultation-gratuite",
-    icon: "🔥",
-    internal: true,
+    eyebrow: "Transformation durable",
+    desc: "Un accompagnement complet qui combine entraînement, nutrition et habitudes de vie pour repartir sur des bases solides.",
+    poster: RSTART_IMG,
+    href: "/programmes#rstart",
   },
   {
     title: "Coaching Nutritionnel",
-    desc: "Accompagnement personnalisé pour bâtir des habitudes alimentaires qui durent, sans privation.",
-    href: "/consultation-gratuite",
-    icon: "🍎",
-    internal: true,
+    eyebrow: "Manger mieux, simplement",
+    desc: "Un suivi personnalisé pour comprendre ton alimentation et bâtir des habitudes réalistes qui soutiennent tes objectifs.",
+    poster: NUTRITION_IMG,
+    href: "/programmes#nutrition",
   },
 ];
 
 export default function Services() {
+  const [current, setCurrent] = useState(0);
+  const service = SERVICES[current];
+
+  const previous = () => setCurrent((index) => (index - 1 + SERVICES.length) % SERVICES.length);
+  const next = () => setCurrent((index) => (index + 1) % SERVICES.length);
+
   return (
-    <section className="py-20 lg:py-28" style={{ backgroundColor: "#0f1229" }}>
+    <section className="py-20 lg:py-28 overflow-hidden" style={{ backgroundColor: "#0f1229" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-10 lg:mb-14"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
-            Nos services
-          </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white" style={{ fontFamily: "var(--font-display)" }}>
-            ON S'ADAPTE À TES BESOINS
-          </h2>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.15em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
+              Nos services
+            </p>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-none" style={{ fontFamily: "var(--font-display)" }}>
+              ON S'ADAPTE À TES BESOINS
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <span className="mr-2 text-sm font-semibold tabular-nums text-white/45" aria-live="polite">
+              {String(current + 1).padStart(2, "0")} / {String(SERVICES.length).padStart(2, "0")}
+            </span>
+            <button
+              type="button"
+              onClick={previous}
+              aria-label="Service précédent"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-white transition-all duration-200 hover:border-white/25 hover:bg-white/[0.08] active:scale-[0.97]"
+            >
+              <ArrowLeft size={19} />
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Service suivant"
+              className="flex h-12 w-12 items-center justify-center rounded-full text-white transition-all duration-200 hover:shadow-lg hover:shadow-red-500/20 active:scale-[0.97]"
+              style={{ backgroundColor: "#ed1c24" }}
+            >
+              <ArrowRight size={19} />
+            </button>
+          </div>
         </motion.div>
 
-        {/* Main services — image cards */}
-        <div className="grid md:grid-cols-3 gap-5 lg:gap-6 mb-5 lg:mb-6">
-          {MAIN_SERVICES.map((service, i) => (
-            <motion.div
+        <div className="relative rounded-2xl border border-white/[0.08] overflow-hidden" style={{ backgroundColor: "#131636" }}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.article
               key={service.title}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
+              initial={{ opacity: 0, x: 28 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -28 }}
+              transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+              className="grid lg:grid-cols-[1.35fr_0.85fr]"
             >
-              <Link
-                href={service.href}
-                className="group relative rounded-xl overflow-hidden h-[380px] lg:h-[440px] block"
-              >
-                <img
-                  src={service.img}
-                  alt={service.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent group-hover:from-black/90 transition-all duration-500" />
+              <div className="relative aspect-video lg:aspect-auto lg:min-h-[510px] overflow-hidden bg-black">
+                {service.video ? (
+                  <video
+                    key={service.video}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    poster={service.poster}
+                    aria-label={`Présentation vidéo du service ${service.title}`}
+                  >
+                    <source src={service.video} type="video/mp4" />
+                    Ton navigateur ne prend pas en charge la lecture vidéo.
+                  </video>
+                ) : (
+                  <>
+                    <img
+                      src={service.poster}
+                      alt={`Aperçu du service ${service.title}`}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-black/20" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-3 text-center">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-[#ed1c24]/90 text-white shadow-2xl backdrop-blur-sm">
+                          <PlayCircle size={32} strokeWidth={1.7} />
+                        </div>
+                        <span className="rounded-full border border-white/15 bg-[#0f1229]/80 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-md">
+                          Vidéo explicative à venir
+                        </span>
+                      </div>
+                    </div>
+                  </>
+                )}
 
-                <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-                  <h3 className="text-2xl lg:text-3xl text-white mb-2 uppercase" style={{ fontFamily: "var(--font-display)" }}>
-                    {service.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.6)" }}>
-                    {service.desc}
-                  </p>
-                  <span className="inline-flex items-center gap-2 text-white text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all">
-                    Découvrir
-                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                <div className="absolute left-4 top-4 lg:left-6 lg:top-6 flex items-center gap-2 rounded-full border border-white/10 bg-[#0f1229]/85 px-3 py-2 backdrop-blur-md">
+                  <Video size={14} style={{ color: "#ed1c24" }} />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/85">
+                    Capsule service
                   </span>
                 </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+              </div>
 
-        {/* Second row: En Ligne featured card + 3 extra services */}
-        <div className="grid lg:grid-cols-2 gap-5 lg:gap-6">
-          {/* Programmation En Ligne — featured image card */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <Link
-              href="/en-ligne"
-              className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[320px] block"
-              style={{ border: "1px solid rgba(237, 28, 36, 0.25)" }}
-            >
-              <img
-                src={ONLINE_IMG}
-                alt="Programmation En Ligne"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent group-hover:from-black/90 transition-all duration-500" />
-
-              {/* Badge EN CONSTRUCTION */}
-              <div className="absolute top-5 left-5">
-                <span
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white"
+              <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-12 xl:p-14">
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.17em]" style={{ color: "#ed1c24" }}>
+                  {service.eyebrow}
+                </p>
+                <h3 className="mb-5 text-4xl lg:text-5xl uppercase leading-none text-white" style={{ fontFamily: "var(--font-display)" }}>
+                  {service.title}
+                </h3>
+                <p className="mb-8 text-base leading-relaxed text-white/55 lg:text-lg">
+                  {service.desc}
+                </p>
+                <Link
+                  href={service.href}
+                  className="inline-flex w-fit items-center gap-3 rounded-lg px-6 py-3.5 text-sm font-bold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:gap-4 hover:shadow-lg hover:shadow-red-500/20 active:scale-[0.97]"
                   style={{ backgroundColor: "#ed1c24" }}
                 >
-                  🚀 En Construction
-                </span>
-              </div>
-
-              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-                <h3 className="text-2xl lg:text-3xl text-white mb-2 uppercase" style={{ fontFamily: "var(--font-display)" }}>
-                  Programmation En Ligne
-                </h3>
-                <p className="text-sm leading-relaxed mb-4 max-w-md" style={{ color: "rgba(255,255,255,0.7)" }}>
-                  Bientôt disponible. Entraîne-toi de partout avec nos programmes structurés et notre coaching personnalisé.
-                </p>
-                <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider group-hover:gap-3 transition-all" style={{ color: "#ed1c24" }}>
-                  Stay Tuned
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </span>
-              </div>
-            </Link>
-          </motion.div>
-
-          {/* 3 extra services stacked */}
-          <div className="flex flex-col gap-4 justify-between">
-            {EXTRA_SERVICES.map((service, i) => (
-              <motion.div
-                key={service.title}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Link href={service.href} className="group flex items-start gap-4 p-5 rounded-xl border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:-translate-y-0.5 flex-1" style={{ backgroundColor: "rgba(255,255,255,0.03)" }}>
-                  <span className="text-2xl flex-shrink-0 mt-0.5">{service.icon}</span>
-                  <div>
-                    <h4 className="text-base mb-1 uppercase text-white group-hover:text-[#ed1c24] transition-colors" style={{ fontFamily: "var(--font-display)" }}>
-                      {service.title}
-                    </h4>
-                    <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
-                      {service.desc}
-                    </p>
-                  </div>
+                  Découvrir
+                  <ArrowRight size={17} />
                 </Link>
-              </motion.div>
-            ))}
+              </div>
+            </motion.article>
+          </AnimatePresence>
+        </div>
+
+        <div className="mt-5 -mx-6 overflow-x-auto px-6 pb-3 lg:mx-0 lg:px-0">
+          <div className="flex min-w-max gap-3 lg:grid lg:min-w-0 lg:grid-cols-7">
+            {SERVICES.map((item, index) => {
+              const isActive = index === current;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => setCurrent(index)}
+                  aria-label={`Afficher ${item.title}`}
+                  aria-pressed={isActive}
+                  className="group relative w-[156px] overflow-hidden rounded-xl border text-left transition-all duration-200 active:scale-[0.97] lg:w-auto"
+                  style={{ borderColor: isActive ? "#ed1c24" : "rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.03)" }}
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img src={item.poster} alt="" className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1229] via-[#0f1229]/25 to-transparent" />
+                    <span
+                      className="absolute bottom-0 left-0 h-1 transition-all duration-200"
+                      style={{ width: isActive ? "100%" : "0%", backgroundColor: "#ed1c24" }}
+                    />
+                  </div>
+                  <span className="block min-h-[56px] px-3 py-3 text-xs font-bold uppercase leading-tight text-white/75">
+                    {item.title}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
+
+        <p className="mt-1 text-xs text-white/30 lg:hidden">
+          Glisse les services ou utilise les flèches pour découvrir la suite.
+        </p>
       </div>
     </section>
   );
