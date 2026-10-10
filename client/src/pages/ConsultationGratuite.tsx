@@ -12,6 +12,7 @@ import {
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
+import ConsultationPurpose from "@/components/ConsultationPurpose";
 
 const HERO_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 
@@ -117,6 +118,10 @@ export default function ConsultationGratuite() {
                     <span className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.7)", fontFamily: "var(--font-body)" }}>{b.text}</span>
                   </motion.div>
                 ))}
+              </div>
+
+              <div className="mb-10">
+                <ConsultationPurpose />
               </div>
 
               {/* Social proof */}

@@ -5,8 +5,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { CONSULTATION_PURPOSE_FAQ } from "@/components/ConsultationPurpose";
 
 const FAQS = [
+  { q: "Pourquoi commencer par une consultation gratuite?", a: CONSULTATION_PURPOSE_FAQ },
   { q: "Dans combien de temps est-ce que je pourrai voir des résultats?", a: "Les résultats varient d'une personne à l'autre, mais avec un entraînement régulier (3-4 fois par semaine) et une bonne alimentation, tu peux commencer à voir des changements en 4 à 6 semaines." },
   { q: "Est-ce que je dois être en forme pour m'inscrire?", a: "Absolument pas! Nos programmes sont adaptés à tous les niveaux. Nos coachs modifient chaque exercice selon tes capacités. On commence tous quelque part!" },
   { q: "Qu'est-ce qui nous différencie des autres gyms?", a: "Notre communauté! Au Club ADM, tu n'es pas juste un numéro. Nos coachs te connaissent par ton nom, adaptent les entraînements à tes besoins et notre communauté te soutient à chaque étape." },

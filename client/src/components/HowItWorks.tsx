@@ -3,11 +3,12 @@
  * Fond navy principal, numéros rouges, image coaching, carte flottante sombre
  */
 import { motion } from "framer-motion";
+import ConsultationPurpose from "@/components/ConsultationPurpose";
 
 const COACHING_IMG = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
 
 const STEPS = [
-  { num: "1", title: "Consultation Gratuite", desc: "On veut connaître ton histoire et tes objectifs! Quoi de mieux que de jaser un peu pour qu'on apprenne à se connaître." },
+  { num: "1", title: "Consultation Gratuite", desc: "On prend le temps de comprendre tes objectifs, ton expérience et tes besoins pour t’orienter vers le bon cours et le bon accompagnement." },
   { num: "2", title: "Découvre Nos Installations", desc: "Viens visiter le gym et rencontrer notre équipe. On va te guider et te montrer comment on peut t'aider à progresser." },
   { num: "3", title: "Rejoins La Famille", desc: "Commence ton parcours avec nous. Nos coachs et la communauté seront là pour te soutenir à chaque étape." },
 ];
@@ -58,7 +59,11 @@ export default function HowItWorks() {
               ))}
             </div>
 
-            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mt-10 ml-17">
+            <div className="mt-6">
+              <ConsultationPurpose />
+            </div>
+
+            <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mt-8">
               <a
                 href="/consultation-gratuite"
                 className="inline-flex items-center justify-center px-8 py-4 text-white text-sm font-bold uppercase tracking-[0.08em] rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:-translate-y-0.5"
