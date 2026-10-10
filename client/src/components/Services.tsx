@@ -8,10 +8,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, PlayCircle, Video } from "lucide-react";
 import { Link } from "wouter";
 
-const GROUP_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
-const SEMI_PRIVE_IMG = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
-const HYROX_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
-const HYBRID_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
+const GROUP_IMG = "/manus-storage/cours-de-groupe-original_10442de9.jpg";
+const SEMI_PRIVE_IMG = "/manus-storage/semi-prive-original_e05934b9.jpg";
+const HYROX_IMG = "/manus-storage/hyrox-original_79c28bca.jpg";
+const HYBRID_IMG = "/manus-storage/hybrid-original_bf9e767d.jpg";
 const ONLINE_IMG = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
 const RSTART_IMG = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 const NUTRITION_IMG = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
@@ -32,6 +32,7 @@ const SERVICES: Service[] = [
     desc: "Le juste équilibre entre musculation fonctionnelle et endurance pour bâtir un physique athlétique, fort et performant.",
     poster: HYBRID_IMG,
     href: "/programmes#hybrid",
+    video: "/manus-storage/hybrid-web_61b155f5.mp4",
   },
   {
     title: "Cours de Groupe",
@@ -39,6 +40,7 @@ const SERVICES: Service[] = [
     desc: "Force, haltérophilie, musculation, course et gymnastique dans une programmation variée, encadrée et adaptée à tous les niveaux.",
     poster: GROUP_IMG,
     href: "/programmes#groupe",
+    video: "/manus-storage/cours-de-groupe-web_6edfb9cd.mp4",
   },
   {
     title: "Cours Semi-Privé",
@@ -46,6 +48,7 @@ const SERVICES: Service[] = [
     desc: "Un programme adapté à tes objectifs dans un petit groupe de 3 à 5 personnes, avec l'attention d'un coach et l'énergie de la gang.",
     poster: SEMI_PRIVE_IMG,
     href: "/programmes#semi-prive",
+    video: "/manus-storage/semi-prive-web_c04664f7.mp4",
   },
   {
     title: "Hyrox",
@@ -53,6 +56,7 @@ const SERVICES: Service[] = [
     desc: "Une préparation qui combine course et mouvements fonctionnels pour développer ton moteur, ta force et ta capacité à soutenir l'effort.",
     poster: HYROX_IMG,
     href: "/programmes#hyrox",
+    video: "/manus-storage/hyrox-web_7777fd36.mp4",
   },
   {
     title: "Programmation En Ligne",
@@ -159,13 +163,13 @@ export default function Services() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -28 }}
               transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
-              className="grid lg:grid-cols-[1.35fr_0.85fr]"
+              className={`grid ${service.video ? "lg:grid-cols-[0.85fr_1.35fr]" : "lg:grid-cols-[1.35fr_0.85fr]"}`}
             >
-              <div className="relative aspect-video lg:aspect-auto lg:min-h-[510px] overflow-hidden bg-black">
+              <div className={`relative overflow-hidden bg-black ${service.video ? "h-[560px] sm:h-[600px]" : "aspect-video lg:aspect-auto lg:min-h-[510px]"}`}>
                 {service.video ? (
                   <video
                     key={service.video}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-contain"
                     controls
                     playsInline
                     preload="metadata"
@@ -174,6 +178,7 @@ export default function Services() {
                   >
                     <source src={service.video} type="video/mp4" />
                     Ton navigateur ne prend pas en charge la lecture vidéo.
+                    <a href={service.video}>Ouvrir la vidéo</a>
                   </video>
                 ) : (
                   <>
@@ -196,12 +201,12 @@ export default function Services() {
                   </>
                 )}
 
-                <div className="absolute left-4 top-4 lg:left-6 lg:top-6 flex items-center gap-2 rounded-full border border-white/10 bg-[#0f1229]/85 px-3 py-2 backdrop-blur-md">
+                {!service.video && <div className="pointer-events-none absolute left-4 top-4 lg:left-6 lg:top-6 flex items-center gap-2 rounded-full border border-white/10 bg-[#0f1229]/85 px-3 py-2 backdrop-blur-md">
                   <Video size={14} style={{ color: "#ed1c24" }} />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/85">
                     Capsule service
                   </span>
-                </div>
+                </div>}
               </div>
 
               <div className="flex flex-col justify-center p-7 sm:p-9 lg:p-12 xl:p-14">
