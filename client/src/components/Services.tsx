@@ -6,7 +6,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, PlayCircle, Video } from "lucide-react";
-import { Link } from "wouter";
 import ProgrammeRatios from "@/components/ProgrammeRatios";
 
 const GROUP_IMG = "/manus-storage/cours-de-groupe-original_10442de9.jpg";
@@ -85,20 +84,6 @@ const SERVICES: Service[] = [
 export default function Services() {
   const [current, setCurrent] = useState(0);
   const service = SERVICES[current];
-
-  const revealConsultation = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    // Preserve opening in a new tab or using the native anchor with modifiers.
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    const target = document.getElementById("services-consultation");
-    if (!target) return;
-    event.preventDefault();
-    document.querySelector<HTMLVideoElement>("[data-services-carousel] video")?.pause();
-    target.focus({ preventScroll: true });
-    target.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-      block: "start",
-    });
-  };
 
   const previous = () => setCurrent((index) => (index - 1 + SERVICES.length) % SERVICES.length);
   const next = () => setCurrent((index) => (index + 1) % SERVICES.length);
@@ -237,8 +222,7 @@ export default function Services() {
                 <ProgrammeRatios programme={service.programme} />
                 <a
                   data-service-discover
-                  href="#services-consultation"
-                  onClick={revealConsultation}
+                  href="/consultation-gratuite"
                   className="inline-flex w-fit items-center gap-3 rounded-lg px-6 py-3.5 text-sm font-bold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:gap-4 hover:shadow-lg hover:shadow-red-500/20 active:scale-[0.97]"
                   style={{ backgroundColor: "#ed1c24" }}
                 >
@@ -249,42 +233,6 @@ export default function Services() {
             </motion.article>
           </AnimatePresence>
 
-          <div
-            id="services-consultation"
-            tabIndex={-1}
-            aria-labelledby="services-consultation-title"
-            className="scroll-mt-24 border-t border-white/10 p-7 outline-none sm:p-9 lg:p-12"
-          >
-            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-              <div className="max-w-2xl">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-[#ed1c24]">
-                  Pourquoi une consultation gratuite?
-                </p>
-                <h3 id="services-consultation-title" className="text-3xl sm:text-4xl uppercase leading-tight text-white" style={{ fontFamily: "var(--font-display)" }}>
-                  Le bon départ, c’est celui qui te ressemble.
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
-                  On prend le temps de comprendre tes objectifs, ton expérience et tes besoins pour
-                  t’orienter vers le bon cours. Si tu débutes ou reprends l’entraînement, on prépare
-                  ton arrivée pour que tu commences en confiance.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
-                  Pas question de simplement remplir nos cours au détriment de l’encadrement.
-                  C’est gagnant-gagnant : tu reçois un accompagnement adapté et chacun garde
-                  l’attention nécessaire pour s’entraîner de façon sécuritaire.
-                </p>
-              </div>
-              <Link
-                id="services-consultation-cta"
-                href="/consultation-gratuite"
-                className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-3 rounded-lg px-7 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-all duration-200 hover:shadow-lg hover:shadow-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#131636] active:scale-[0.97] sm:w-fit"
-                style={{ backgroundColor: "#ed1c24" }}
-              >
-                Consultation gratuite
-                <ArrowRight size={18} aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
     </section>
