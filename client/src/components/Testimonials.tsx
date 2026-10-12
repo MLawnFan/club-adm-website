@@ -70,13 +70,8 @@ const stats = [
 ];
 
 export default function Testimonials() {
-  const [current, setCurrent] = useState(0);
-  const next = () => setCurrent((p) => (p + 1) % testimonials.length);
-  const prev = () => setCurrent((p) => (p - 1 + testimonials.length) % testimonials.length);
-  const t = testimonials[current];
-
   return (
-    <section className="py-20 lg:py-28" style={{ backgroundColor: "#131636" }}>
+    <section id="video-testimonials" className="py-20 lg:py-28" style={{ backgroundColor: "#131636" }}>
       <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] mb-3" style={{ color: "#ed1c24", fontFamily: "var(--font-body)" }}>
@@ -88,7 +83,7 @@ export default function Testimonials() {
         </div>
 
         {/* Video Testimonials */}
-        <div className="mb-16 lg:mb-20">
+        <div>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] mb-2" style={{ color: "#ed1c24" }}>
@@ -155,6 +150,20 @@ export default function Testimonials() {
           </p>
         </div>
 
+      </div>
+    </section>
+  );
+}
+
+export function MemberResults() {
+  const [current, setCurrent] = useState(0);
+  const next = () => setCurrent((p) => (p + 1) % testimonials.length);
+  const prev = () => setCurrent((p) => (p - 1 + testimonials.length) % testimonials.length);
+  const t = testimonials[current];
+
+  return (
+    <section id="member-results" aria-label="Témoignages et résultats de nos membres" className="py-20 lg:py-28" style={{ backgroundColor: "#131636" }}>
+      <div className="max-w-[1280px] mx-auto px-6 lg:px-8">
         {/* Testimonial Card */}
         <div className="relative">
           <AnimatePresence mode="wait">

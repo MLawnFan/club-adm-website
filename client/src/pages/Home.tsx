@@ -2,7 +2,7 @@ import PromoBanner from "@/components/PromoBanner";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import Services from "@/components/Services";
-import Testimonials from "@/components/Testimonials";
+import Testimonials, { MemberResults } from "@/components/Testimonials";
 import HowItWorks from "@/components/HowItWorks";
 import Locations from "@/components/Locations";
 import FAQ from "@/components/FAQ";
@@ -18,6 +18,7 @@ export default function Home() {
       <Services />
       <Testimonials />
       <HowItWorks />
+      <MemberResults />
       <Locations />
       <FAQ />
       <CTASection />
