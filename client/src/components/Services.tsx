@@ -231,6 +231,26 @@ export default function Services() {
             </motion.article>
           </AnimatePresence>
         </div>
+
+        <div className="mt-8 flex flex-col gap-6 rounded-2xl border border-white/10 bg-white/[0.025] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <h3 className="text-2xl sm:text-3xl uppercase leading-tight text-white" style={{ fontFamily: "var(--font-display)" }}>
+              Trouvons le bon parcours pour toi.
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/65 sm:text-base">
+              Parle-nous de tes objectifs. On va t’orienter vers le cours et l’accompagnement adaptés à tes besoins.
+            </p>
+          </div>
+          <Link
+            id="services-consultation-cta"
+            href="/consultation-gratuite"
+            className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-3 rounded-lg px-7 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-all duration-200 hover:shadow-lg hover:shadow-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0f1229] active:scale-[0.97] sm:w-fit"
+            style={{ backgroundColor: "#ed1c24" }}
+          >
+            Consultation gratuite
+            <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );
