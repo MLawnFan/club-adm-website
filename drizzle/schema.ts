@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json, uniqueIndex } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -59,3 +59,14 @@ export type ProgrammeProgress = typeof programmeProgress.$inferSelect;
 export type InsertProgrammeProgress = typeof programmeProgress.$inferInsert;
 export type ProgrammeEnrollment = typeof programmeEnrollment.$inferSelect;
 export type InsertProgrammeEnrollment = typeof programmeEnrollment.$inferInsert;
+
+export const memberOnboarding = mysqlTable("member_onboarding", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  product: mysqlEnum("product", ["rstart", "starter"]).notNull(),
+  answers: json("answers").notNull(),
+  step: int("step").default(0).notNull(),
+  status: mysqlEnum("status", ["draft", "needs_review", "referred"]).default("draft").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, table => [uniqueIndex("member_onboarding_user_product").on(table.userId, table.product)]);

@@ -5,9 +5,11 @@ import { motion } from "framer-motion";
 import { Lock, Trophy, Zap, Flame, Star, ChevronRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { PROGRAMME_MODULES, LEVELS, BADGES } from "@/data/programmeModules";
 import { Link } from "wouter";
+import { useMemberOnboarding } from "@/hooks/useMemberOnboarding";
 
 export default function ProgrammeDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
+  const onboarding = useMemberOnboarding("rstart");
   const { data: enrollment, isLoading: enrollLoading } = trpc.programme.getEnrollment.useQuery(
     undefined,
     { enabled: isAuthenticated }
@@ -40,16 +42,16 @@ export default function ProgrammeDashboard() {
           <p className="text-sm sm:text-base mb-6 sm:mb-8" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
             Connecte-toi pour accéder à ton programme On R'start la Machine et suivre ta progression.
           </p>
-          <a
-            href={getLoginUrl()}
+          <button
+            onClick={() => { sessionStorage.setItem("adm-onboarding-return", "/espace-membre/onboarding/rstart"); window.location.assign(getLoginUrl()); }}
             className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105"
             style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
           >
-            Se connecter
-          </a>
+            Créer mon compte / me connecter
+          </button>
           <div className="mt-5 sm:mt-6">
-            <Link href="/" className="text-sm hover:underline" style={{ color: "rgba(255,255,255,0.4)" }}>
-              ← Retour à l'accueil
+            <Link href="/espace-membre" className="text-sm hover:underline" style={{ color: "rgba(255,255,255,0.4)" }}>
+              ← Mes programmes
             </Link>
           </div>
         </motion.div>
@@ -89,16 +91,16 @@ export default function ProgrammeDashboard() {
             14 modules progressifs pour bâtir des habitudes durables. Une nouvelle habitude par semaine. Gamifié pour te garder motivé.
           </p>
           <button
-            onClick={() => startMutation.mutate()}
-            disabled={startMutation.isPending}
+            onClick={() => { if (onboarding.status === "needs_review" || onboarding.status === "referred") startMutation.mutate(); else window.location.assign("/espace-membre/onboarding/rstart"); }}
+            disabled={startMutation.isPending || onboarding.loading || Boolean(onboarding.error)}
             className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 text-white text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-red-500/20 hover:scale-105 disabled:opacity-50"
             style={{ backgroundColor: "#ed1c24", fontFamily: "var(--font-body)" }}
           >
-            {startMutation.isPending ? "Démarrage..." : "Commencer le programme"} <Zap size={18} />
+            {startMutation.isPending ? "Démarrage..." : onboarding.status === "needs_review" || onboarding.status === "referred" ? "Commencer le programme" : "Compléter mon profil et mon questionnaire"} <Zap size={18} />
           </button>
           <div className="mt-5 sm:mt-6">
-            <Link href="/" className="text-sm hover:underline" style={{ color: "rgba(255,255,255,0.4)" }}>
-              ← Retour à l'accueil
+            <Link href="/espace-membre" className="text-sm hover:underline" style={{ color: "rgba(255,255,255,0.4)" }}>
+              ← Mes programmes
             </Link>
           </div>
         </motion.div>
@@ -119,7 +121,7 @@ export default function ProgrammeDashboard() {
       <header className="border-b border-white/[0.06] sticky top-0 z-50" style={{ backgroundColor: "#131636" }}>
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 sm:gap-4">
-            <Link href="/">
+            <Link href="/espace-membre">
               <ArrowLeft size={20} className="text-white/50 hover:text-white transition-colors cursor-pointer" />
             </Link>
             <div>
@@ -141,6 +143,11 @@ export default function ProgrammeDashboard() {
       </header>
 
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="mb-6 rounded-xl border border-[#ed1c24]/25 bg-white/[0.025] p-5">
+          <p className="mb-2 text-xs uppercase tracking-wider text-[#ed1c24] font-bold">Ton profil et ta personnalisation</p>
+          <p className="mb-4 text-sm leading-relaxed text-white/65">{onboarding.status === "needs_review" ? "Questionnaire complété. Le guide nutritionnel reste à valider humainement avant remise. Ton parcours de 12 semaines et tes modules sont conservés." : onboarding.status === "referred" ? "Questionnaire complété. Un avis approprié est nécessaire avant de personnaliser automatiquement la nutrition ou un entraînement. Les modules éducatifs restent disponibles." : "Prends le temps de compléter tes objectifs, tes habitudes et ton contexte. Tes réponses privées permettront de préparer l’orientation de ton programme; ta progression actuelle reste intacte."}</p>
+          <Link href="/espace-membre/onboarding/rstart" className="inline-flex min-h-11 items-center rounded-lg bg-[#ed1c24] px-4 py-3 text-sm font-bold text-white">{onboarding.status && onboarding.status !== "draft" ? "Revoir mes réponses" : "Compléter mon onboarding"}</Link>
+        </div>
         {/* Stats card - responsive */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}

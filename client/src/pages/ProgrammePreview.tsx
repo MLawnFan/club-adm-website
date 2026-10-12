@@ -46,7 +46,7 @@ export default function ProgrammePreview() {
       <header className="border-b border-white/[0.06] sticky top-0 z-50" style={{ backgroundColor: "#131636" }}>
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           <div className="flex items-center gap-3 sm:gap-4">
-            <Link href="/">
+            <Link href="/espace-membre?apercu=1">
               <ArrowLeft size={20} className="text-white/50 hover:text-white transition-colors cursor-pointer" />
             </Link>
             <div>

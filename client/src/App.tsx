@@ -32,6 +32,8 @@ import EspaceMembreEntrainement from "./pages/EspaceMembreEntrainement";
 import EspaceMembreHabitudes from "./pages/EspaceMembreHabitudes";
 import EspaceMembreCommunaute from "./pages/EspaceMembreCommunaute";
 import GHLChat from "./components/GHLChat";
+import MemberHub from "./pages/MemberHub";
+import MemberOnboarding from "./pages/MemberOnboarding";
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
@@ -59,8 +61,10 @@ function Router() {
       <Route path={"/programme/preview"} component={ProgrammePreview} />
       <Route path={"/programme/module/:id"} component={ProgrammeModule} />
       <Route path={"/programme"} component={ProgrammeDashboard} />
-      {/* Starter Pack ADM — Espace Membre */}
-      <Route path={"/espace-membre"} component={EspaceMembre} />
+      {/* Hub commun et onboarding; les anciennes URLs des modules sont conservées. */}
+      <Route path={"/espace-membre"} component={MemberHub} />
+      <Route path={"/espace-membre/onboarding/:product"} component={MemberOnboarding} />
+      <Route path={"/espace-membre/starter-pack"} component={EspaceMembre} />
       <Route path={"/espace-membre/nutrition"} component={EspaceMembreNutrition} />
       <Route path={"/espace-membre/entrainement"} component={EspaceMembreEntrainement} />
       <Route path={"/espace-membre/habitudes"} component={EspaceMembreHabitudes} />

@@ -1,14 +1,16 @@
-import { useState, useEffect, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "wouter";
-import { ArrowLeft, ArrowRight, Apple, Check, Printer, RotateCcw, ShoppingCart, Plus, Minus } from "lucide-react";
+import { AlertTriangle, Apple, ArrowLeft, Check, ClipboardCheck, LockKeyhole, Minus, Plus, ShoppingCart, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useMemberOnboarding } from "@/hooks/useMemberOnboarding";
+import { demoMemberAnswers, HABIT_LEVELS, type MemberAnswers } from "@shared/memberOnboarding";
 
 // ─── Types ─────────────────────────────────────────────────────
 interface NutritionProfile {
   sexe: string;
-  ageRange: string;
+  exactAge: number;
   poids: number;
   tailleFeet: number;
   tailleInches: number;
@@ -55,33 +57,8 @@ interface ProgressionLevel {
   niveau: number;
   titre: string;
   habitudes: string[];
-  acquis: boolean;
   current: boolean;
 }
-
-// ─── Données de calcul ─────────────────────────────────────────
-const OBJECTIFS: Record<string, { label: string; description: string }> = {
-  PP: { label: "Transformation durable", description: "Perdre du poids de manière soutenable et maintenir les résultats" },
-  PM: { label: "Prise de masse", description: "Gagner du muscle et de la force progressivement" },
-  SG: { label: "Santé générale", description: "Améliorer ton bien-être global et ton énergie" },
-  PE: { label: "Performance", description: "Optimiser tes performances sportives" },
-  ED: { label: "Éducation", description: "Apprendre les bases d'une alimentation équilibrée" },
-};
-
-const ACTIVITES = [
-  { value: "Sédentaire", label: "Sédentaire", description: "Bureau, peu de mouvement" },
-  { value: "Légèrement actif", label: "Légèrement actif", description: "Marche quotidienne, 1-2 entraînements/sem" },
-  { value: "Actif", label: "Actif", description: "3-5 entraînements/semaine" },
-  { value: "Très actif", label: "Très actif", description: "6+ entraînements/semaine, travail physique" },
-];
-
-const NIVEAUX_HABITUDES = [
-  { niveau: 1, titre: "Fondation", description: "Je pars de zéro — pas de structure de repas régulière" },
-  { niveau: 2, titre: "Initiation", description: "J'ai des bases, mais sans structure précise" },
-  { niveau: 3, titre: "Progression", description: "Je suis structuré, mais je manque de précision" },
-  { niveau: 4, titre: "Consolidation", description: "Je suis précis, mais je manque de constance" },
-  { niveau: 5, titre: "Maîtrise", description: "Je suis constant, je veux optimiser" },
-];
 
 // ─── Fonctions de calcul ───────────────────────────────────────
 function calculateIMC(poidsLbs: number, tailleFeet: number, tailleInches: number): { imc: number; category: string } {
@@ -99,12 +76,17 @@ function calculateIMC(poidsLbs: number, tailleFeet: number, tailleInches: number
   return { imc: Math.round(imc * 10) / 10, category };
 }
 
-function calculateCalories(profile: NutritionProfile, imc: number): number {
+function calculateCalories(profile: NutritionProfile): number {
+  // Cette fonction est réservée à l’aperçu fictif. L’âge utilisé est l’âge exact
+  // fourni par demoMemberAnswers(); aucun âge moyen de tranche n’est inventé.
+  if (!Number.isFinite(profile.exactAge) || profile.exactAge <= 0) {
+    throw new Error("Un âge exact est requis pour cet exemple fictif.");
+  }
+
   const poidsKg = profile.poids * 0.453592;
   const tailleCm = (profile.tailleFeet * 12 + profile.tailleInches) * 2.54;
-  const age = parseInt(profile.ageRange.split("-")[0]) + 5; // milieu de la tranche
+  const age = profile.exactAge;
 
-  // Harris-Benedict révisé
   let bmr: number;
   if (profile.sexe === "Homme") {
     bmr = 88.362 + 13.397 * poidsKg + 4.799 * tailleCm - 5.677 * age;
@@ -112,7 +94,6 @@ function calculateCalories(profile: NutritionProfile, imc: number): number {
     bmr = 447.593 + 9.247 * poidsKg + 3.098 * tailleCm - 4.330 * age;
   }
 
-  // Facteur d'activité
   const facteurs: Record<string, number> = {
     "Sédentaire": 1.2,
     "Légèrement actif": 1.375,
@@ -121,10 +102,9 @@ function calculateCalories(profile: NutritionProfile, imc: number): number {
   };
   const tdee = bmr * (facteurs[profile.activite] || 1.375);
 
-  // Ajustement selon objectif
   switch (profile.objectif) {
-    case "PP": return Math.round(tdee * 0.80); // déficit 20%
-    case "PM": return Math.round(tdee * 1.15); // surplus 15%
+    case "PP": return Math.round(tdee * 0.8);
+    case "PM": return Math.round(tdee * 1.15);
     default: return Math.round(tdee);
   }
 }
@@ -238,9 +218,28 @@ function calculatePortions(profile: NutritionProfile, calories: number) {
   };
 }
 
+function buildProgression(habitLevel: number): ProgressionLevel[] {
+  const level = Number.isInteger(habitLevel) && habitLevel >= 1 && habitLevel <= 5 ? habitLevel : 0;
+  const habits: Record<number, string[]> = {
+    1: ["Choisir une action de base répétable, même lors d’une semaine chargée.", "Observer ce qui rend cette action plus facile."],
+    2: ["Explorer des repères visuels à un repas, selon la faim et l’énergie.", "Garder une approche souple, sans perfection recherchée."],
+    3: ["Préparer quelques repas interchangeables.", "Prévoir une courte épicerie et un repas de secours."],
+    4: ["Adapter les routines aux sorties, déplacements et horaires variables.", "Développer l’auto-observation plutôt qu’un contrôle rigide."],
+    5: ["Faire des choix flexibles et autonomes.", "Réviser ce qui aide la continuité lorsque le contexte change."],
+  };
+
+  return HABIT_LEVELS.map(item => ({
+    niveau: Number(item.value),
+    titre: item.name,
+    habitudes: habits[Number(item.value)] || [],
+    // Le niveau est un repère choisi, pas une habitude acquise automatiquement.
+    current: Number(item.value) === level,
+  }));
+}
+
 function generatePlan(profile: NutritionProfile): NutritionPlan {
   const { imc, category } = calculateIMC(profile.poids, profile.tailleFeet, profile.tailleInches);
-  const calories = calculateCalories(profile, imc);
+  const calories = calculateCalories(profile);
   const portions = calculatePortions(profile, calories);
 
   const isFemme = profile.sexe === "Femme";
@@ -285,13 +284,7 @@ function generatePlan(profile: NutritionProfile): NutritionPlan {
     { categorie: "Essentiels", items: ["Épices variées", "Sauce soya réduite en sodium", "Vinaigre balsamique", "Moutarde de Dijon", "Bouillon faible en sodium"] },
   ];
 
-  const progression: ProgressionLevel[] = [
-    { niveau: 1, titre: "Fondation", habitudes: ["Manger 3 repas par jour", "Boire 6-8 verres d'eau", "Inclure une protéine à chaque repas"], acquis: profile.niveauHabitudes > 1, current: profile.niveauHabitudes === 1 },
-    { niveau: 2, titre: "Initiation", habitudes: ["Ajouter des légumes à 2 repas/jour", "Planifier ses repas la veille", "Préparer son lunch"], acquis: profile.niveauHabitudes > 2, current: profile.niveauHabitudes === 2 },
-    { niveau: 3, titre: "Progression", habitudes: ["Respecter les portions recommandées", "Intégrer les bons gras", "Collation protéinée post-entraînement"], acquis: profile.niveauHabitudes > 3, current: profile.niveauHabitudes === 3 },
-    { niveau: 4, titre: "Consolidation", habitudes: ["Meal prep hebdomadaire", "Varier les sources de protéines", "Ajuster selon les résultats"], acquis: profile.niveauHabitudes > 4, current: profile.niveauHabitudes === 4 },
-    { niveau: 5, titre: "Maîtrise", habitudes: ["Adhérence 90%+", "Périodisation nutritionnelle", "Autonomie complète"], acquis: false, current: profile.niveauHabitudes === 5 },
-  ];
+  const progression = buildProgression(profile.niveauHabitudes);
 
   return {
     imc,
@@ -398,24 +391,14 @@ interface SelectedFoods {
 
 function WeeklyGrocerySection({ plan }: { plan: NutritionPlan }) {
   const [nbPersonnes, setNbPersonnes] = useState(1);
-  const [selectedFoods, setSelectedFoods] = useState<SelectedFoods>(() => {
-    const saved = localStorage.getItem('starterpack-grocery-selections');
-    if (saved) {
-      try { return JSON.parse(saved); } catch {}
-    }
-    // Par défaut: sélectionner les 4 premiers de chaque catégorie
-    return {
-      proteines: plan.proteines.equivalents.slice(0, 4).map(e => e.aliment),
-      legumes: plan.legumes.equivalents.slice(0, 5).map(e => e.aliment),
-      glucides: plan.glucides.equivalents.slice(0, 4).map(e => e.aliment),
-      lipides: plan.lipides.equivalents.slice(0, 4).map(e => e.aliment),
-    };
-  });
-
-  // Persister les choix
-  useEffect(() => {
-    localStorage.setItem('starterpack-grocery-selections', JSON.stringify(selectedFoods));
-  }, [selectedFoods]);
+  const [selectedFoods, setSelectedFoods] = useState<SelectedFoods>(() => ({
+    // Les choix de l’aperçu restent en mémoire seulement : aucune préférence de
+    // profil réel n’est enregistrée dans le navigateur.
+    proteines: plan.proteines.equivalents.slice(0, 4).map(e => e.aliment),
+    legumes: plan.legumes.equivalents.slice(0, 5).map(e => e.aliment),
+    glucides: plan.glucides.equivalents.slice(0, 4).map(e => e.aliment),
+    lipides: plan.lipides.equivalents.slice(0, 4).map(e => e.aliment),
+  }));
 
   const toggleFood = (categorie: keyof SelectedFoods, aliment: string) => {
     setSelectedFoods(prev => {
@@ -493,7 +476,7 @@ function WeeklyGrocerySection({ plan }: { plan: NutritionPlan }) {
           </div>
           <div>
             <h2 className="font-display text-xl text-foreground">Épicerie hebdomadaire</h2>
-            <p className="text-sm text-muted-foreground">Sélectionne tes aliments préférés pour générer ta liste</p>
+            <p className="text-sm text-muted-foreground">Exemple fictif : explore une liste, sans vérifier allergies, restrictions ou besoins réels.</p>
           </div>
         </div>
         <div className="flex items-center gap-2 bg-secondary/50 rounded-lg px-3 py-2">
@@ -602,528 +585,375 @@ function WeeklyGrocerySection({ plan }: { plan: NutritionPlan }) {
   );
 }
 
-// ─── Composant principal ───────────────────────────────────────
-export default function EspaceMembreNutrition() {
-  const [step, setStep] = useState(0);
-  const [profile, setProfile] = useState<Partial<NutritionProfile>>({});
-  const [plan, setPlan] = useState<NutritionPlan | null>(null);
-  const [generating, setGenerating] = useState(false);
+// ─── États onboarding et aperçu fictif ───────────────────────────
+function buildDemoProfile(answers: MemberAnswers): NutritionProfile {
+  const weight = Number(answers.weight);
+  const weightLbs = answers.weightUnit === "kg" ? weight * 2.20462 : weight;
+  const rawHeight = Number(answers.height);
+  const totalInches = answers.heightUnit === "cm" ? rawHeight / 2.54 : rawHeight;
 
-  // Restaurer un plan existant
-  useEffect(() => {
-    const saved = localStorage.getItem("starterpack-nutrition");
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        setPlan(data.plan);
-        setProfile(data.profile);
-        setStep(99); // Show results
-      } catch {}
-    }
-  }, []);
-
-  const questions = [
-    // Step 0: Sexe
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Quel est ton sexe biologique ?</h2>
-        <p className="text-muted-foreground">Cela influence le calcul de tes besoins caloriques.</p>
-        <div className="grid grid-cols-2 gap-4 mt-8">
-          {["Homme", "Femme"].map((s) => (
-            <button
-              key={s}
-              onClick={() => { setProfile({ ...profile, sexe: s }); setStep(1); }}
-              className={`p-6 rounded-xl border-2 transition-all text-center ${
-                profile.sexe === s
-                  ? "border-primary bg-primary/10 text-foreground"
-                  : "border-border bg-card text-foreground hover:border-primary/50"
-              }`}
-            >
-              <span className="text-4xl block mb-2">{s === "Homme" ? "♂" : "♀"}</span>
-              <span className="font-semibold text-lg">{s}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    ),
-    // Step 1: Âge
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Quelle est ta tranche d'âge ?</h2>
-        <p className="text-muted-foreground">Ton métabolisme évolue avec l'âge.</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-8">
-          {["18-25", "26-35", "36-45", "46-55", "56-65", "65+"].map((age) => (
-            <button
-              key={age}
-              onClick={() => { setProfile({ ...profile, ageRange: age }); setStep(2); }}
-              className={`p-4 rounded-xl border-2 transition-all text-center ${
-                profile.ageRange === age
-                  ? "border-primary bg-primary/10 text-foreground"
-                  : "border-border bg-card text-foreground hover:border-primary/50"
-              }`}
-            >
-              <span className="font-semibold">{age} ans</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    ),
-    // Step 2: Poids
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Quel est ton poids actuel ?</h2>
-        <p className="text-muted-foreground">En livres (lbs). Cela sert au calcul de tes portions.</p>
-        <div className="mt-8 max-w-xs">
-          <div className="relative">
-            <input
-              type="number"
-              value={profile.poids || ""}
-              onChange={(e) => setProfile({ ...profile, poids: parseInt(e.target.value) || 0 })}
-              placeholder="Ex: 165"
-              className="w-full p-4 pr-16 rounded-xl border-2 border-border bg-card text-foreground text-2xl font-semibold focus:border-primary focus:outline-none"
-            />
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground text-lg">lbs</span>
-          </div>
-          <Button
-            onClick={() => setStep(3)}
-            disabled={!profile.poids || profile.poids < 80}
-            className="mt-6 w-full"
-            size="lg"
-          >
-            Continuer <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-        </div>
-      </div>
-    ),
-    // Step 3: Taille
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Quelle est ta taille ?</h2>
-        <p className="text-muted-foreground">En pieds et pouces.</p>
-        <div className="mt-8 flex gap-4 max-w-xs">
-          <div className="flex-1">
-            <label className="text-sm text-muted-foreground mb-1 block">Pieds</label>
-            <input
-              type="number"
-              value={profile.tailleFeet || ""}
-              onChange={(e) => setProfile({ ...profile, tailleFeet: parseInt(e.target.value) || 0 })}
-              placeholder="5"
-              className="w-full p-4 rounded-xl border-2 border-border bg-card text-foreground text-2xl font-semibold focus:border-primary focus:outline-none"
-            />
-          </div>
-          <div className="flex-1">
-            <label className="text-sm text-muted-foreground mb-1 block">Pouces</label>
-            <input
-              type="number"
-              value={profile.tailleInches ?? ""}
-              onChange={(e) => setProfile({ ...profile, tailleInches: parseInt(e.target.value) || 0 })}
-              placeholder="8"
-              className="w-full p-4 rounded-xl border-2 border-border bg-card text-foreground text-2xl font-semibold focus:border-primary focus:outline-none"
-            />
-          </div>
-        </div>
-        <Button
-          onClick={() => setStep(4)}
-          disabled={!profile.tailleFeet || profile.tailleFeet < 4}
-          className="mt-6"
-          size="lg"
-        >
-          Continuer <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
-      </div>
-    ),
-    // Step 4: Objectif
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Quel est ton objectif principal ?</h2>
-        <p className="text-muted-foreground">On adapte ton plan en fonction de ce que tu vises.</p>
-        <div className="space-y-3 mt-8">
-          {Object.entries(OBJECTIFS).map(([code, { label, description }]) => (
-            <button
-              key={code}
-              onClick={() => { setProfile({ ...profile, objectif: code }); setStep(5); }}
-              className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                profile.objectif === code
-                  ? "border-primary bg-primary/10"
-                  : "border-border bg-card hover:border-primary/50"
-              }`}
-            >
-              <span className="font-semibold text-foreground block">{label}</span>
-              <span className="text-sm text-muted-foreground">{description}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    ),
-    // Step 5: Activité
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Quel est ton niveau d'activité ?</h2>
-        <p className="text-muted-foreground">Inclut l'entraînement ET le quotidien.</p>
-        <div className="space-y-3 mt-8">
-          {ACTIVITES.map((a) => (
-            <button
-              key={a.value}
-              onClick={() => { setProfile({ ...profile, activite: a.value }); setStep(6); }}
-              className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                profile.activite === a.value
-                  ? "border-primary bg-primary/10"
-                  : "border-border bg-card hover:border-primary/50"
-              }`}
-            >
-              <span className="font-semibold text-foreground block">{a.label}</span>
-              <span className="text-sm text-muted-foreground">{a.description}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-    ),
-    // Step 6: Niveau d'habitudes
-    () => (
-      <div className="space-y-6">
-        <h2 className="font-display text-3xl text-foreground">Où en es-tu avec tes habitudes alimentaires ?</h2>
-        <p className="text-muted-foreground">On commence ta progression au bon endroit.</p>
-        <div className="space-y-3 mt-8">
-          {NIVEAUX_HABITUDES.map((n) => (
-            <button
-              key={n.niveau}
-              onClick={() => {
-                setProfile({ ...profile, niveauHabitudes: n.niveau });
-                handleGenerate({ ...profile, niveauHabitudes: n.niveau } as NutritionProfile);
-              }}
-              className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                profile.niveauHabitudes === n.niveau
-                  ? "border-primary bg-primary/10"
-                  : "border-border bg-card hover:border-primary/50"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm">
-                  {n.niveau}
-                </span>
-                <div>
-                  <span className="font-semibold text-foreground block">{n.titre}</span>
-                  <span className="text-sm text-muted-foreground">{n.description}</span>
-                </div>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    ),
-  ];
-
-  const handleGenerate = (finalProfile: NutritionProfile) => {
-    setGenerating(true);
-    // Simulate generation delay for UX
-    setTimeout(() => {
-      const generatedPlan = generatePlan(finalProfile);
-      setPlan(generatedPlan);
-      setGenerating(false);
-      setStep(99);
-      // Save to localStorage
-      localStorage.setItem("starterpack-nutrition", JSON.stringify({ plan: generatedPlan, profile: finalProfile }));
-      // Update global progress
-      const progress = JSON.parse(localStorage.getItem("starterpack-progress") || "{}");
-      progress.nutrition = true;
-      localStorage.setItem("starterpack-progress", JSON.stringify(progress));
-    }, 2000);
+  return {
+    sexe: answers.equationSex,
+    exactAge: Number(answers.exactAge),
+    poids: weightLbs,
+    tailleFeet: Math.floor(totalInches / 12),
+    tailleInches: totalInches % 12,
+    objectif: answers.objective,
+    activite: answers.activity,
+    niveauHabitudes: Number(answers.habitLevel),
   };
+}
 
-  const handleReset = () => {
-    localStorage.removeItem("starterpack-nutrition");
-    const progress = JSON.parse(localStorage.getItem("starterpack-progress") || "{}");
-    progress.nutrition = false;
-    localStorage.setItem("starterpack-progress", JSON.stringify(progress));
-    setProfile({});
-    setPlan(null);
-    setStep(0);
-  };
+function memberDestination(demo: boolean) {
+  return `/espace-membre/starter-pack${demo ? "?apercu=1" : ""}`;
+}
 
-  // ─── Generating animation ─────────────────────────────────────
-  if (generating) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
-          <h2 className="font-display text-3xl text-foreground">Génération de ton plan...</h2>
-          <p className="text-muted-foreground">On calcule tes portions personnalisées</p>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── Results view ──────────────────────────────────────────────
-  if (step === 99 && plan) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="pt-28 pb-20 px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <Link href="/espace-membre">
-                <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-                  <ArrowLeft className="w-4 h-4" /> Retour
-                </button>
-              </Link>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleReset}>
-                  <RotateCcw className="w-4 h-4 mr-1" /> Refaire
-                </Button>
-                <Button variant="outline" size="sm" onClick={() => window.print()}>
-                  <Printer className="w-4 h-4 mr-1" /> Imprimer
-                </Button>
-              </div>
-            </div>
-
-            {/* Summary Card */}
-            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-                  <Apple className="w-5 h-5 text-green-400" />
-                </div>
-                <div>
-                  <h1 className="font-display text-2xl text-foreground">Ton Plan Nutritionnel</h1>
-                  <p className="text-muted-foreground text-sm">Personnalisé selon ton profil</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-primary">{plan.caloriesEstimees}</span>
-                  <p className="text-xs text-muted-foreground mt-1">Calories/jour</p>
-                </div>
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-green-400">{plan.proteinesGrammes}g</span>
-                  <p className="text-xs text-muted-foreground mt-1">Protéines</p>
-                </div>
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-amber-400">{plan.glucidesGrammes}g</span>
-                  <p className="text-xs text-muted-foreground mt-1">Glucides</p>
-                </div>
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-purple-400">{plan.lipidesGrammes}g</span>
-                  <p className="text-xs text-muted-foreground mt-1">Lipides</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 mt-4">
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-foreground">{plan.imc}</span>
-                  <p className="text-xs text-muted-foreground mt-1">IMC ({plan.imcCategory})</p>
-                </div>
-                <div className="bg-secondary/50 rounded-xl p-4 text-center">
-                  <span className="text-2xl font-bold text-foreground">Niv. {plan.niveauDepart}</span>
-                  <p className="text-xs text-muted-foreground mt-1">Point de départ</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Portions quotidiennes avec grammes */}
-            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
-              <h2 className="font-display text-xl text-foreground mb-6">Tes portions quotidiennes</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-foreground">Protéines</span>
-                    <span className="text-green-400 font-bold">{plan.proteines.paumes} paumes/jour</span>
-                  </div>
-                  <p className="text-sm text-primary font-medium">≈ {plan.proteines.grammes}g total/jour</p>
-                </div>
-                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-foreground">Légumes</span>
-                    <span className="text-emerald-400 font-bold">{plan.legumes.poings} poings/jour</span>
-                  </div>
-                  <p className="text-sm text-primary font-medium">≈ {plan.legumes.grammes}g total/jour</p>
-                </div>
-                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-foreground">Glucides</span>
-                    <span className="text-amber-400 font-bold">{plan.glucides.poings} poings/jour</span>
-                  </div>
-                  <p className="text-sm text-primary font-medium">≈ {plan.glucides.grammes}g total/jour</p>
-                </div>
-                <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-foreground">Bons gras</span>
-                    <span className="text-purple-400 font-bold">{plan.lipides.pouces} pouces/jour</span>
-                  </div>
-                  <p className="text-sm text-primary font-medium">≈ {plan.lipides.grammes}g total/jour</p>
-                </div>
-              </div>
-
-              {/* Tableau d'équivalents en grammes */}
-              <h3 className="font-semibold text-foreground mb-4 text-lg">1 portion = combien de grammes ?</h3>
-              <div className="space-y-4">
-                {/* Protéines */}
-                <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-4">
-                  <h4 className="font-semibold text-green-400 mb-3 text-sm">1 PAUME DE PROTÉINES =</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {plan.proteines.equivalents.map((eq, i) => (
-                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
-                        <span className="text-sm text-foreground">{eq.aliment}</span>
-                        <span className="text-sm font-bold text-green-400">{eq.quantiteGrammes}{eq.unite}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Légumes */}
-                <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
-                  <h4 className="font-semibold text-emerald-400 mb-3 text-sm">1 POING DE LÉGUMES =</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {plan.legumes.equivalents.map((eq, i) => (
-                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
-                        <span className="text-sm text-foreground">{eq.aliment}</span>
-                        <span className="text-sm font-bold text-emerald-400">{eq.quantiteGrammes}{eq.unite}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Glucides */}
-                <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
-                  <h4 className="font-semibold text-amber-400 mb-3 text-sm">1 POING DE GLUCIDES =</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {plan.glucides.equivalents.map((eq, i) => (
-                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
-                        <span className="text-sm text-foreground">{eq.aliment}</span>
-                        <span className="text-sm font-bold text-amber-400">{eq.quantiteGrammes}{eq.unite}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Lipides */}
-                <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-4">
-                  <h4 className="font-semibold text-purple-400 mb-3 text-sm">1 POUCE DE LIPIDES =</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {plan.lipides.equivalents.map((eq, i) => (
-                      <div key={i} className="flex items-center justify-between bg-background/50 rounded-lg px-3 py-2">
-                        <span className="text-sm text-foreground">{eq.aliment}</span>
-                        <span className="text-sm font-bold text-purple-400">{eq.quantiteGrammes}{eq.unite}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Plan de repas */}
-            <div className="bg-card border border-border rounded-2xl p-6 md:p-8 mb-6">
-              <h2 className="font-display text-xl text-foreground mb-6">Structure de repas</h2>
-              <div className="space-y-4">
-                {plan.repas.map((repas, i) => (
-                  <div key={i} className="bg-secondary/30 rounded-xl p-4">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm">
-                        {i + 1}
-                      </span>
-                      <span className="font-semibold text-foreground">{repas.nom}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground ml-11 mb-1">{repas.description}</p>
-                    <p className="text-sm text-foreground ml-11 font-medium">{repas.portions}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Liste d'épicerie hebdomadaire automatique */}
-            <WeeklyGrocerySection plan={plan} />
-
-            {/* Parcours de progression */}
-            <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
-              <h2 className="font-display text-xl text-foreground mb-6">Ton parcours de progression</h2>
-              <div className="space-y-4">
-                {plan.progression.map((level) => (
-                  <div
-                    key={level.niveau}
-                    className={`rounded-xl p-4 border-2 transition-all ${
-                      level.current
-                        ? "border-primary bg-primary/5"
-                        : level.acquis
-                          ? "border-green-500/30 bg-green-500/5"
-                          : "border-border bg-secondary/20 opacity-60"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <span
-                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm ${
-                          level.current
-                            ? "bg-primary text-white"
-                            : level.acquis
-                              ? "bg-green-500 text-white"
-                              : "bg-secondary text-muted-foreground"
-                        }`}
-                      >
-                        {level.acquis ? <Check className="w-4 h-4" /> : level.niveau}
-                      </span>
-                      <div>
-                        <span className="font-semibold text-foreground">Niveau {level.niveau} — {level.titre}</span>
-                        {level.current && <span className="ml-2 text-xs text-primary font-medium">← Tu es ici</span>}
-                      </div>
-                    </div>
-                    <ul className="ml-11 space-y-1">
-                      {level.habitudes.map((h, i) => (
-                        <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
-                          <span className={`w-1.5 h-1.5 rounded-full ${level.acquis ? "bg-green-400" : "bg-muted-foreground"}`} />
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  // ─── Questionnaire view ────────────────────────────────────────
+function BackToStarterPack({ demo }: { demo: boolean }) {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="pt-28 pb-20 px-4">
-        <div className="max-w-2xl mx-auto">
-          {/* Back button */}
-          <div className="mb-8">
-            {step === 0 ? (
-              <Link href="/espace-membre">
-                <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-                  <ArrowLeft className="w-4 h-4" /> Retour à l'espace membre
-                </button>
-              </Link>
-            ) : (
-              <button
-                onClick={() => setStep(step - 1)}
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" /> Retour
-              </button>
-            )}
-          </div>
+    <Link
+      href={memberDestination(demo)}
+      className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      <ArrowLeft className="h-4 w-4" /> Retour au Starter Pack
+    </Link>
+  );
+}
 
-          {/* Progress bar */}
-          <div className="mb-10">
-            <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
-              <span>Question {step + 1} / 7</span>
-              <span>{Math.round(((step + 1) / 7) * 100)}%</span>
-            </div>
-            <div className="w-full h-2 bg-secondary rounded-full overflow-hidden">
-              <div
-                className="h-full bg-primary rounded-full transition-all duration-500"
-                style={{ width: `${((step + 1) / 7) * 100}%` }}
-              />
-            </div>
-          </div>
+function ProgressionSection({
+  progression,
+  firstAction,
+  demo = false,
+}: {
+  progression: ProgressionLevel[];
+  firstAction?: string;
+  demo?: boolean;
+}) {
+  return (
+    <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
+      <div className="mb-6">
+        <h2 className="font-display text-xl text-foreground">Parcours d’habitudes souple</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Fondation, Initiation, Progression, Consolidation et Maîtrise sont des repères de simplicité et d’autonomie — pas des niveaux acquis, ni une note de perfection.
+        </p>
+      </div>
 
-          {/* Question */}
-          <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-            {questions[step]?.()}
+      <div className="space-y-3">
+        {progression.map(level => (
+          <div
+            key={level.niveau}
+            className={`rounded-xl border p-4 ${
+              level.current ? "border-primary bg-primary/5" : "border-border bg-secondary/20"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${level.current ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground"}`}>
+                {level.niveau}
+              </span>
+              <div>
+                <h3 className="font-semibold text-foreground">{level.titre}</h3>
+                {level.current && (
+                  <p className="text-xs font-medium text-primary">
+                    {demo ? "Repère choisi dans cet exemple fictif" : "Repère indiqué dans ton questionnaire"}
+                  </p>
+                )}
+              </div>
+            </div>
+            <ul className="ml-11 mt-3 space-y-1.5">
+              {level.habitudes.map(habit => (
+                <li key={habit} className="flex gap-2 text-sm text-muted-foreground">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-muted-foreground" />
+                  {habit}
+                </li>
+              ))}
+            </ul>
           </div>
+        ))}
+      </div>
+
+      <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+          <h3 className="font-semibold text-foreground">Action personnelle</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {firstAction?.trim()
+              ? demo
+                ? `Exemple fictif d’action choisie : « ${firstAction} »`
+                : `L’action que tu as proposée : « ${firstAction} »`
+              : "Choisis une action modeste et réaliste à tester à la prochaine occasion qui te convient."}
+          </p>
+        </div>
+        <div className="rounded-xl border border-border bg-secondary/30 p-4">
+          <h3 className="font-semibold text-foreground">Plan de reprise</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Si une routine est interrompue : reconnaître ce qui a changé sans se juger, revenir à une action Fondation, choisir la prochaine occasion réaliste, puis simplifier l’environnement ou le plan si l’obstacle persiste.
+          </p>
         </div>
       </div>
     </div>
+  );
+}
+
+function PreviewPlan({ answers, plan }: { answers: MemberAnswers; plan: NutritionPlan }) {
+  const equivalents = [
+    { label: "1 paume de protéines", color: "text-green-400", items: plan.proteines.equivalents },
+    { label: "1 poing de légumes", color: "text-emerald-400", items: plan.legumes.equivalents },
+    { label: "1 poing de glucides", color: "text-amber-400", items: plan.glucides.equivalents },
+    { label: "1 pouce de lipides", color: "text-purple-400", items: plan.lipides.equivalents },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="px-4 pb-20 pt-28">
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <BackToStarterPack demo />
+            <Link
+              href="/espace-membre/onboarding/starter?apercu=1"
+              className="text-sm font-medium text-primary transition-colors hover:underline"
+            >
+              Voir le questionnaire fictif
+            </Link>
+          </div>
+
+          <div className="mb-6 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-5">
+            <div className="flex gap-3">
+              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+              <div>
+                <h1 className="font-display text-2xl text-foreground">Aperçu éducatif fictif — non validé</h1>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Cette page utilise uniquement des réponses de démonstration. Les chiffres, repères de portions et aliments servent à illustrer l’outil; ils ne constituent pas un plan personnel, ne vérifient pas les allergies, restrictions ou situations de santé, et ne sont pas livrés automatiquement.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-6 rounded-2xl border border-border bg-card p-6 md:p-8">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/20">
+                <Apple className="h-5 w-5 text-green-400" />
+              </div>
+              <div>
+                <h2 className="font-display text-2xl text-foreground">Proposition chiffrée de démonstration</h2>
+                <p className="text-sm text-muted-foreground">Basée sur le profil fictif « {answers.preferredName} » et sans validation humaine.</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {[
+                [String(plan.caloriesEstimees), "calories/jour fictives", "text-primary"],
+                [`${plan.proteinesGrammes} g`, "protéines fictives", "text-green-400"],
+                [`${plan.glucidesGrammes} g`, "glucides fictifs", "text-amber-400"],
+                [`${plan.lipidesGrammes} g`, "lipides fictifs", "text-purple-400"],
+              ].map(([value, label, color]) => (
+                <div key={label} className="rounded-xl bg-secondary/50 p-4 text-center">
+                  <span className={`text-xl font-bold ${color}`}>{value}</span>
+                  <p className="mt-1 text-xs text-muted-foreground">{label}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-xs leading-5 text-muted-foreground">
+              L’IMC de l’exemple ({plan.imc}, {plan.imcCategory}) est affiché à titre descriptif seulement; il ne détermine pas des besoins, des risques ou des portions.
+            </p>
+          </div>
+
+          <div className="mb-6 rounded-2xl border border-border bg-card p-6 md:p-8">
+            <h2 className="font-display text-xl text-foreground">Repères de l’exemple fictif</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Les équivalents en grammes ci-dessous aident à explorer les aliments; ils ne sont pas des consignes personnelles.</p>
+            <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+              {equivalents.map(group => (
+                <div key={group.label} className="rounded-xl border border-border bg-secondary/20 p-4">
+                  <h3 className={`mb-3 text-sm font-semibold uppercase ${group.color}`}>{group.label}</h3>
+                  <div className="space-y-2">
+                    {group.items.map(item => (
+                      <div key={item.aliment} className="flex items-center justify-between gap-3 rounded-lg bg-background/50 px-3 py-2">
+                        <span className="text-sm text-foreground">{item.aliment}</span>
+                        <span className={`whitespace-nowrap text-sm font-bold ${group.color}`}>{item.quantiteGrammes}{item.unite}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mb-6 rounded-2xl border border-border bg-card p-6 md:p-8">
+            <h2 className="font-display text-xl text-foreground">Structure de repas fictive</h2>
+            <div className="mt-5 space-y-3">
+              {plan.repas.map((meal, index) => (
+                <div key={meal.nom} className="rounded-xl bg-secondary/30 p-4">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/20 text-sm font-bold text-primary">{index + 1}</span>
+                    <div>
+                      <h3 className="font-semibold text-foreground">{meal.nom}</h3>
+                      <p className="text-sm text-muted-foreground">{meal.description}</p>
+                      <p className="mt-1 text-sm font-medium text-foreground">{meal.portions}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <WeeklyGrocerySection plan={plan} />
+          <ProgressionSection progression={plan.progression} firstAction={answers.firstAction} demo />
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+function MessagePage({
+  demo = false,
+  children,
+}: {
+  demo?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <main className="flex min-h-[70vh] items-center px-4 pb-20 pt-28">
+        <div className="mx-auto w-full max-w-2xl">
+          <div className="mb-8"><BackToStarterPack demo={demo} /></div>
+          {children}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+// ─── Composant principal ───────────────────────────────────────
+export default function EspaceMembreNutrition() {
+  const onboarding = useMemberOnboarding("starter");
+  const urlPreview = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("apercu") === "1";
+  const isDemo = onboarding.isDemo || urlPreview;
+  const demoAnswers = useMemo(() => demoMemberAnswers(), []);
+  const answers = isDemo ? demoAnswers : onboarding.answers;
+  const demoProfile = useMemo(() => buildDemoProfile(demoAnswers), [demoAnswers]);
+  const demoPlan = useMemo(() => (isDemo ? generatePlan(demoProfile) : null), [demoProfile, isDemo]);
+
+  // La seule vue chiffrée vit derrière le mode aperçu et dépend exclusivement des données fictives partagées.
+  if (isDemo && demoPlan) {
+    return <PreviewPlan answers={demoAnswers} plan={demoPlan} />;
+  }
+
+  if (onboarding.loading) {
+    return (
+      <MessagePage>
+        <div className="rounded-2xl border border-border bg-card p-8 text-center">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          <p className="mt-4 text-sm text-muted-foreground">Chargement de ton espace nutrition…</p>
+        </div>
+      </MessagePage>
+    );
+  }
+
+  if (!onboarding.isAuthenticated) {
+    return (
+      <MessagePage>
+        <section className="rounded-2xl border border-border bg-card p-6 text-center md:p-8">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+            <LockKeyhole className="h-6 w-6 text-primary" />
+          </div>
+          <h1 className="mt-4 font-display text-3xl text-foreground">Ton espace nutrition est privé</h1>
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
+            Connecte-toi depuis le questionnaire du Starter Pack pour garder tes réponses dans ton dossier privé. Aucun profil nutritionnel réel n’est conservé dans cet aperçu public.
+          </p>
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href="/espace-membre/onboarding/starter" className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90">
+              <LockKeyhole className="h-4 w-4" /> Accéder au questionnaire / se connecter
+            </Link>
+            <Link href="/espace-membre/nutrition?apercu=1" className="inline-flex items-center justify-center rounded-md border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary">
+              Voir l’aperçu fictif
+            </Link>
+          </div>
+        </section>
+      </MessagePage>
+    );
+  }
+
+  if (onboarding.status === "referred") {
+    return (
+      <MessagePage>
+        <section className="rounded-2xl border border-amber-500/30 bg-card p-6 md:p-8">
+          <div className="flex gap-3">
+            <AlertTriangle className="mt-1 h-6 w-6 shrink-0 text-amber-500" />
+            <div>
+              <h1 className="font-display text-3xl text-foreground">Orientation à prévoir</h1>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Certaines réponses indiquent qu’une proposition nutritionnelle automatisée ne convient pas pour le moment. Il ne s’agit pas d’un diagnostic. Une orientation vers le professionnel approprié doit être organisée avant toute personnalisation.
+              </p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Tu peux compléter ou corriger tes réponses dans ton espace privé. Aucun plan, cible de calories, macro ou portion n’est affiché ici.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6">
+            <Link href="/espace-membre/onboarding/starter" className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90">
+              Modifier mon questionnaire
+            </Link>
+          </div>
+        </section>
+      </MessagePage>
+    );
+  }
+
+  if (onboarding.status === "needs_review") {
+    return (
+      <MessagePage>
+        <section className="rounded-2xl border border-border bg-card p-6 md:p-8">
+          <div className="flex gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <ClipboardCheck className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h1 className="font-display text-3xl text-foreground">Questionnaire reçu, de façon privée</h1>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Tes réponses sont maintenant à organiser pour validation humaine. Cette étape vérifie la cohérence, les préférences, le contexte et les exceptions avant toute proposition personnalisée. Elle ne promet ni rendez-vous, ni délai, ni livraison automatique.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 rounded-xl border border-border bg-secondary/30 p-4 text-sm leading-6 text-muted-foreground">
+            <ShieldCheck className="mr-2 inline h-4 w-4 text-primary" />
+            Aucun plan validé n’est affiché : pas de cibles de calories, de macros ou de portions tant que la validation n’est pas organisée.
+          </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Link href="/espace-membre/onboarding/starter" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90">
+              Modifier mon questionnaire
+            </Link>
+          </div>
+        </section>
+        <div className="mt-6">
+          <ProgressionSection progression={buildProgression(Number(answers.habitLevel))} firstAction={answers.firstAction} />
+        </div>
+      </MessagePage>
+    );
+  }
+
+  return (
+    <MessagePage>
+      <section className="rounded-2xl border border-border bg-card p-6 md:p-8">
+        <div className="flex gap-3">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+            <Apple className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h1 className="font-display text-3xl text-foreground">Préparer ton questionnaire nutrition</h1>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              Pour qu’une proposition puisse être préparée de manière privée et responsable, complète ton questionnaire Starter Pack. Après l’envoi, les réponses passent par une validation humaine; aucun plan n’est généré ou livré automatiquement.
+            </p>
+          </div>
+        </div>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Link href="/espace-membre/onboarding/starter" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90">
+            {onboarding.status === "draft" ? "Continuer mon questionnaire" : "Commencer mon questionnaire"}
+          </Link>
+          <Link href="/espace-membre/nutrition?apercu=1" className="inline-flex items-center justify-center rounded-md border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary">
+            Voir un aperçu fictif
+          </Link>
+        </div>
+      </section>
+    </MessagePage>
   );
 }

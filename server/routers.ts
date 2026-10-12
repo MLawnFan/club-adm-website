@@ -6,9 +6,11 @@ import { z } from "zod";
 import { getDb } from "./db";
 import { programmeEnrollment, programmeProgress } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
+import { memberRouter } from "./routers/member";
 
 export const appRouter = router({
   system: systemRouter,
+  member: memberRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

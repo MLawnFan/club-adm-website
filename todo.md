@@ -69,3 +69,22 @@
 - [x] Enrichir Module Nutrition : ajouter portions en grammes + liste d'aliments avec quantités exactes par portion
 - [x] Ajouter liste d'épicerie hebdomadaire automatique basée sur les portions en grammes et équivalents choisis
 - [x] Ajouter des explications adaptées au niveau d'expérience dans le module entraînement (débutant = détaillé, avancé = concis)
+
+## Hub membre et onboarding commun — 12 octobre 2026
+- [x] Hub /espace-membre : On R’start la Machine (12 semaines) et Starter Pack ADM (4 semaines), deux parcours distincts.
+- [x] Navigation publique Espace Membre vers le hub; anciens URLs /programme et modules Starter conservés.
+- [x] Dashboard Starter déplacé à /espace-membre/starter-pack; liens retour depuis les modules.
+- [x] Questionnaire guidé en 6 étapes : profil, sécurité/contexte, quotidien, habitudes, entraînement, vérification.
+- [x] Reprise et modification des étapes; validation des champs et récapitulatif avant confirmation.
+- [x] Table privée member_onboarding, unicité compte/produit, procédures tRPC protégées et cache client isolé par compte.
+- [x] Reprise du parcours choisi après la connexion existante; pas de nouvel accès payant ni de nouveau trial.
+- [x] Questionnaire nutrition aligné sur les 19 questions du document interne fourni.
+- [x] Triage serveur : statut referred pour santé, relation alimentaire, refus/incertitude de triage ou mineur; pas de diagnostic.
+- [x] Nutrition réelle : aucun guide chiffré livré automatiquement ni présenté comme validé. Aperçu fictif séparé conserve équivalents et épicerie.
+- [x] Entraînement : reprend le profil partagé, 4 semaines; suspend la génération pour triage ou limitations déclarées; conseils adaptés au niveau.
+- [x] Tests : 19 réussis, TypeScript et build réussis; navigation des 6 étapes, confirmation et génération fictive testées; desktop et cellulaire vérifiés.
+- [ ] Organiser le processus humain à deux temps : préparateur, seconde validation/responsable autorisé, canal privé, décisions documentées.
+- [ ] Implémenter le workflow équipe de préparation/validation/remise réelle du guide (pas de statut approved ni de livraison simulée dans cette version).
+- [ ] Connecter la remise au PDF personnalisé et aux préférences/horaire/budget après validation, sans promesse de délai.
+- [ ] Stripe/GHL, contrôle d’accès produit et vraies règles communautaires : intégrations futures inchangées, aucun nouvel essai créé.
+- [ ] Synchroniser les séances et les trackers éducatifs en base; ils restent locaux dans la version actuelle.

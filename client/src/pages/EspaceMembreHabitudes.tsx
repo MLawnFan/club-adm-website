@@ -351,7 +351,7 @@ export default function EspaceMembreHabitudes() {
       <Navbar />
       <div className="pt-28 pb-20 px-4">
         <div className="max-w-3xl mx-auto">
-          <Link href="/espace-membre">
+          <Link href={`/espace-membre/starter-pack${new URLSearchParams(window.location.search).get("apercu") === "1" ? "?apercu=1" : ""}`}>
             <button className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8">
               <ArrowLeft className="w-4 h-4" /> Retour à l'espace membre
             </button>

@@ -15,6 +15,13 @@
       "when": 1784056040252,
       "tag": "0001_previous_randall_flagg",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1791832561054,
+      "tag": "0002_living_calypso",
+      "breakpoints": true
     }
   ]
 }
