@@ -8,6 +8,7 @@ import { Users, Dumbbell, Apple, ArrowRight, Flame, Zap, Target } from "lucide-r
 import Navbar from "@/components/Navbar";
 import PromoBanner from "@/components/PromoBanner";
 import Footer from "@/components/Footer";
+import { PROGRAMME_PROFILES, type ProgrammeRatio } from "@/lib/programmeRatios";
 
 const SERVICES_GROUP = "/manus-storage/fb-deadlift-woman_58b054bf.jpeg";
 const SERVICES_NUTRITION = "/manus-storage/fb-mother-daughter-gym_0778968a.jpeg";
@@ -15,11 +16,7 @@ const SERVICES_PERSONAL = "/manus-storage/fb-group-350-milestone_eea572f0.jpeg";
 const WARM_COACHING = "/manus-storage/fb-group-class-action_5685642b.jpeg";
 const WARM_COMMUNITY = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 
-interface RatioBar {
-  label: string;
-  value: number; // 0-100
-  color: string;
-}
+type RatioBar = ProgrammeRatio;
 
 interface Program {
   title: string;
@@ -41,12 +38,7 @@ const programs: Program[] = [
     desc: "Le cœur du Club ADM. Chaque jour, le programme change selon notre périodisation — un jour c'est de la force pure, le lendemain de l'haltérophilie, puis de la musculation, de la course ou de la gymnastique. Tu ne fais jamais deux fois la même chose. C'est varié, c'est encadré, et c'est adapté à tous les niveaux. Que tu sois débutant ou avancé, le coach ajuste les charges et les mouvements pour toi.",
     image: SERVICES_GROUP,
     icon: Users,
-    ratios: [
-      { label: "Force", value: 70, color: "#ed1c24" },
-      { label: "Endurance", value: 60, color: "#f97316" },
-      { label: "Technique", value: 65, color: "#eab308" },
-      { label: "Cardio", value: 55, color: "#22c55e" },
-    ],
+    ratios: PROGRAMME_PROFILES["groupe"].ratios,
     highlights: ["Variable selon la périodisation", "Force, haltérophilie, musculation, course, gymnastique", "Tous les niveaux", "Encadré par des coachs certifiés"],
     href: "/consultation-gratuite",
     internal: true,
@@ -58,12 +50,7 @@ const programs: Program[] = [
     desc: "Un entraînement en petit groupe de 3 à 5 personnes, mais avec une programmation 100% adaptée à toi. Ton coach conçoit ton programme selon tes objectifs, tes limitations et ton niveau — mais tu t'entraînes dans l'énergie d'un groupe. C'est le meilleur des deux mondes : l'attention personnalisée d'un entraîneur privé, avec la motivation collective.",
     image: SERVICES_PERSONAL,
     icon: Target,
-    ratios: [
-      { label: "Personnalisation", value: 95, color: "#ed1c24" },
-      { label: "Force", value: 75, color: "#f97316" },
-      { label: "Endurance", value: 50, color: "#eab308" },
-      { label: "Suivi individuel", value: 90, color: "#22c55e" },
-    ],
+    ratios: PROGRAMME_PROFILES["semi-prive"].ratios,
     highlights: ["3 à 5 personnes maximum", "Programme adapté à chaque client", "Coaching personnalisé sur place", "Idéal pour objectifs spécifiques"],
     href: "/consultation-gratuite",
     internal: true,
@@ -75,12 +62,7 @@ const programs: Program[] = [
     desc: "Tu veux te préparer pour une compétition Hyrox ou simplement développer une machine cardio-musculaire? Ce programme met l'accent sur l'endurance avec un ratio de 75% cardio/endurance et 25% musculation fonctionnelle. Courses, rameur, sled push, burpees, wall balls — tu vas apprendre à maintenir un effort soutenu tout en gardant ta force. Parfait pour ceux qui veulent repousser leurs limites cardiovasculaires.",
     image: WARM_COACHING,
     icon: Flame,
-    ratios: [
-      { label: "Endurance", value: 75, color: "#ed1c24" },
-      { label: "Musculation", value: 25, color: "#f97316" },
-      { label: "Cardio", value: 85, color: "#eab308" },
-      { label: "Mental", value: 80, color: "#22c55e" },
-    ],
+    ratios: PROGRAMME_PROFILES["hyrox"].ratios,
     highlights: ["Ratio 75% endurance / 25% musculation", "Préparation compétition Hyrox", "Courses, rameur, sled, wall balls", "Développe l'endurance de fond"],
     href: "/consultation-gratuite",
     internal: true,
@@ -92,12 +74,7 @@ const programs: Program[] = [
     desc: "Le programme Hybrid, c'est le parfait équilibre entre musculation fonctionnelle et endurance. Avec un ratio de 60% musculation et 40% cardio, tu développes à la fois ta force, ta composition corporelle et ta capacité cardiovasculaire. C'est pour ceux qui veulent être forts ET en shape — pas l'un ou l'autre. Un programme complet qui construit un physique athlétique et performant sur le long terme.",
     image: WARM_COMMUNITY,
     icon: Zap,
-    ratios: [
-      { label: "Musculation", value: 60, color: "#ed1c24" },
-      { label: "Endurance", value: 40, color: "#f97316" },
-      { label: "Force", value: 70, color: "#eab308" },
-      { label: "Composition corporelle", value: 75, color: "#22c55e" },
-    ],
+    ratios: PROGRAMME_PROFILES["hybrid"].ratios,
     highlights: ["Ratio 60% musculation / 40% endurance", "Musculation fonctionnelle", "Développe force ET cardio", "Physique athlétique et performant"],
     href: "/consultation-gratuite",
     internal: true,
@@ -109,12 +86,7 @@ const programs: Program[] = [
     desc: "Tu veux te remettre en forme mais tu sais pas par où commencer? Ce programme est fait pour toi. 'On Rstart la Machine', c'est un accompagnement complet sur plusieurs semaines : entraînement adapté, plan nutritionnel personnalisé et soutien d'une communauté qui passe par le même chemin que toi. On construit des habitudes durables, pas des solutions rapides. C'est ta remise en marche, à ton rythme.",
     image: SERVICES_GROUP,
     icon: Dumbbell,
-    ratios: [
-      { label: "Habitudes de vie", value: 90, color: "#ed1c24" },
-      { label: "Nutrition", value: 80, color: "#f97316" },
-      { label: "Entraînement", value: 65, color: "#eab308" },
-      { label: "Communauté", value: 85, color: "#22c55e" },
-    ],
+    ratios: PROGRAMME_PROFILES["rstart"].ratios,
     highlights: ["Programme structuré sur plusieurs semaines", "Coaching personnalisé", "Plan nutritionnel inclus", "Communauté de soutien"],
     href: "/consultation-gratuite",
     internal: true,
@@ -126,12 +98,7 @@ const programs: Program[] = [
     desc: "La nutrition, c'est le pilier invisible de tes résultats. Notre coaching nutritionnel t'aide à comprendre ce que tu manges, pourquoi, et comment ajuster ton alimentation pour atteindre tes objectifs — sans privation, sans régime extrême. On travaille avec toi pour bâtir des habitudes alimentaires qui durent, adaptées à ton mode de vie réel. Parce que manger bien, ça devrait être simple.",
     image: SERVICES_NUTRITION,
     icon: Apple,
-    ratios: [
-      { label: "Nutrition", value: 95, color: "#ed1c24" },
-      { label: "Habitudes de vie", value: 85, color: "#f97316" },
-      { label: "Suivi personnalisé", value: 90, color: "#eab308" },
-      { label: "Éducation", value: 80, color: "#22c55e" },
-    ],
+    ratios: PROGRAMME_PROFILES["nutrition"].ratios,
     highlights: ["Plan alimentaire personnalisé", "Suivi hebdomadaire", "Approche sans privation", "Adapté à ton mode de vie"],
     href: "/consultation-gratuite",
     internal: true,

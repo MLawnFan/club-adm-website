@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, PlayCircle, Video } from "lucide-react";
 import { Link } from "wouter";
+import ProgrammeRatios from "@/components/ProgrammeRatios";
 
 const GROUP_IMG = "/manus-storage/cours-de-groupe-original_10442de9.jpg";
 const SEMI_PRIVE_IMG = "/manus-storage/semi-prive-original_e05934b9.jpg";
@@ -21,7 +22,7 @@ type Service = {
   eyebrow: string;
   desc: string;
   poster: string;
-  href: string;
+  programme: string;
   video?: string;
 };
 
@@ -31,7 +32,7 @@ const SERVICES: Service[] = [
     eyebrow: "Fort et en shape",
     desc: "Le juste équilibre entre musculation fonctionnelle et endurance pour bâtir un physique athlétique, fort et performant.",
     poster: HYBRID_IMG,
-    href: "/programmes#hybrid",
+    programme: "hybrid",
     video: "/manus-storage/hybrid-web_61b155f5.mp4",
   },
   {
@@ -39,7 +40,7 @@ const SERVICES: Service[] = [
     eyebrow: "Bouger ensemble",
     desc: "Force, haltérophilie, musculation, course et gymnastique dans une programmation variée, encadrée et adaptée à tous les niveaux.",
     poster: GROUP_IMG,
-    href: "/programmes#groupe",
+    programme: "groupe",
     video: "/manus-storage/cours-de-groupe-web_6edfb9cd.mp4",
   },
   {
@@ -47,7 +48,7 @@ const SERVICES: Service[] = [
     eyebrow: "Coaching personnalisé",
     desc: "Un programme adapté à tes objectifs dans un petit groupe de 3 à 5 personnes, avec l'attention d'un coach et l'énergie de la gang.",
     poster: SEMI_PRIVE_IMG,
-    href: "/programmes#semi-prive",
+    programme: "semi-prive",
     video: "/manus-storage/semi-prive-web_c04664f7.mp4",
   },
   {
@@ -55,7 +56,7 @@ const SERVICES: Service[] = [
     eyebrow: "Endurance et performance",
     desc: "Une préparation qui combine course et mouvements fonctionnels pour développer ton moteur, ta force et ta capacité à soutenir l'effort.",
     poster: HYROX_IMG,
-    href: "/programmes#hyrox",
+    programme: "hyrox",
     video: "/manus-storage/hyrox-web_7777fd36.mp4",
   },
   {
@@ -63,27 +64,41 @@ const SERVICES: Service[] = [
     eyebrow: "S'entraîner partout",
     desc: "Des entraînements structurés et un accompagnement accessible de partout pour progresser avec une direction claire.",
     poster: ONLINE_IMG,
-    href: "/en-ligne",
+    programme: "en-ligne",
   },
   {
     title: "On Rstart la Machine",
     eyebrow: "Transformation durable",
     desc: "Un accompagnement complet qui combine entraînement, nutrition et habitudes de vie pour repartir sur des bases solides.",
     poster: RSTART_IMG,
-    href: "/programmes#rstart",
+    programme: "rstart",
   },
   {
     title: "Coaching Nutritionnel",
     eyebrow: "Manger mieux, simplement",
     desc: "Un suivi personnalisé pour comprendre ton alimentation et bâtir des habitudes réalistes qui soutiennent tes objectifs.",
     poster: NUTRITION_IMG,
-    href: "/programmes#nutrition",
+    programme: "nutrition",
   },
 ];
 
 export default function Services() {
   const [current, setCurrent] = useState(0);
   const service = SERVICES[current];
+
+  const revealConsultation = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    // Preserve opening in a new tab or using the native anchor with modifiers.
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const target = document.getElementById("services-consultation");
+    if (!target) return;
+    event.preventDefault();
+    document.querySelector<HTMLVideoElement>("[data-services-carousel] video")?.pause();
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+  };
 
   const previous = () => setCurrent((index) => (index - 1 + SERVICES.length) % SERVICES.length);
   const next = () => setCurrent((index) => (index + 1) % SERVICES.length);
@@ -155,7 +170,7 @@ export default function Services() {
           </div>
         </div>
 
-        <div className="relative rounded-2xl border border-white/[0.08] overflow-hidden" style={{ backgroundColor: "#131636" }}>
+        <div data-services-carousel className="relative rounded-2xl border border-white/[0.08] overflow-hidden" style={{ backgroundColor: "#131636" }}>
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
               key={service.title}
@@ -216,40 +231,60 @@ export default function Services() {
                 <h3 className="mb-5 text-4xl lg:text-5xl uppercase leading-none text-white" style={{ fontFamily: "var(--font-display)" }}>
                   {service.title}
                 </h3>
-                <p className="mb-8 text-base leading-relaxed text-white/55 lg:text-lg">
+                <p className="mb-6 text-base leading-relaxed text-white/55 lg:text-lg">
                   {service.desc}
                 </p>
-                <Link
-                  href={service.href}
+                <ProgrammeRatios programme={service.programme} />
+                <a
+                  data-service-discover
+                  href="#services-consultation"
+                  onClick={revealConsultation}
                   className="inline-flex w-fit items-center gap-3 rounded-lg px-6 py-3.5 text-sm font-bold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:gap-4 hover:shadow-lg hover:shadow-red-500/20 active:scale-[0.97]"
                   style={{ backgroundColor: "#ed1c24" }}
                 >
                   Découvrir
                   <ArrowRight size={17} />
-                </Link>
+                </a>
               </div>
             </motion.article>
           </AnimatePresence>
-        </div>
 
-        <div className="mt-8 flex flex-col gap-6 rounded-2xl border border-white/10 bg-white/[0.025] p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h3 className="text-2xl sm:text-3xl uppercase leading-tight text-white" style={{ fontFamily: "var(--font-display)" }}>
-              Trouvons le bon parcours pour toi.
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-white/65 sm:text-base">
-              Parle-nous de tes objectifs. On va t’orienter vers le cours et l’accompagnement adaptés à tes besoins.
-            </p>
-          </div>
-          <Link
-            id="services-consultation-cta"
-            href="/consultation-gratuite"
-            className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-3 rounded-lg px-7 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-all duration-200 hover:shadow-lg hover:shadow-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#0f1229] active:scale-[0.97] sm:w-fit"
-            style={{ backgroundColor: "#ed1c24" }}
+          <div
+            id="services-consultation"
+            tabIndex={-1}
+            aria-labelledby="services-consultation-title"
+            className="scroll-mt-24 border-t border-white/10 p-7 outline-none sm:p-9 lg:p-12"
           >
-            Consultation gratuite
-            <ArrowRight size={18} aria-hidden="true" />
-          </Link>
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl">
+                <p className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-[#ed1c24]">
+                  Pourquoi une consultation gratuite?
+                </p>
+                <h3 id="services-consultation-title" className="text-3xl sm:text-4xl uppercase leading-tight text-white" style={{ fontFamily: "var(--font-display)" }}>
+                  Le bon départ, c’est celui qui te ressemble.
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-white/70 sm:text-base">
+                  On prend le temps de comprendre tes objectifs, ton expérience et tes besoins pour
+                  t’orienter vers le bon cours. Si tu débutes ou reprends l’entraînement, on prépare
+                  ton arrivée pour que tu commences en confiance.
+                </p>
+                <p className="mt-3 text-sm leading-relaxed text-white/70 sm:text-base">
+                  Pas question de simplement remplir nos cours au détriment de l’encadrement.
+                  C’est gagnant-gagnant : tu reçois un accompagnement adapté et chacun garde
+                  l’attention nécessaire pour s’entraîner de façon sécuritaire.
+                </p>
+              </div>
+              <Link
+                id="services-consultation-cta"
+                href="/consultation-gratuite"
+                className="inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-3 rounded-lg px-7 py-4 text-sm font-bold uppercase tracking-[0.08em] text-white transition-all duration-200 hover:shadow-lg hover:shadow-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:ring-offset-[#131636] active:scale-[0.97] sm:w-fit"
+                style={{ backgroundColor: "#ed1c24" }}
+              >
+                Consultation gratuite
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>
