@@ -11,12 +11,12 @@ const HERO_IMG = "/manus-storage/fb-group-100-milestone_a422922c.jpeg";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[90vh] lg:min-h-screen overflow-hidden" style={{ backgroundColor: "#0f1229" }}>
+    <section data-home-hero className="relative lg:min-h-screen overflow-hidden" style={{ backgroundColor: "#0f1229" }}>
       <div className="max-w-[1440px] mx-auto h-full">
-        <div className="grid lg:grid-cols-2 min-h-[90vh] lg:min-h-screen">
+        <div className="grid lg:grid-cols-2 lg:min-h-screen">
           
           {/* Left — Text content */}
-          <div className="flex flex-col justify-center px-6 sm:px-10 lg:px-16 xl:px-20 py-32 lg:py-20 order-2 lg:order-1">
+          <div className="flex flex-col justify-center px-6 sm:px-10 lg:px-16 xl:px-20 pt-8 pb-12 sm:pt-10 sm:pb-16 lg:py-20 order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -67,12 +67,12 @@ export default function HeroSection() {
               </div>
 
               {/* Social proof */}
-              <div className="mt-12 flex items-center gap-6">
-                <div className="flex -space-x-2">
+              <div className="mt-8 sm:mt-12 flex items-center gap-4 sm:gap-6">
+                <div className="flex shrink-0 -space-x-2">
                   {[1, 2, 3, 4].map((i) => (
                     <div
                       key={i}
-                      className="w-10 h-10 rounded-full border-2 flex items-center justify-center text-xs font-bold text-white"
+                      className="w-8 h-8 sm:w-10 sm:h-10 shrink-0 rounded-full border-2 flex items-center justify-center text-xs font-bold text-white"
                       style={{ borderColor: "#0f1229", backgroundColor: i % 2 === 0 ? "#232862" : "#ed1c24" }}
                     >
                       {["M", "S", "J", "L"][i - 1]}
@@ -88,20 +88,24 @@ export default function HeroSection() {
           </div>
 
           {/* Right — Image */}
-          <div className="relative order-1 lg:order-2 min-h-[50vh] lg:min-h-0">
+          <div data-hero-image-frame className="relative order-1 lg:order-2 aspect-square sm:aspect-[4/3] lg:aspect-auto lg:min-h-0">
             <motion.div
-              initial={{ opacity: 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
               className="absolute inset-0"
             >
               <img
                 src={HERO_IMG}
-                alt="Entraînement fonctionnel au Club ADM"
-                className="w-full h-full object-cover"
+                alt="Des membres du Club ADM réunis au gym pour célébrer leur 100e entraînement"
+                width={1440}
+                height={1920}
+                fetchPriority="high"
+                className="w-full h-full object-cover object-bottom sm:object-[center_70%] lg:object-center"
               />
-              {/* Dark overlay for blending */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0f1229] via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#0f1229] lg:via-[#0f1229]/30 lg:to-transparent" />
+              {/* Mobile: blend only the floor, keeping the group unobscured. */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0f1229] to-transparent sm:h-16 lg:hidden" />
+              <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#0f1229] via-[#0f1229]/30 to-transparent lg:block" />
             </motion.div>
           </div>
         </div>
