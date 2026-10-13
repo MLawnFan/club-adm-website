@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+.online-project {
+  --color-navy: oklch(0.25 0.04 250);
+  --color-navy-light: oklch(0.30 0.04 250);
+  --color-navy-dark: oklch(0.18 0.04 250);
+  --color-cta-red: oklch(0.55 0.22 25);
+  --color-cta-red-hover: oklch(0.50 0.24 25);
+  --color-warm-white: oklch(0.98 0.005 90);
+  --color-warm-gray: oklch(0.96 0.003 90);
+  --font-display: 'Oswald', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  background: oklch(0.25 0.04 250);
+  color: white;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.625;
+  min-height: 100vh;
+}
+.online-project :is(h1,h2,h3,h4,h5,h6) { font-family: var(--font-display); text-transform: uppercase; letter-spacing: .02em; line-height: 1.15; }
+.online-project h1 { line-height: .95; }
+.online-project .font-display { font-family: var(--font-display); }
+.online-project .font-body { font-family: var(--font-body); }
+.online-project .container { width:100%; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
+@media(min-width:640px) { .online-project .container {padding-left:1.5rem; padding-right:1.5rem;} }
+@media(min-width:1024px) { .online-project .container {padding-left:2rem; padding-right:2rem;max-width:1280px;} }
+@media(prefers-reduced-motion:no-preference) {
+.online-project .cta-pulse {animation:online-cta-pulse 2s ease-in-out infinite;}
+.online-project .confirmation-success-mark {animation: online-confirmation-mark 520ms cubic-bezier(.23,1,.32,1) both;}
+.online-project .confirmation-check-path {stroke-dasharray:63;stroke-dashoffset:63;animation:online-confirmation-check 650ms cubic-bezier(.23,1,.32,1) 230ms forwards;}
+.online-project .confirmation-enter {animation:online-confirmation-enter 420ms cubic-bezier(.23,1,.32,1) both;}
+.online-project .confirmation-enter-1{animation-delay:70ms;} .online-project .confirmation-enter-2{animation-delay:130ms;} .online-project .confirmation-enter-3{animation-delay:210ms;} .online-project .confirmation-enter-4{animation-delay:290ms;} .online-project .confirmation-enter-5{animation-delay:370ms;}
+}
+@keyframes online-cta-pulse {0%,100%{box-shadow:0 0 0 0 oklch(.55 .22 25/.4);}50%{box-shadow:0 0 0 12px oklch(.55 .22 25/0);}}
+@keyframes online-confirmation-mark {from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
+@keyframes online-confirmation-check {to{stroke-dashoffset:0;}}
+@keyframes online-confirmation-enter {from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}

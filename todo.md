@@ -88,3 +88,20 @@
 - [ ] Connecter la remise au PDF personnalisé et aux préférences/horaire/budget après validation, sans promesse de délai.
 - [ ] Stripe/GHL, contrôle d’accès produit et vraies règles communautaires : intégrations futures inchangées, aucun nouvel essai créé.
 - [ ] Synchroniser les séances et les trackers éducatifs en base; ils restent locaux dans la version actuelle.
+
+## Landing /online-project — 13 octobre 2026 (non publiée)
+- [x] Source React autorisée récupérée depuis la tâche AJ1RwiQTPKGwX7HKq5dQmH, version de référence e24e5066; pas de reconstruction d’après le site publié.
+- [x] Neuf pages transférées sous /online-project, styles Oswald/Source Sans 3 et palette isolée online; site principal, programmes course, profils et base préservés.
+- [x] Trois témoignages sources et logo téléversés dans le stockage destination; thumbnails originaux conservés.
+- [x] Aucun ajout au menu ni au footer du site principal. Pas d’iframe, redirection externe ou nouvelle tâche.
+- [x] URLs Stripe succès/annulation préfixées et retour portail sous /online-project/mes-achats; prix CAD 39/49/70 et fin absolue des 30 jours préservés.
+- [x] Verrou serveur ONLINE_PROJECT_CHECKOUT_ENABLED : fermé par défaut. STRIPE_SECRET_KEY et STRIPE_WEBHOOK_SECRET absents du site destination; aucun secret source copié.
+- [x] Pas de faux paiement : toutes les pages de confirmation requièrent une vérification serveur Stripe; /merci-programme protégée contre une fausse confirmation par accès direct.
+- [x] Quiz → offre → checkout prérempli testé avec profil fictif; URLs/attributs de liens sans réponses ou coordonnées; paramètres privés en history.state et navigation isolée des routes du site.
+- [x] Pixel 702064657485858 : consentement, refus, dédoublonnage et exclusion des paiements de test couverts par tests; aucun événement réel envoyé pendant cette intégration.
+- [x] TypeScript, build et 68 tests réussis; captures desktop/mobile, chargement des 3 vidéos, absence du lien dans la navigation et état du bouton de paiement désactivé vérifiés.
+- [ ] Identifier/autoriser le compte Stripe destination; configurer les clés de manière privée, installer/valider webhook et remise avant activation. Aucun achat réel ou essai Stripe effectué.
+- [ ] Brancher GHL pour capture consentie et guide gratuit indépendamment de l’achat; actuellement aucun prospect ni courriel créé par le quiz.
+- [ ] Relier achat vérifié → compte/droits Starter → onboarding existant; génération nutrition humaine et remise privée restent celles du parcours précédent, non activées par le checkout.
+- [ ] Remplacer la vidéo explicative principale encore vide; revoir avant lancement les promesses de la landing héritées (accès immédiat/à vie, compte à rebours, durée et garanties).
+- [ ] Valider événements Meta dans le compte réel après autorisation, publication distincte et DNS hors périmètre. Aucun domaine/DNS modifié, aucune publication effectuée.

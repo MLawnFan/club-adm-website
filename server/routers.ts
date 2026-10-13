@@ -7,10 +7,12 @@ import { getDb } from "./db";
 import { programmeEnrollment, programmeProgress } from "../drizzle/schema";
 import { eq, and } from "drizzle-orm";
 import { memberRouter } from "./routers/member";
+import { paymentsRouter as onlinePaymentsRouter } from "./online/router";
 
 export const appRouter = router({
   system: systemRouter,
   member: memberRouter,
+  onlinePayments: onlinePaymentsRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

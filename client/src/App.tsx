@@ -1,7 +1,9 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
+import { lazy, Suspense } from "react";
+const OnlineProject = lazy(() => import("./online/OnlineProject"));
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -35,7 +37,8 @@ import GHLChat from "./components/GHLChat";
 import MemberHub from "./pages/MemberHub";
 import MemberOnboarding from "./pages/MemberOnboarding";
 function Router() {
-  // make sure to consider if you need authentication for certain routes
+  const [location] = useLocation();
+  if (location === "/online-project" || location.startsWith("/online-project/")) return <Suspense fallback={<div className="min-h-screen bg-[#152535] text-white p-10">Chargement du programme…</div>}><OnlineProject /></Suspense>;
   return (
     <Switch>
       <Route path={"/"} component={Home} />
@@ -76,13 +79,15 @@ function Router() {
 }
 
 function App() {
+  const [location] = useLocation();
+  const isOnline = location === "/online-project" || location.startsWith("/online-project/");
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <Router />
-          <GHLChat />
+          {!isOnline && <GHLChat />}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

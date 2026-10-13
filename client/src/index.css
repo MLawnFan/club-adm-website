@@ -57,6 +57,15 @@
   --color-cream: oklch(0.95 0.01 80);
   --color-cream-muted: oklch(0.80 0.01 80);
 
+  /* Funnel en ligne : couleurs isolées, sans remplacer le thème du site. */
+  --color-online-navy: oklch(0.25 0.04 250);
+  --color-online-navy-light: oklch(0.30 0.04 250);
+  --color-online-navy-dark: oklch(0.18 0.04 250);
+  --color-online-cta-red: oklch(0.55 0.22 25);
+  --color-online-cta-red-hover: oklch(0.50 0.24 25);
+  --color-online-warm-white: oklch(0.98 0.005 90);
+  --color-online-warm-gray: oklch(0.96 0.003 90);
+
   /* Font families */
   --font-display: "Bebas Neue", sans-serif;
   --font-body: "Barlow", sans-serif;
