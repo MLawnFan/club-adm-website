@@ -35,3 +35,33 @@
 @keyframes online-confirmation-mark {from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
 @keyframes online-confirmation-check {to{stroke-dashoffset:0;}}
 @keyframes online-confirmation-enter {from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* Mobile : zones tactiles, clavier virtuel et encoches, sans effet sur le site principal. */
+.online-project,
+.online-project .min-h-screen { min-height: 100svh; }
+.online-project :is(h1, h2, h3, h4, h5, h6, p) { overflow-wrap: break-word; }
+.online-project button { min-height: 44px; }
+.online-project button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+.online-project .online-consent-panel {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  scrollbar-gutter: stable;
+}
+.online-project .online-consent-trigger {
+  bottom: max(.75rem, env(safe-area-inset-bottom, 0px));
+  left: max(.75rem, env(safe-area-inset-left, 0px));
+}
+.online-project .online-mobile-menu {
+  padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+  padding-bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+}
+@media (max-width: 1023px) {
+  .online-project .container {
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+  .online-project input { font-size: 16px; }
+  .online-project header.fixed { padding-top: max(.75rem, env(safe-area-inset-top, 0px)); }
+}

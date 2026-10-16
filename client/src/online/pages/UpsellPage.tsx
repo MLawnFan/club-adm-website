@@ -141,11 +141,11 @@ export default function UpsellPage() {
               </>
             )}
             <p className="mt-6 flex items-center justify-center gap-2 border-t border-white/15 pt-5 text-center font-body text-sm text-emerald-300"><Shield size={17} /> Annulable en tout temps. Aucun engagement.</p>
-            <a href="/contact" target="_blank" rel="noopener noreferrer" className="mt-5 block text-center font-body text-sm text-white/60 underline underline-offset-4 hover:text-white">Une question? Parle au Team ADM.</a>
+            <a href="/contact" target="_blank" rel="noopener noreferrer" className="mt-5 flex min-h-11 items-center justify-center text-center font-body text-sm text-white/60 underline underline-offset-4 hover:text-white">Une question? Parle au Team ADM.</a>
           </div>
         </section>
         <p className="mt-10 text-center font-body text-sm text-white/55">Tu peux aussi ne rien ajouter. Ton programme acheté reste à toi.</p>
-        <div className="mt-3 text-center"><Link href="/online-project/programme" className="font-body text-sm text-white/70 underline underline-offset-4 hover:text-white">Revoir mon programme</Link></div>
+        <div className="mt-3 text-center"><Link href="/online-project/programme" className="inline-flex min-h-11 items-center justify-center px-2 font-body text-sm text-white/70 underline underline-offset-4 hover:text-white">Revoir mon programme</Link></div>
       </main>
       <footer className="border-t border-white/10 py-6 text-center font-body text-xs text-white/35">© {new Date().getFullYear()} Club ADM Fitness</footer>
     </div>

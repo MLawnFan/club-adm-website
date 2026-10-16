@@ -105,3 +105,14 @@
 - [ ] Relier achat vérifié → compte/droits Starter → onboarding existant; génération nutrition humaine et remise privée restent celles du parcours précédent, non activées par le checkout.
 - [ ] Remplacer la vidéo explicative principale encore vide; revoir avant lancement les promesses de la landing héritées (accès immédiat/à vie, compte à rebours, durée et garanties).
 - [ ] Valider événements Meta dans le compte réel après autorisation, publication distincte et DNS hors périmètre. Aucun domaine/DNS modifié, aucune publication effectuée.
+
+## Responsive landing /online-project — 16 octobre 2026
+- [x] Audit Chromium en émulation de 40 layouts : cinq pages (landing, résultat, programme, checkout, upsell), largeurs 320/360/375/390/430/768/1024/1440 px.
+- [x] Retrait du double padding mobile; CTA adaptés à la largeur; cartes/prix/logos de paiement aérés et retour à la ligne propre.
+- [x] Boutons principaux d’au moins 44 px; menu tactile sous 1024 px, menu paysage défilable, fermeture Échap, focus et verrouillage/restauration du défilement.
+- [x] Consentement défilable sur écrans courts, zones sûres pour encoches, refus inchangé; zoom navigateur rétabli et champs courriel adaptés au clavier mobile.
+- [x] Quiz : retour en haut entre étapes, focus sur la question, labels associés, réponses conservées au retour, annulation de l’avance différée sur choix rapprochés.
+- [x] 7 scénarios d’interaction réussis : quiz complet à 320/375/430 px, menus portrait/paysage/tablette, consentement paysage. Données fictives uniquement, aucun prospect envoyé, événements Meta bloqués et checkout désactivé.
+- [x] Résultats finaux : zéro débordement horizontal, zéro élément de contenu hors écran, zéro cible principale inférieure à 44 px, zéro erreur JavaScript et toutes les images chargées dans les 40 layouts. Seuls les dépassements internes décoratifs intentionnels (halo/encart négatif) subsistent.
+- [x] TypeScript, build et 72 tests Vitest réussis; captures finales ordinateur et cellulaire vérifiées. Aucun changement de média, thumbnail, prix, base, droits ou branchement Stripe/GHL.
+- [x] Correctifs préparés dans le projet existant; pas d’action de publication ni de changement DNS par cet audit. Tests en navigateur émulé, pas une garantie de test sur tous les appareils physiques.

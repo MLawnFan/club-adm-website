@@ -196,10 +196,10 @@ export default function ResultPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="inline-flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl px-6 py-4"
             >
-              <div className="w-10 h-10 rounded-lg bg-online-cta-red/10 border border-online-cta-red/30 flex items-center justify-center text-online-cta-red">
+              <div className="w-10 h-10 shrink-0 rounded-lg bg-online-cta-red/10 border border-online-cta-red/30 flex items-center justify-center text-online-cta-red">
                 {objectifData.icon}
               </div>
-              <div className="text-left">
+              <div className="min-w-0 text-left">
                 <p className="font-display text-base font-bold text-white">{objectifData.programme}</p>
                 <p className="font-body text-xs text-white/40">{objectifData.description}</p>
               </div>
@@ -236,7 +236,7 @@ export default function ResultPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white/5 border border-white/10 rounded-2xl p-8 sm:p-10 mb-8"
+              className="bg-white/5 border border-white/10 rounded-2xl p-5 sm:p-10 mb-8"
             >
               <div className="space-y-4 mb-8">
                 {[
@@ -246,14 +246,14 @@ export default function ResultPage() {
                   { item: "Guide gratuit de 21 pages — envoi courriel à brancher", value: "27$", highlight: true },
                   { item: "30 jours d'accès à la communauté ADM", value: "70$", highlight: false },
                 ].map((row, i) => (
-                  <div key={i} className={`flex items-center justify-between py-3 border-b border-white/5 last:border-0 ${row.highlight ? "bg-green-500/5 -mx-4 px-4 rounded-lg border border-green-500/20" : ""}`}>
-                    <div className="flex items-center gap-3">
+                  <div key={i} className={`flex items-start justify-between gap-3 py-3 border-b border-white/5 last:border-0 ${row.highlight ? "bg-green-500/5 -mx-4 px-4 rounded-lg border border-green-500/20" : ""}`}>
+                    <div className="flex min-w-0 items-start gap-2 sm:gap-3">
                       <CheckCircle size={16} className={`shrink-0 ${row.highlight ? "text-green-400" : "text-green-400"}`} />
                       <span className={`font-body text-base ${row.highlight ? "text-green-300 font-bold" : "text-white/70"}`}>
                         {row.item}
                       </span>
                     </div>
-                    <span className="font-display text-base text-white/30 line-through">{row.value}</span>
+                    <span className="font-display text-base text-white/30 line-through shrink-0">{row.value}</span>
                   </div>
                 ))}
               </div>
@@ -264,9 +264,9 @@ export default function ResultPage() {
                   <span className="font-display text-lg font-bold text-white">Valeur totale :</span>
                   <span className="font-display text-lg text-white/40 line-through">338$</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="font-display text-xl font-bold text-white">Ton prix aujourd'hui :</span>
-                  <span className="font-display text-4xl font-bold text-online-cta-red">39$</span>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-display text-lg sm:text-xl font-bold text-white">Ton prix aujourd'hui :</span>
+                  <span className="font-display text-4xl font-bold text-online-cta-red shrink-0">39$</span>
                 </div>
               </div>
             </motion.div>
@@ -292,7 +292,7 @@ export default function ResultPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-b from-white/8 to-white/3 border-2 border-online-cta-red/30 rounded-2xl p-8 sm:p-10 text-center"
+              className="bg-gradient-to-b from-white/8 to-white/3 border-2 border-online-cta-red/30 rounded-2xl p-5 sm:p-10 text-center"
             >
               {/* Header checkout */}
               <div className="mb-6">
@@ -327,11 +327,11 @@ export default function ResultPage() {
               {/* Bouton de paiement */}
               <Link
                 href={`/online-project/checkout?${getPageParameters().toString()}`}
-                className="w-full flex items-center justify-center gap-3 bg-online-cta-red hover:bg-online-cta-red-hover text-white font-display text-lg sm:text-xl font-bold uppercase tracking-wider px-10 py-5 rounded-xl transition-all duration-300 cta-pulse mb-5"
+                className="w-full flex items-center justify-center gap-3 bg-online-cta-red hover:bg-online-cta-red-hover text-white font-display text-lg sm:text-xl font-bold uppercase tracking-wider px-4 sm:px-10 py-4 sm:py-5 rounded-xl transition-all duration-300 cta-pulse mb-5"
               >
-                <Lock size={18} />
+                <Lock size={18} className="shrink-0" />
                 Payer 39$ — Accès immédiat
-                <ArrowRight size={20} />
+                <ArrowRight size={20} className="shrink-0" />
               </Link>
 
               {/* Trust signals */}
@@ -348,7 +348,7 @@ export default function ResultPage() {
               </div>
 
               {/* Logos de paiement */}
-              <div className="flex items-center justify-center gap-3 opacity-40">
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 opacity-40">
                 <div className="bg-white/10 rounded px-3 py-1.5">
                   <span className="font-display text-[10px] font-bold text-white tracking-wider">VISA</span>
                 </div>
@@ -592,10 +592,10 @@ export default function ResultPage() {
 
               <Link
                 href={`/online-project/checkout?${getPageParameters().toString()}`}
-                className="inline-flex items-center gap-3 bg-online-cta-red hover:bg-online-cta-red-hover text-white font-display text-lg font-bold uppercase tracking-wider px-10 py-5 rounded-xl transition-all duration-300 cta-pulse mb-4"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-online-cta-red hover:bg-online-cta-red-hover text-white font-display text-lg font-bold uppercase tracking-wider px-4 sm:px-10 py-4 sm:py-5 rounded-xl transition-all duration-300 cta-pulse mb-4"
               >
                 Obtenir mon programme — 39$
-                <ArrowRight size={22} />
+                <ArrowRight size={22} className="shrink-0" />
               </Link>
 
               <p className="font-body text-sm text-white/30">

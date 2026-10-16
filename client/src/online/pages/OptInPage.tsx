@@ -7,7 +7,7 @@
  * Style: Sell Like Crazy — HVCO déguisé en quiz interactif
  */
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "@/online/lib/navigation.tsx";
 import {
@@ -84,6 +84,15 @@ export default function OptInPage() {
     courriel: "",
   });
   const [, navigate] = useLocation();
+  const advanceTimer = useRef<number | null>(null);
+  const clearAdvance = () => {
+    if (advanceTimer.current !== null) window.clearTimeout(advanceTimer.current);
+    advanceTimer.current = null;
+  };
+  useEffect(() => () => clearAdvance(), []);
+  useEffect(() => {
+    if (!showIntro) window.scrollTo({ top: 0, behavior: "instant" });
+  }, [step, showIntro]);
 
   const progress = ((step + 1) / STEPS.length) * 100;
 
@@ -96,6 +105,7 @@ export default function OptInPage() {
   };
 
   const handleNext = () => {
+    clearAdvance();
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
@@ -112,14 +122,16 @@ export default function OptInPage() {
   };
 
   const handleBack = () => {
+    clearAdvance();
     if (step > 0) setStep(step - 1);
   };
 
   const selectOption = (field: keyof QuizData, value: string) => {
+    clearAdvance();
     setData({ ...data, [field]: value });
     // Auto-advance après sélection (sauf dernière étape)
     if (step < STEPS.length - 1) {
-      setTimeout(() => setStep(step + 1), 350);
+      advanceTimer.current = window.setTimeout(() => { advanceTimer.current = null; setStep(step + 1); }, 250);
     }
   };
 
@@ -139,7 +151,7 @@ export default function OptInPage() {
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header minimal */}
-        <header className="py-6 px-4">
+        <header className="py-5 sm:py-6">
           <div className="container flex items-center justify-center">
             <img
               src={LOGO_URL}
@@ -151,22 +163,22 @@ export default function OptInPage() {
 
         {showIntro ? (
           /* ===== INTRO : Titre + Vidéo ===== */
-          <div className="flex-1 px-4 pt-8 pb-16">
+          <div className="flex-1 pt-5 sm:pt-8 pb-12 sm:pb-16">
             <div className="container max-w-6xl w-full">
-              <div className="grid lg:grid-cols-[0.82fr_1.18fr] items-center gap-10 lg:gap-14 min-h-[540px]">
+              <div className="grid lg:grid-cols-[0.82fr_1.18fr] items-center gap-8 sm:gap-10 lg:gap-14 lg:min-h-[540px]">
                 <motion.div
                   initial={{ opacity: 0, x: -24 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
                   className="text-left"
                 >
-                  <div className="flex items-center gap-3 mb-6">
-                    <span className="h-px w-10 bg-online-cta-red" />
-                    <span className="font-display text-xs font-bold text-online-cta-red uppercase tracking-[0.22em]">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
+                    <span className="h-px w-6 sm:w-10 shrink-0 bg-online-cta-red" />
+                    <span className="font-display text-xs font-bold text-online-cta-red uppercase tracking-[0.12em] sm:tracking-[0.22em]">
                       Programme ADM tout-en-un
                     </span>
                   </div>
-                  <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[0.96] mb-6">
+                  <h1 className="font-display text-[2.75rem] sm:text-6xl lg:text-7xl font-bold text-white leading-[0.96] mb-6">
                     T'ES TANNÉ DE <span className="text-online-cta-red">STAGNER?</span>
                   </h1>
                   <p className="font-body text-lg sm:text-xl text-white/60 mb-8 max-w-md leading-relaxed">
@@ -174,10 +186,10 @@ export default function OptInPage() {
                   </p>
                   <button
                     onClick={() => setShowIntro(false)}
-                    className="inline-flex items-center gap-3 bg-online-cta-red hover:bg-red-700 text-white font-display text-lg font-bold uppercase tracking-wider px-9 py-5 transition-all hover:-translate-y-0.5 shadow-[0_0_40px_rgba(230,57,70,0.22)]"
+                    className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-online-cta-red hover:bg-red-700 text-white font-display text-lg font-bold uppercase tracking-wider px-5 sm:px-9 py-4 sm:py-5 transition-all hover:-translate-y-0.5 shadow-[0_0_40px_rgba(230,57,70,0.22)]"
                   >
                     Trouve ton programme
-                    <ArrowRight size={20} />
+                    <ArrowRight size={20} className="shrink-0" />
                   </button>
                   <p className="font-body text-xs text-white/30 mt-4">
                     Quiz gratuit — environ 60 secondes
@@ -191,7 +203,7 @@ export default function OptInPage() {
                   transition={{ duration: 0.6, delay: 0.15 }}
                   className="relative"
                 >
-                  <div className="absolute -inset-6 bg-online-cta-red/10 blur-3xl" />
+                  <div className="absolute inset-0 lg:-inset-6 bg-online-cta-red/10 blur-3xl" />
                   <div className="relative w-full aspect-video bg-[#07111d] border border-white/15 overflow-hidden shadow-2xl shadow-black/40">
                     <div className="absolute top-0 left-0 h-1 w-24 bg-online-cta-red z-20" />
                     {HERO_VIDEO_URL ? (
@@ -208,8 +220,8 @@ export default function OptInPage() {
                       </video>
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-online-navy/55">
-                        <div className="text-center">
-                          <div className="w-16 h-16 rounded-full bg-online-cta-red/20 border-2 border-online-cta-red flex items-center justify-center mx-auto mb-3 shadow-[0_0_30px_rgba(230,57,70,0.25)]">
+                        <div className="text-center px-3">
+                          <div className="w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-online-cta-red/20 border-2 border-online-cta-red flex items-center justify-center mx-auto mb-3 shadow-[0_0_30px_rgba(230,57,70,0.25)]">
                             <Play className="w-6 h-6 text-online-cta-red ml-0.5" fill="currentColor" />
                           </div>
                           <p className="font-display text-xs font-bold uppercase tracking-widest text-white/55">Vidéo explicative du programme</p>
@@ -283,7 +295,7 @@ export default function OptInPage() {
         ) : (
           <>
             {/* Progress bar */}
-            <div className="px-4">
+            <div className="">
               <div className="container max-w-2xl">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-body text-xs text-white/30 uppercase tracking-wider">
@@ -305,7 +317,7 @@ export default function OptInPage() {
             </div>
 
         {/* Quiz content */}
-        <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="flex-1 flex items-center justify-center py-6 sm:py-8">
           <div className="container max-w-2xl w-full">
             <AnimatePresence mode="wait">
               <motion.div
@@ -313,11 +325,12 @@ export default function OptInPage() {
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
+                onAnimationComplete={() => document.getElementById("online-quiz-question")?.focus({ preventScroll: true })}
               >
                 {/* Question */}
-                <div className="text-center mb-10">
-                  <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
+                <div className="text-center mb-6 sm:mb-10">
+                  <h1 id="online-quiz-question" tabIndex={-1} className="font-display outline-none text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
                     {STEPS[step].question}
                   </h1>
                   <p className="font-body text-base sm:text-lg text-white/50">
@@ -332,7 +345,7 @@ export default function OptInPage() {
                       <button
                         key={opt.id}
                         onClick={() => selectOption("objectif", opt.id)}
-                        className={`text-left p-5 rounded-xl border-2 transition-all duration-200 group ${
+                        className={`text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-200 group ${
                           data.objectif === opt.id
                             ? "bg-online-cta-red/10 border-online-cta-red"
                             : "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/8"
@@ -359,7 +372,7 @@ export default function OptInPage() {
                       <button
                         key={opt.id}
                         onClick={() => selectOption("activite", opt.id)}
-                        className={`text-left p-5 rounded-xl border-2 transition-all duration-200 group ${
+                        className={`text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-200 group ${
                           data.activite === opt.id
                             ? "bg-online-cta-red/10 border-online-cta-red"
                             : "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/8"
@@ -386,7 +399,7 @@ export default function OptInPage() {
                       <button
                         key={opt.id}
                         onClick={() => selectOption("defi", opt.id)}
-                        className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-200 ${
+                        className={`w-full text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-200 ${
                           data.defi === opt.id
                             ? "bg-online-cta-red/10 border-online-cta-red"
                             : "bg-white/5 border-white/10 hover:border-white/20 hover:bg-white/8"
@@ -407,11 +420,13 @@ export default function OptInPage() {
                 {step === 3 && (
                   <div className="max-w-md mx-auto space-y-5">
                     <div>
-                      <label className="flex items-center gap-2 font-body text-sm text-white/50 mb-2">
+                      <label htmlFor="quiz-name" className="flex items-center gap-2 font-body text-sm text-white/50 mb-2">
                         <User size={14} /> Ton prénom
                       </label>
                       <input
+                        id="quiz-name"
                         type="text"
+                        autoComplete="given-name"
                         value={data.prenom}
                         onChange={(e) => setData({ ...data, prenom: e.target.value })}
                         placeholder="Ex: Marc"
@@ -419,11 +434,16 @@ export default function OptInPage() {
                       />
                     </div>
                     <div>
-                      <label className="flex items-center gap-2 font-body text-sm text-white/50 mb-2">
+                      <label htmlFor="quiz-email" className="flex items-center gap-2 font-body text-sm text-white/50 mb-2">
                         <Mail size={14} /> Ton courriel
                       </label>
                       <input
+                        id="quiz-email"
                         type="email"
+                        inputMode="email"
+                        autoComplete="email"
+                        autoCapitalize="none"
+                        spellCheck={false}
                         value={data.courriel}
                         onChange={(e) => setData({ ...data, courriel: e.target.value })}
                         placeholder="marc@exemple.com"
@@ -441,11 +461,11 @@ export default function OptInPage() {
         </div>
 
         {/* Navigation buttons */}
-        <div className="px-4 pb-8">
-          <div className="container max-w-2xl flex items-center justify-between">
+        <div className="pb-6 sm:pb-8">
+          <div className="container max-w-2xl flex items-center justify-between gap-3">
             <button
               onClick={handleBack}
-              className={`flex items-center gap-2 font-body text-sm text-white/40 hover:text-white/60 transition-all ${
+              className={`flex min-h-11 shrink-0 items-center gap-1 sm:gap-2 font-body text-sm text-white/40 hover:text-white/60 transition-all ${
                 step === 0 ? "invisible" : ""
               }`}
             >
@@ -459,22 +479,22 @@ export default function OptInPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={handleNext}
                 disabled={!canAdvance()}
-                className={`flex items-center gap-2 font-display text-sm font-bold uppercase tracking-wider px-8 py-4 rounded-lg transition-all duration-300 ${
+                className={`flex min-h-12 flex-1 sm:flex-none items-center justify-center gap-2 font-display text-sm font-bold uppercase tracking-wider px-3 sm:px-8 py-4 rounded-lg transition-all duration-300 ${
                   canAdvance()
                     ? "bg-online-cta-red hover:bg-online-cta-red-hover text-white cta-pulse"
                     : "bg-white/10 text-white/30 cursor-not-allowed"
                 }`}
               >
                 {step === STEPS.length - 1 ? "Voir mon résultat" : "Continuer"}
-                <ArrowRight size={16} />
+                <ArrowRight size={16} className="shrink-0" />
               </motion.button>
             )}
           </div>
         </div>
 
         {/* Trust badges */}
-        <div className="px-4 pb-6">
-         <div className="container max-w-2xl flex items-center justify-center gap-6 text-white/20 text-xs font-body">
+        <div className="pb-6">
+         <div className="container max-w-2xl flex flex-wrap items-center justify-center gap-2 sm:gap-6 text-white/40 text-xs font-body">
             <span className="flex items-center gap-1">🔒 100% confidentiel</span>
             <span className="flex items-center gap-1">🎁 Guide gratuit inclus</span>
           </div>

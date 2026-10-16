@@ -16,8 +16,8 @@ export default function MetaPixelConsent() {
   };
 
   return visible ? (
-    <section aria-label="Choix des témoins publicitaires" className="fixed bottom-0 inset-x-0 z-[100] border-t border-white/20 bg-[#101d2d] text-white shadow-[0_-12px_48px_rgba(0,0,0,0.35)]">
-      <div className="container py-5 sm:py-6 flex flex-col lg:flex-row lg:items-center gap-5">
+    <section aria-label="Choix des témoins publicitaires" className="online-consent-panel fixed bottom-0 inset-x-0 z-[100] max-h-[85dvh] overflow-y-auto overscroll-contain border-t border-white/20 bg-[#101d2d] text-white shadow-[0_-12px_48px_rgba(0,0,0,0.35)]">
+      <div className="container py-4 sm:py-6 flex flex-col lg:flex-row lg:items-center gap-5">
         <div className="flex-1">
           <h2 className="font-display font-bold text-lg uppercase tracking-wide mb-2">Ton choix. Tes données.</h2>
           <p className="font-body text-sm leading-relaxed text-white/70 max-w-3xl">
@@ -35,6 +35,6 @@ export default function MetaPixelConsent() {
       </div>
     </section>
   ) : (
-    <button type="button" onClick={() => setSettingsOpen(true)} className="fixed bottom-3 left-3 z-[90] bg-[#101d2d] border border-white/20 px-3 py-2 text-white/70 font-body text-xs shadow-lg hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Témoins publicitaires</button>
+    <button type="button" onClick={() => setSettingsOpen(true)} className="online-consent-trigger fixed bottom-3 left-3 z-[90] min-h-11 bg-[#101d2d] border border-white/20 px-3 py-2 text-white/70 font-body text-xs shadow-lg hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Témoins publicitaires</button>
   );
 }

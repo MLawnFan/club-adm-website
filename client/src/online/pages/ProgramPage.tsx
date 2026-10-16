@@ -219,7 +219,7 @@ export default function ProgramPage() {
                 </div>
 
                 {/* Contenu à droite */}
-                <div className="lg:col-span-3 p-8 sm:p-10">
+                <div className="lg:col-span-3 p-5 sm:p-10">
                   <div className="hidden lg:block">
                     <h2 className="text-2xl sm:text-3xl font-bold text-online-cta-red mb-1">
                       {program.title}
@@ -280,9 +280,9 @@ export default function ProgramPage() {
             </div>
 
             {/* ===== PHASES DE PROGRESSION ===== */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-8 sm:p-10 mb-10">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-5 sm:p-10 mb-10">
               <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-full bg-online-cta-red/10 flex items-center justify-center">
+                <div className="w-10 h-10 shrink-0 rounded-full bg-online-cta-red/10 flex items-center justify-center">
                   <Compass size={20} className="text-online-cta-red" />
                 </div>
                 <div>
@@ -317,7 +317,7 @@ export default function ProgramPage() {
 
                     {/* Content */}
                     <div className={`pb-6 flex-1 ${i === program.phases.length - 1 ? "pb-0" : ""}`}>
-                      <div className="flex items-center gap-3 mb-1">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
                         <h4 className="font-display text-base font-bold text-white">{phase.name}</h4>
                         <span className="font-body text-xs text-online-cta-red bg-online-cta-red/10 px-2 py-0.5 rounded-full">{phase.duration}</span>
                       </div>
@@ -337,7 +337,7 @@ export default function ProgramPage() {
 
             {/* Contenu inclus + Sample */}
             <div className="grid sm:grid-cols-2 gap-6">
-              <div className="bg-white/5 border border-white/10 rounded-xl p-8">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-5 sm:p-8">
                 <h3 className="font-display text-sm font-bold text-white/60 uppercase tracking-wider mb-4">
                   Ce qui est inclus
                 </h3>
@@ -350,7 +350,7 @@ export default function ProgramPage() {
                   ))}
                 </ul>
               </div>
-              <div className="bg-white/5 border border-white/10 rounded-xl p-8">
+              <div className="bg-white/5 border border-white/10 rounded-xl p-5 sm:p-8">
                 <h3 className="font-display text-sm font-bold text-white/60 uppercase tracking-wider mb-4">
                   Exemple de journée type
                 </h3>
@@ -557,7 +557,7 @@ export default function ProgramPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="bg-online-cta-red/10 border border-online-cta-red/20 rounded-xl p-8 sm:p-10 text-center"
+              className="bg-online-cta-red/10 border border-online-cta-red/20 rounded-xl p-5 sm:p-10 text-center"
             >
               <p className="font-display text-lg sm:text-xl font-bold text-white mb-2">
                 30 jours gratuits. Aucune obligation.
@@ -686,7 +686,7 @@ export default function ProgramPage() {
               <div>
                 <Link
                   href="/online-project/resultat"
-                  className="inline-flex items-center gap-3 bg-online-cta-red hover:bg-online-cta-red-hover text-white font-display text-lg sm:text-xl font-bold uppercase tracking-wider px-10 py-5 rounded-lg transition-all duration-300 cta-pulse"
+                  className="inline-flex items-center gap-3 bg-online-cta-red hover:bg-online-cta-red-hover text-white font-display text-lg sm:text-xl font-bold uppercase tracking-wider px-4 sm:px-10 py-4 sm:py-5 rounded-lg transition-all duration-300 cta-pulse"
                 >
                   Obtenir mon programme tout-en-un
                   <ArrowRight size={22} />

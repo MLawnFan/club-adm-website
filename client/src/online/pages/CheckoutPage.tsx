@@ -135,6 +135,9 @@ export default function CheckoutPage() {
                           onChange={(event) => setCustomerEmail(event.target.value)}
                           placeholder="ton@courriel.com"
                           autoComplete="email"
+                          inputMode="email"
+                          autoCapitalize="none"
+                          spellCheck={false}
                           required
                           disabled={processing}
                           className="w-full bg-white/5 border border-white/15 rounded-lg px-4 py-3 font-body text-base text-white placeholder:text-white/20 focus:border-online-cta-red/50 focus:ring-1 focus:ring-online-cta-red/30 outline-none transition-all disabled:opacity-60"
@@ -163,7 +166,7 @@ export default function CheckoutPage() {
                   <button
                     type="submit"
                     disabled={processing || !checkoutEnabled}
-                    className={`w-full flex items-center justify-center gap-3 font-display text-lg font-bold uppercase tracking-wider px-10 py-5 rounded-xl transition-all duration-300 ${
+                    className={`w-full flex items-center justify-center gap-3 font-display text-lg font-bold uppercase tracking-wider px-4 sm:px-10 py-4 sm:py-5 rounded-xl transition-all duration-300 ${
                       processing
                         ? "bg-online-cta-red/50 text-white/70 cursor-wait"
                         : "bg-online-cta-red hover:bg-online-cta-red-hover text-white cta-pulse"
@@ -179,9 +182,9 @@ export default function CheckoutPage() {
                       </>
                     ) : (
                       <>
-                        <Lock size={18} />
+                        <Lock size={18} className="shrink-0" />
                         Continuer vers Stripe — 39 $
-                        <ArrowRight size={18} />
+                        <ArrowRight size={18} className="shrink-0" />
                       </>
                     )}
                   </button>
@@ -200,7 +203,7 @@ export default function CheckoutPage() {
                 transition={{ delay: 0.2 }}
                 className="lg:col-span-2"
               >
-                <div className="bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 sticky top-24">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 lg:sticky lg:top-24">
                   <h2 className="font-display text-sm font-bold text-white/60 uppercase tracking-wider mb-5">
                     Récapitulatif
                   </h2>
