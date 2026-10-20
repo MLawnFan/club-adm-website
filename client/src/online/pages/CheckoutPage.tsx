@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { trackMarketing } from "@/lib/marketingAnalytics";
 import { motion } from "framer-motion";
 import {
   Lock,
@@ -41,6 +42,7 @@ export default function CheckoutPage() {
         toast.error("Impossible d’ouvrir le paiement sécurisé. Réessaie dans un instant.");
         return;
       }
+      trackMarketing("checkout_start");
       void trackMetaInitiateCheckout(session.checkoutSessionId);
       redirectToStripeCheckout(stripeWindowRef.current, session.url);
       stripeWindowRef.current = null;

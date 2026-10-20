@@ -16,6 +16,7 @@ import {
   Users,
 } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { analyticsConsent, subscribeAnalytics, trackVerifiedUmamiPurchase } from "@/lib/marketingAnalytics";
 import { getPurchaseConfirmationState } from "@/online/lib/confirmation";
 import { getPageParameters } from "@/online/lib/pageParameters";
 import { getAdvertisingConsent, subscribeAdvertisingConsent, trackMetaPurchase } from "@/online/lib/metaPixel";
@@ -198,6 +199,7 @@ export function ConfirmedPurchase({ customerName, customerEmail, sessionId, amou
 
 export default function ThankYouPage() {
   const sessionId = getPageParameters().get("session_id") || "";
+  const measurementConsent = useSyncExternalStore(subscribeAnalytics, analyticsConsent, () => null);
   const advertisingConsent = useSyncExternalStore(subscribeAdvertisingConsent, getAdvertisingConsent, () => null);
   const verification = trpc.onlinePayments.getPaymentSummary.useQuery(
     { checkoutSessionId: sessionId },
@@ -215,6 +217,8 @@ export default function ThankYouPage() {
       void trackMetaPurchase(verification.data);
     }
   }, [confirmationState, advertisingConsent, verification.data]);
+
+  useEffect(() => { if (verification.data && measurementConsent === "accepted") void trackVerifiedUmamiPurchase(verification.data); }, [verification.data, measurementConsent]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#152535] text-white">

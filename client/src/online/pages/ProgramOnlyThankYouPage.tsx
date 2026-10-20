@@ -2,10 +2,14 @@ import { Link } from "@/online/lib/navigation.tsx";
 import { CheckCircle, ShieldAlert, ArrowRight } from "lucide-react";
 
 import { trpc } from "@/lib/trpc";
+import { useEffect, useSyncExternalStore } from "react";
+import { analyticsConsent, subscribeAnalytics, trackVerifiedUmamiPurchase } from "@/lib/marketingAnalytics";
 import { getPageParameters } from "@/online/lib/pageParameters";
 export default function ProgramOnlyThankYouPage() {
   const sessionId = getPageParameters().get("session_id") || "";
   const verification = trpc.onlinePayments.getPaymentSummary.useQuery({ checkoutSessionId: sessionId }, { enabled: Boolean(sessionId), retry: false });
+  const consent = useSyncExternalStore(subscribeAnalytics, analyticsConsent, () => null);
+  useEffect(() => { if (verification.data && consent === "accepted") void trackVerifiedUmamiPurchase(verification.data); }, [verification.data, consent]);
   const verified = verification.data?.accessGranted === true;
   if (!verified) return <div className="min-h-screen bg-online-navy py-20 text-white"><main className="container max-w-2xl text-center"><ShieldAlert className="mx-auto mb-5 text-online-cta-red" size={44}/><h1 className="font-display text-3xl">{sessionId && verification.isFetching ? "Vérification auprès de Stripe…" : "Confirmation d’achat requise"}</h1><p className="mt-5">Aucun accès acheté n’est confirmé à partir de ce lien.</p><Link href="/online-project/checkout" className="inline-flex mt-8 underline">Retour au paiement</Link></main></div>;
   return (

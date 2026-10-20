@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json, uniqueIndex } from "drizzle-orm/mysql-core";
+import { bigint, index, int, mysqlEnum, mysqlTable, text, timestamp, varchar, json, uniqueIndex } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -70,3 +70,45 @@ export const memberOnboarding = mysqlTable("member_onboarding", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, table => [uniqueIndex("member_onboarding_user_product").on(table.userId, table.product)]);
+
+/** Marketing only: no account identity, form contents, health answers, raw URL or IP. */
+export const marketingEvents = mysqlTable("marketing_events", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: varchar("eventId", { length: 36 }).notNull().unique(),
+  visitorId: varchar("visitorId", { length: 36 }).notNull(),
+  visitId: varchar("visitId", { length: 36 }).notNull(),
+  name: varchar("name", { length: 50 }).notNull(),
+  page: varchar("page", { length: 80 }).notNull(),
+  device: varchar("device", { length: 12 }).notNull(),
+  source: varchar("source", { length: 16 }).notNull(),
+  campaign: varchar("campaign", { length: 60 }).notNull().default(""),
+  service: varchar("service", { length: 20 }),
+  placement: varchar("placement", { length: 20 }),
+  video: varchar("video", { length: 20 }),
+  step: int("step"),
+  occurredAt: bigint("occurredAt", { mode: "number" }).notNull(),
+}, t => [index("marketing_events_time").on(t.occurredAt), index("marketing_events_visit").on(t.visitId)]);
+
+export const consultationRequests = mysqlTable("consultation_requests", {
+  id: int("id").autoincrement().primaryKey(),
+  submissionId: varchar("submissionId", { length: 36 }).notNull().unique(),
+  firstName: varchar("firstName", { length: 80 }).notNull(),
+  lastName: varchar("lastName", { length: 80 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 40 }).notNull(),
+  location: varchar("location", { length: 20 }).notNull(),
+  objective: varchar("objective", { length: 120 }),
+  message: text("message"),
+  contactConsent: int("contactConsent").notNull(),
+  status: mysqlEnum("status", ["new", "contacted", "closed"]).notNull().default("new"),
+  createdAt: bigint("createdAt", { mode: "number" }).notNull(),
+}, t => [index("consultation_requests_time").on(t.createdAt)]);
+
+export const marketingPurchases = mysqlTable("marketing_purchases", {
+  id: int("id").autoincrement().primaryKey(),
+  purchaseHash: varchar("purchaseHash", { length: 64 }).notNull().unique(),
+  amountCents: int("amountCents").notNull(),
+  currency: varchar("currency", { length: 3 }).notNull(),
+  product: varchar("product", { length: 30 }).notNull(),
+  occurredAt: bigint("occurredAt", { mode: "number" }).notNull(),
+}, t => [index("marketing_purchases_time").on(t.occurredAt)]);

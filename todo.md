@@ -116,3 +116,23 @@
 - [x] Résultats finaux : zéro débordement horizontal, zéro élément de contenu hors écran, zéro cible principale inférieure à 44 px, zéro erreur JavaScript et toutes les images chargées dans les 40 layouts. Seuls les dépassements internes décoratifs intentionnels (halo/encart négatif) subsistent.
 - [x] TypeScript, build et 72 tests Vitest réussis; captures finales ordinateur et cellulaire vérifiées. Aucun changement de média, thumbnail, prix, base, droits ou branchement Stripe/GHL.
 - [x] Correctifs préparés dans le projet existant; pas d’action de publication ni de changement DNS par cet audit. Tests en navigateur émulé, pas une garantie de test sur tous les appareils physiques.
+
+## Dashboard tendances marketing — en attente (16 octobre 2026)
+Décision utilisateur : mettre le dashboard en attente jusqu’à ce qu’une source de données soit disponible. Périmètre validé pour une éventuelle reprise : dashboard privé Club ADM, Google Trends au Québec, mots-clés gym, HYROX, entraînement fonctionnel, perte de poids et programme d’entraînement, évolution et recherches associées, actualisation quotidienne sous réserve d’accès aux données. La connexion DataForSEO proposée n’a pas été activée; l’accès public testé a retourné HTTP 429 et aucune API intégrée utilisable n’a été découverte. Aucune page de dashboard, donnée fictive, nouvelle table ou planification n’a été créée. Aucune actualisation automatique activée. Ne pas reprendre ni proposer à nouveau la connexion refusée sans une nouvelle demande utilisateur.
+
+## Suivi ventes / Umami + récapitulatif Slack — 20 octobre 2026
+- [x] Événements Umami et copie privée des pages marketing, clics consultation/téléphone, choix/découverte des services, vidéos (démarrage/50 %), étapes et fin du quiz, ouverture réelle Stripe.
+- [x] Consentement analytique révocable distinct du consentement Meta; panneau unique, choix désactivés par défaut, DNT/GPC, exclusion des aperçus, administrateurs connectés et parcours membres/santé; aucune réponse de santé ou coordonnée dans les événements.
+- [x] Attribution minimale source / campagne UTM et dernier service découvert; identifiant aléatoire par navigateur (30 jours), visite par onglet (30 min), événements privés conservés 90 jours.
+- [x] /consultation-gratuite : remplacement de l’envoi simulé par une réception validée dans la boîte privée; consentement de contact, contrôle serveur, idempotence, piège antirobot, notification propriétaire sans coordonnées. Envoi désactivé depuis le preview; aucune donnée de test en base.
+- [x] /admin/ventes : accès administrateur seulement; périodes complètes heure Montréal, suivi privé distinct des chiffres Umami, sources/pages/services/appareils/parcours, boîte de 50 demandes récentes et statuts de traitement.
+- [x] Revenu programme : enregistrement dédoublonné côté serveur uniquement après résumé Stripe payé/live; événement Umami payé vérifié au retour client. Aucun achat test ou abonnement d’essai compté comme vente. Limite : reconnaissance au retour/vérification Stripe, pas réconciliation exhaustive webhook ou remboursements.
+- [x] ScheduleTask activée sur cette tâche : récapitulatif quotidien à 08:00 America/Toronto, Slack privé de Maxime (D02GHE3J9FS), source réelle server/marketingDigest.ts, dédoublonnage des messages par journée, états explicites pour données non mesurées.
+- [x] Test de livraison Slack réussi : https://clubadm.slack.com/archives/D02GHE3J9FS/p1792512585710729
+- [x] Migration additive 0003_unusual_black_bird.sql appliquée; tables membres, onboarding et programmes préservées.
+- [x] Validation : TypeScript, 114 tests Vitest; QA navigateur 12 scénarios aux largeurs 320/375/1440, quiz complet, panneau privé avec données fictives isolées. Aucun profil QA enregistré; thumbnails et URLs de course inchangés.
+- [ ] Publier le checkpoint final depuis Manus : aucun outil de publication autonome disponible. Le site public conserve l’ancienne version jusque-là; le digest signale « suivi en attente de publication ».
+- [ ] GHL LeadConnector non connecté; pas de synchronisation CRM ni vrai calendrier de réservation ajouté. La boîte privée reçoit les demandes après publication, sans prétendre réserver un rendez-vous ou transmettre au CRM.
+- [ ] Stripe reste verrouillé (clés/configuration absentes; remise/accès à valider). Aucun paiement activé dans cette tâche.
+- [ ] Pas d’accès API aux rapports Umami historiques ni création native de Goals/Funnels dans son interface. Le panneau et Slack utilisent clairement le suivi privé du site, pas les statistiques historiques Umami.
+- [ ] Coûts publicitaires, ventes coach et rendez-vous honorés non connectés, affichés non mesurés. Dashboard mots-clés toujours en attente.

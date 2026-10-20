@@ -36,11 +36,14 @@ import EspaceMembreCommunaute from "./pages/EspaceMembreCommunaute";
 import GHLChat from "./components/GHLChat";
 import MemberHub from "./pages/MemberHub";
 import MemberOnboarding from "./pages/MemberOnboarding";
+import MarketingAnalytics from "./components/MarketingAnalytics";
+const MarketingDashboard = lazy(() => import("./pages/MarketingDashboard"));
 function Router() {
   const [location] = useLocation();
   if (location === "/online-project" || location.startsWith("/online-project/")) return <Suspense fallback={<div className="min-h-screen bg-[#152535] text-white p-10">Chargement du programme…</div>}><OnlineProject /></Suspense>;
   return (
     <Switch>
+      <Route path="/admin/ventes"><Suspense fallback={<div className="p-8">Chargement des statistiques…</div>}><MarketingDashboard /></Suspense></Route>
       <Route path={"/"} component={Home} />
       <Route path={"/en-ligne"} component={OnlinePrograms} />
       <Route path={"/blog"} component={Blog} />
@@ -87,7 +90,8 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
-          {!isOnline && <GHLChat />}
+          <MarketingAnalytics />
+          {!isOnline && !location.startsWith("/admin/") && <GHLChat />}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

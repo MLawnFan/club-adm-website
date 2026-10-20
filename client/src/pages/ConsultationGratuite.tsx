@@ -3,7 +3,9 @@
  * Formulaire de capture de leads custom (prêt pour webhook)
  * Fond navy sombre, accents rouges, texte blanc/crème
  */
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { trpc } from "@/lib/trpc";
+import { analyticsContext, trackMarketing } from "@/lib/marketingAnalytics";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Users, Dumbbell,
@@ -53,18 +55,26 @@ export default function ConsultationGratuite() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [contactConsent, setContactConsent] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [website, setWebsite] = useState("");
+  const submissionId = useRef(crypto.randomUUID());
+  const started = useRef(false);
+  const submit = trpc.marketing.submitConsultation.useMutation();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // TODO: Replace with actual webhook URL
-    // Example: await fetch("https://your-webhook-url.com", { method: "POST", body: JSON.stringify(formData) });
-    
-    // Simulate submission delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    if (isSubmitting) return;
+    if (formData.location !== "Brossard" && formData.location !== "Chambly") { setFormError("Choisis ta succursale : Brossard ou Chambly."); return; }
+    if (!contactConsent) { setFormError("Confirme que notre équipe peut te contacter au sujet de ta demande."); return; }
+    setFormError(""); setIsSubmitting(true);
+    try {
+      const result = await submit.mutateAsync({ ...formData, location: formData.location as "Brossard" | "Chambly", submissionId: submissionId.current, contactConsent: true, website, analytics: analyticsContext() });
+      if (!result.received) throw new Error("La demande n’a pas pu être enregistrée.");
+      trackMarketing("consultation_demande_confirmee", {}, { umamiOnly: true });
+      setIsSubmitted(true);
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "La demande n’a pas été envoyée. Réessaie ou appelle-nous au 450 600-2448.");
+    } finally { setIsSubmitting(false); }
   };
 
   const inputStyle = "w-full px-4 py-3.5 rounded-lg text-sm text-white placeholder:text-white/25 focus:outline-none focus:ring-2 focus:ring-[#ed1c24]/50 transition-all";
@@ -149,7 +159,7 @@ export default function ConsultationGratuite() {
                     </div>
                     <h3 className="text-2xl mb-3 text-white" style={{ fontFamily: "var(--font-display)" }}>DEMANDE ENVOYÉE!</h3>
                     <p className="text-sm leading-relaxed max-w-sm mx-auto" style={{ color: "rgba(255,255,255,0.5)", fontFamily: "var(--font-body)" }}>
-                      Un de nos coachs te contactera dans les prochaines 24 heures pour planifier ta consultation gratuite.
+                      Ta demande est enregistrée. Notre équipe pourra te contacter pour convenir d’un moment. Aucun rendez-vous n’est réservé tant que nous ne t’avons pas confirmé la date et l’heure.
                     </p>
                   </motion.div>
                 ) : (
@@ -157,11 +167,13 @@ export default function ConsultationGratuite() {
                     <div className="mb-8">
                       <h3 className="text-xl mb-2 text-white" style={{ fontFamily: "var(--font-display)" }}>REMPLIS LE FORMULAIRE</h3>
                       <p className="text-sm" style={{ color: "rgba(255,255,255,0.4)", fontFamily: "var(--font-body)" }}>
-                        On te contacte dans les 24h pour planifier ta consultation.
+                        Envoie ta demande; nous conviendrons ensemble de la date et de l’heure.
                       </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} onFocusCapture={() => { if (!started.current) { started.current = true; trackMarketing("consultation_form_start"); } }} className="space-y-5">
+                      <div className="hidden" aria-hidden="true"><label>Site web<input name="website" tabIndex={-1} autoComplete="off" value={website} onChange={e => setWebsite(e.target.value)} /></label></div>
+                      {formError && <p role="alert" className="rounded-lg border border-red-400/30 bg-red-400/10 p-4 text-sm text-red-200">{formError}</p>}
                       {/* Name row */}
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -286,14 +298,13 @@ export default function ConsultationGratuite() {
                           </>
                         ) : (
                           <>
-                            Réserver ma consultation <ArrowRight size={16} />
+                            Envoyer ma demande <ArrowRight size={16} />
                           </>
                         )}
                       </button>
 
-                      <p className="text-center text-[11px]" style={{ color: "rgba(255,255,255,0.25)", fontFamily: "var(--font-body)" }}>
-                        En soumettant ce formulaire, tu acceptes d'être contacté par notre équipe.
-                      </p>
+                      <label className="flex min-h-11 items-start gap-3 text-sm text-white/70"><input type="checkbox" required checked={contactConsent} onChange={e => setContactConsent(e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-[#ed1c24]" /> J’accepte que Club ADM me contacte au sujet de cette demande. Mes coordonnées sont conservées dans la boîte privée du site, pas dans les événements d’analytique.</label>
+                      <p className="text-xs leading-relaxed text-white/50">Évite d’indiquer des renseignements médicaux détaillés dans ce formulaire. Refuser les témoins analytiques n’empêche pas d’envoyer une demande.</p>
                     </form>
                   </>
                 )}

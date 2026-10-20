@@ -117,6 +117,7 @@ export default function Testimonials() {
                       playsInline
                       preload="metadata"
                       poster={testimonial.poster}
+                      data-marketing-video={["ma", "fares", "anne"][index]}
                       aria-label={`Témoignage vidéo de ${testimonial.name}`}
                     >
                       <source src={testimonial.video} type="video/mp4" />

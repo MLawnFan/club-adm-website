@@ -9,6 +9,7 @@ import {
 } from "./payments";
 import { getFounderOffer } from "./founderOffer";
 import { CHECKOUT_PRODUCT_KINDS } from "./products";
+import { recordVerifiedPurchase } from "../marketingReport";
 
 const checkoutInput = z.object({
   email: z.string().trim().email().max(320),
@@ -60,9 +61,11 @@ export const paymentsRouter = router({
     verifyCheckoutSession(input.checkoutSessionId),
   ),
 
-  getPaymentSummary: publicProcedure.input(sessionInput).query(({ input }) =>
-    getPaymentSummary(input.checkoutSessionId),
-  ),
+  getPaymentSummary: publicProcedure.input(sessionInput).query(async ({ input }) => {
+    const summary = await getPaymentSummary(input.checkoutSessionId);
+    try { await recordVerifiedPurchase(summary); } catch { /* Optional metrics must not block access after payment. */ }
+    return summary;
+  }),
 
   createCustomerPortalSession: publicProcedure
     .input(sessionInput)

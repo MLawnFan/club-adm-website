@@ -19,10 +19,12 @@ describe("Protections responsive du funnel en ligne", () => {
     const css = source("client/src/online/online.css");
     expect(css).toContain("min-height: 44px");
     expect(css).toContain("safe-area-inset-bottom");
-    const consent = source("client/src/online/components/MetaPixelConsent.tsx");
-    expect(consent).toContain("max-h-[85dvh]");
-    expect(consent).toContain('choose("rejected")');
-    expect(consent).toContain("consent === null || settingsOpen");
+    const consent = source("client/src/components/MarketingAnalytics.tsx");
+    expect(consent).toContain("max-h-[80dvh]");
+    expect(consent).toContain('save(true)');
+    expect(consent).toContain("consent === null");
+    expect(consent).toContain("useState(false)");
+    expect(consent).toContain('setAdvertisingConsent(!reject && ads ? "accepted" : "rejected")');
   });
   it("associe les champs aux labels et annule une avance différée au retour", () => {
     const quiz = source("client/src/online/pages/OptInPage.tsx");

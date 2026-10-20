@@ -7,6 +7,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, PlayCircle, Video } from "lucide-react";
 import ProgrammeRatios from "@/components/ProgrammeRatios";
+import { trackMarketing } from "@/lib/marketingAnalytics";
 
 const GROUP_IMG = "/manus-storage/cours-de-groupe-original_10442de9.jpg";
 const SEMI_PRIVE_IMG = "/manus-storage/semi-prive-original_e05934b9.jpg";
@@ -138,7 +139,7 @@ export default function Services() {
                 <button
                   key={item.title}
                   type="button"
-                  onClick={() => setCurrent(index)}
+                  onClick={() => { setCurrent(index); trackMarketing("service_select", { service: item.programme as any, placement: "services" }); }}
                   aria-label={`Afficher ${item.title}`}
                   aria-pressed={isActive}
                   className="rounded-full border px-4 py-2.5 text-xs font-bold uppercase tracking-[0.08em] transition-all duration-200 active:scale-[0.97]"
@@ -169,6 +170,7 @@ export default function Services() {
                 {service.video ? (
                   <video
                     key={service.video}
+                    data-marketing-video={service.programme}
                     className="absolute inset-0 h-full w-full object-contain"
                     controls
                     playsInline
@@ -222,6 +224,7 @@ export default function Services() {
                 <ProgrammeRatios programme={service.programme} />
                 <a
                   data-service-discover
+                  data-marketing-service={service.programme}
                   href="/consultation-gratuite"
                   className="inline-flex w-fit items-center gap-3 rounded-lg px-6 py-3.5 text-sm font-bold uppercase tracking-[0.1em] text-white transition-all duration-200 hover:gap-4 hover:shadow-lg hover:shadow-red-500/20 active:scale-[0.97]"
                   style={{ backgroundColor: "#ed1c24" }}

@@ -8,6 +8,7 @@
  */
 
 import { useState, useEffect, useRef } from "react";
+import { trackMarketing } from "@/lib/marketingAnalytics";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "@/online/lib/navigation.tsx";
 import {
@@ -94,6 +95,8 @@ export default function OptInPage() {
     if (!showIntro) window.scrollTo({ top: 0, behavior: "instant" });
   }, [step, showIntro]);
 
+  const seenSteps = useRef(new Set<number>());
+  useEffect(() => { if (!showIntro && !seenSteps.current.has(step)) { seenSteps.current.add(step); trackMarketing("quiz_step", { step: step + 1 }); } }, [step, showIntro]);
   const progress = ((step + 1) / STEPS.length) * 100;
 
   const canAdvance = () => {
@@ -109,7 +112,8 @@ export default function OptInPage() {
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
-      // Soumettre le quiz et rediriger vers /resultat
+      trackMarketing("quiz_complete");
+      // Résultat affiché; cela ne confirme pas un prospect CRM ni un courriel envoyé.
       const params = new URLSearchParams({
         objectif: data.objectif,
         activite: data.activite,
@@ -185,7 +189,7 @@ export default function OptInPage() {
                     Découvre le programme qui réunit entraînement, nutrition et habitudes de vie pour avancer sans tout recommencer.
                   </p>
                   <button
-                    onClick={() => setShowIntro(false)}
+                    onClick={() => { trackMarketing("quiz_start"); setShowIntro(false); }}
                     className="inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-online-cta-red hover:bg-red-700 text-white font-display text-lg font-bold uppercase tracking-wider px-5 sm:px-9 py-4 sm:py-5 transition-all hover:-translate-y-0.5 shadow-[0_0_40px_rgba(230,57,70,0.22)]"
                   >
                     Trouve ton programme
@@ -262,7 +266,7 @@ export default function OptInPage() {
                   </div>
 
                   <div className="grid sm:grid-cols-3 gap-4 text-left">
-                    {TESTIMONIALS.map((testimonial) => (
+                    {TESTIMONIALS.map((testimonial, index) => (
                       <article
                         key={testimonial.video}
                         className="relative bg-white/[0.06] border border-white/15 overflow-hidden shadow-xl shadow-black/20"
@@ -275,6 +279,7 @@ export default function OptInPage() {
                             playsInline
                             preload="metadata"
                             poster={testimonial.poster}
+                            data-marketing-video={["ma", "fares", "anne"][index]}
                             aria-label={`Témoignage vidéo de ${testimonial.name}`}
                           >
                             <source src={testimonial.video} type="video/mp4" />
