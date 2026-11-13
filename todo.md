@@ -136,3 +136,11 @@ Décision utilisateur : mettre le dashboard en attente jusqu’à ce qu’une so
 - [ ] Stripe reste verrouillé (clés/configuration absentes; remise/accès à valider). Aucun paiement activé dans cette tâche.
 - [ ] Pas d’accès API aux rapports Umami historiques ni création native de Goals/Funnels dans son interface. Le panneau et Slack utilisent clairement le suivi privé du site, pas les statistiques historiques Umami.
 - [ ] Coûts publicitaires, ventes coach et rendez-vous honorés non connectés, affichés non mesurés. Dashboard mots-clés toujours en attente.
+
+## Événements 2026–2027 — 13 novembre 2026
+- [x] Ajout sur /evenements : Party de Noël ADM le 12 décembre 2026, Classic ADM — Tournoi de golf en août 2027, Marathon Club ADM en septembre 2027.
+- [x] Golf et marathon conservés comme dates mensuelles : aucun jour, horaire, lieu, parcours ou lien d’inscription inventé; date exacte à confirmer, détails et inscriptions à venir.
+- [x] Affichage chronologique, cartes responsive et séparation des événements passés; fiche historique de course et anciennes URL préservées sans modification des dates de programmation.
+- [x] Vérification visuelle cellulaire 375 px et ordinateur 1440 px; TypeScript, 119 tests et compilation réussis.
+- [ ] Confirmer les détails et les liens d’inscription des trois événements lorsqu’ils seront disponibles.
+- [ ] Publier le checkpoint depuis Manus pour mettre la version publique à jour.
