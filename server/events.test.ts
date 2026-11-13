@@ -6,19 +6,19 @@ import {
 const now = new Date("2026-11-13T15:00:00Z");
 
 describe("Événements Club ADM", () => {
-  it("présente les trois annonces demandées dans l’ordre chronologique", () => {
+  it("présente les quatre annonces demandées dans l’ordre chronologique", () => {
     const upcoming = EVENTS.filter(event => !isPastEvent(event, now));
-    expect(upcoming.map(event => event.date)).toEqual(["2026-12-12", "2027-08", "2027-09"]);
+    expect(upcoming.map(event => event.date)).toEqual(["2026-12-12", "2027-08", "2027-09", "2027-10"]);
     expect(upcoming.map(event => event.title)).toEqual([
-      "Party de Noël ADM", "Classic ADM — Tournoi de golf", "Marathon Club ADM",
+      "Party de Noël ADM", "Classic ADM — Tournoi de golf", "Marathon Club ADM", "WOD en rose",
     ]);
     expect(groupEventsByMonth(upcoming).map(([month]) => month)).toEqual([
-      "décembre 2026", "août 2027", "septembre 2027",
+      "décembre 2026", "août 2027", "septembre 2027", "octobre 2027",
     ]);
   });
 
-  it("n’invente ni jour, ni heure, ni lieu, ni inscription pour le golf et le marathon", () => {
-    for (const id of ["classic-adm-golf-2027", "marathon-club-adm-2027"]) {
+  it("n’invente ni jour, ni heure, ni lieu, ni inscription pour les dates mensuelles", () => {
+    for (const id of ["classic-adm-golf-2027", "marathon-club-adm-2027", "wod-en-rose-2027"]) {
       const event = EVENTS.find(event => event.id === id)!;
       expect(event.date).toMatch(/^2027-\d{2}$/);
       expect(event.href).toBeUndefined();

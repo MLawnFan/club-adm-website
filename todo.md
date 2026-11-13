@@ -144,3 +144,8 @@ Décision utilisateur : mettre le dashboard en attente jusqu’à ce qu’une so
 - [x] Vérification visuelle cellulaire 375 px et ordinateur 1440 px; TypeScript, 119 tests et compilation réussis.
 - [ ] Confirmer les détails et les liens d’inscription des trois événements lorsqu’ils seront disponibles.
 - [ ] Publier le checkpoint depuis Manus pour mettre la version publique à jour.
+
+## WOD en rose — 13 novembre 2026
+- [x] Ajout à /evenements : WOD en rose, octobre 2027, après le Marathon Club ADM.
+- [x] Date exacte à confirmer et détails/inscriptions à venir; aucun jour, lieu, horaire, bénéficiaire ni lien inventé.
+- [x] Texte de présentation actualisé; affichage mobile vérifié, TypeScript, 119 tests et build réussis; anciennes annonces et routes conservées.

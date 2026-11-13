@@ -149,7 +149,7 @@ export default function Evenements() {
               NOS <span className="text-[#ed1c24]">ÉVÉNEMENTS</span>
             </h1>
             <p className="text-lg max-w-2xl mx-auto text-white/65">
-              Noël, golf et course : découvre les prochains événements Club ADM.
+              Noël, golf, course et WOD en rose : découvre les prochains événements Club ADM.
               Les détails et les inscriptions seront annoncés au fur et à mesure.
             </p>
           </motion.div>

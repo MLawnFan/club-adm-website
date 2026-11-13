@@ -38,6 +38,14 @@ export const EVENTS: ClubEvent[] = [
     description: "Le Marathon Club ADM est prévu en septembre 2027. La date exacte, le parcours et les modalités d’inscription seront annoncés prochainement.",
     category: "Course",
   },
+  {
+    id: "wod-en-rose-2027",
+    title: "WOD en rose",
+    date: "2027-10",
+    dateDisplay: "Octobre 2027",
+    description: "Le WOD en rose est prévu en octobre 2027. La date exacte, les détails de l’événement et les modalités d’inscription seront annoncés prochainement.",
+    category: "Entraînement",
+  },
   // Fiche historique conservée telle quelle; les nouvelles annonces ne déplacent pas ses URL.
   {
     id: "course-19-sept",
